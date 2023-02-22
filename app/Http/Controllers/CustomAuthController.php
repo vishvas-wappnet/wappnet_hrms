@@ -8,12 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomAuthController extends Controller
 {
-            // public function index()
-            // {
-            //     return view('auth.login');
-            // }  
-
-
+            
             public function index()
             {
                 return view('auth.login1');
@@ -36,57 +31,49 @@ class CustomAuthController extends Controller
             }
 
 
-    public function registration()//registration
-    {
-       return view('auth.register');//registration
-       //echo"hello";
-    }
+                public function registration()//registration
+                {
+                return view('auth.register');//registration
+                //echo"hello";
+                }
 
-    public function customRegistration(Request $request)
-    {  
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            //'c_password' => 'required|min:6'
-        ]);
-        
-        // $user = User::create($request->all());
-        // auth()->login($user);
+                public function customRegistration(Request $request)
+                  {  
+                    $request->validate([
+                        'name' => 'required',
+                        'email' => 'required|email|unique:users',
+                        'password' => 'required|min:6',
+                        //'c_password' => 'required|min:6'
+                    ]);
+                    
+                    $data = $request->all();
+                    $check = $this->create($data);
+                    return redirect("login")->withSuccess('sign  sucessfull.');
+                  }
+                public function create(array $data)
+                  {
+                
+                        return User::create([
+                            'name' => $data['name'],
+                            'email' => $data['email'],
+                            'password' => Hash::make($data['password'])
+                        ]);
 
-        $data = $request->all();
-        $check = $this->create($data);
-        return redirect("login")->with('success',"You have signed-in");
-    }
-     public function create(array $data)
-    {
-        $successmessage = 'you are now successfully registered!';
-        //flash()->overlay('Yes', $successmessage, 'success');
-      return User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password'])
-      ]);
+                  }   
+                
+                public function dashboard()
+                {
+                    if(Auth::check()){
+                        return view('dashboard');
+                    }
+            
+                    return redirect("login")->withSuccess('You are not allowed to access');
+                }
 
-     
-    }   
-    
-    
-    public function dashboard()
-    {
-        if(Auth::check()){
-            return view('dashboard');
-        }
-  
-        return redirect("login")->withSuccess('You are not allowed to access');
-    }
-
-
-    
-    public function signOut() {
-        Session::flush();
-        Auth::logout();
-  
-        return Redirect('login');
-    }
+                public function signOut() {
+                    Session::flush();
+                    Auth::logout();
+            
+                    return Redirect('login');
+                }
 }

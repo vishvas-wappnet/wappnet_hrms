@@ -106,7 +106,7 @@
 
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
-            <p>Already have an account? <a href="{{ route('login.custom') }}" class="text-primary m-l-5"><b>Sign In</b></a></p>
+            <p>Already have an account? <a href="{{ route('login') }}" class="text-primary m-l-5"><b>Sign In</b></a></p>
           </div>
         </div>
       </form>
