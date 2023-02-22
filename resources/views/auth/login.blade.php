@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <main class="login-form">
+    {{session('success')}}
     <div class="cotainer">
         <div class="row justify-content-center">
             <div class="col-md-4">
@@ -31,8 +32,11 @@
                             </div>
                             <div class="d-grid mx-auto">
                                 <button type="submit" class="btn btn-dark btn-block">Signin</button>
+
                             </div>
+
                         </form>
+                        {{Session::get('success')}}
                     </div>
                 </div>
             </div>

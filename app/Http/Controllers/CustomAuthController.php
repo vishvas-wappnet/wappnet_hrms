@@ -50,19 +50,25 @@ class CustomAuthController extends Controller
             'password' => 'required|min:6',
             //'c_password' => 'required|min:6'
         ]);
-           
+        
+        // $user = User::create($request->all());
+        // auth()->login($user);
+
         $data = $request->all();
         $check = $this->create($data);
-         
-        return redirect("login")->withSuccess('You have signed-in');
+        return redirect("login")->with('success',"You have signed-in");
     }
      public function create(array $data)
     {
+        $successmessage = 'you are now successfully registered!';
+        //flash()->overlay('Yes', $successmessage, 'success');
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password'])
       ]);
+
+     
     }   
     
     
