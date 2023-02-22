@@ -41,9 +41,12 @@
 <section id="wrapper" class="login-register">
   <div class="login-box">
     <div class="white-box">
-      <form class="form-horizontal form-material" id="loginform" method="post" action="{{ Route('register.custom') }}">
+      <form class="form-horizontal form-material" id="loginform" method="post" action="{{ Route('register.custom')}}">
         <h3 class="box-title m-b-20">Sign In</h3>
         <div class="form-group ">
+                
+          @csrf
+
           <div class="col-xs-12">
             <input class="form-control" type="text" required="" name="name" placeholder="Name">
           </div>
@@ -78,7 +81,7 @@
         </div>
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
-            <p>Already have an account? <a href="{{ route('login') }}" class="text-primary m-l-5"><b>Sign In</b></a></p>
+            <p>Already have an account? <a href="{{ route('login.custom') }}" class="text-primary m-l-5"><b>Sign In</b></a></p>
           </div>
         </div>
       </form>

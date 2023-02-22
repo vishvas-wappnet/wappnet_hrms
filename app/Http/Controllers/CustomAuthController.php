@@ -28,7 +28,7 @@ class CustomAuthController extends Controller
         
                 $credentials = $request->only('email', 'password');
                 if (Auth::attempt($credentials)) {
-                    return redirect()->intended('dashboard1')
+                    return redirect()->intended('dashboard')
                                 ->withSuccess('Signed in');
                  }
         
@@ -41,27 +41,6 @@ class CustomAuthController extends Controller
        return view('auth.register');//registration
        //echo"hello";
     }
-    //  public function registration()//registration
-    //  {
-    //     return view('auth.registration');//registration
-    //    //echo"hello";
-    //     }
-      
-    //  public function customRegistration(Request $request)
-    //  {  
-    //     $request->validate([
-    //         'name' => 'required',
-    //         'email' => 'required|email|unique:users',
-    //         'password' => 'required|min:6',
-    //     ]);
-           
-    //     $data = $request->all();
-    //     $check = $this->create($data);
-         
-    //     return redirect("dashboard")->withSuccess('You have signed-in');
-    // }
-
-    //testing
 
     public function customRegistration(Request $request)
     {  
@@ -75,7 +54,7 @@ class CustomAuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
          
-        return redirect("dashboard1")->withSuccess('You have signed-in');
+        return redirect("login")->withSuccess('You have signed-in');
     }
      public function create(array $data)
     {
@@ -86,35 +65,17 @@ class CustomAuthController extends Controller
       ]);
     }   
     
-    // public function create(array $data)
-    // {
-    //   return User::create([
-    //     'name' => $data['name'],
-    //     'email' => $data['email'],
-    //     'password' => Hash::make($data['password']),
-    //     //'c_password' => Hash::make($data['c_password'])
-
-    //   ]);
-    // }    
     
     public function dashboard()
     {
         if(Auth::check()){
-            return view('dashboard1');
+            return view('dashboard');
         }
   
         return redirect("login")->withSuccess('You are not allowed to access');
     }
 
 
-    // public function dashboard()
-    // {
-    //     if(Auth::check()){
-    //         return view('dashboard');
-    //     }
-  
-    //     return redirect("login")->withSuccess('You are not allowed to access');
-    // }
     
     public function signOut() {
         Session::flush();

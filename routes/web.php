@@ -23,36 +23,17 @@ Route::get('/', function () {
 
 
 
-Route::get('/index', function () {
-    return view('dashboard1');
+Route::get('/indexx', function () {
+    return view('dashboard');
 });
 
 
-
-
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
-// Route::get('login', [CustomAuthController::class, 'index'])->name('login');
-// Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
-// Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-// Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
-
-
-
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
 Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
 Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-Route::get('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');//testing
-
-
-//Route::get('custom-registration2', [CustomAuthController::class, 'customRegistration2'])->name('register.custom2');//testing
-
-// Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
-// Route::get('login', [CustomAuthController::class, 'index'])->name('login');
-// Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
-// Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-// Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
-
+Route::post('custom-registration',[CustomAuthController::class, 'customRegistration'])->name('register.custom');//testing
 
 Route::middleware([
     'auth:sanctum',
