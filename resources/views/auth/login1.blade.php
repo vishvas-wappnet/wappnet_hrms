@@ -93,6 +93,58 @@
   </div>
 </section>
 <!-- jQuery -->
+
+
+
+<!-- jQuery --> 
+<!-- jQuery --> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+ 
+ <script>
+
+
+  $('#loginform').validate({
+            rules: {
+               
+                email: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    
+                },
+               
+            },
+            messages: {
+              
+                email: {
+                    
+                    email: "Please enter valid email id"
+                },
+                password: {
+                    required:"Please enter password",
+                   
+                },
+               
+            },
+        })
+ </script>
+
+<script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" > 
+
+</script>
+
+
+<script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" > 
+
+</script>
+
 <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="bootstrap/dist/js/bootstrap.min.js"></script>
