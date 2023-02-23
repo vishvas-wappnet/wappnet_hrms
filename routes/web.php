@@ -53,3 +53,13 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+
+
+// second forgot password 
+Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
+Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
+Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password');
+
+Route::put('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password');

@@ -15,7 +15,26 @@ return [
 
     'default' => env('MAIL_MAILER', 'smtp'),
 
-    /*
+    'driver' => env('MAIL_DRIVER', 'smtp') ,
+
+  
+
+
+    'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
+    'port' => env('MAIL_PORT', 587),
+
+    'username' => env('MAIL_USERNAME'),
+    'password' => env('MAIL_PASSWORD'),
+
+   
+
+    // 'host' => env('MAIL_HOST','sandbox.smtp.mailtrap.io'),
+
+    // 'port' =>env('MAIL_PORT', 587) ,
+
+    
+
+     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------
@@ -36,13 +55,14 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'host' => env('MAIL_HOST','smtp.googlemail.com'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'auth_mode' => null,
+            'sendmail' => '/your/sendmail/path -t',
+            //'auth_mode' => null,
         ],
 
         'ses' => [
@@ -80,6 +100,43 @@ return [
         ],
     ],
 
+
+
+    // return  [
+
+    //     'driver' => env('MAIL_DRIVER', 'smtp'),
+        
+    //     'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+        
+    //     'port' => env('MAIL_PORT', 465),
+        
+    //     'from' => [
+    //         'address' => env('MAIL_FROM_ADDRESS', 'joejemes40@gmail.com'),
+    //         'name' => env('MAIL_FROM_NAME', 'Payne Curtis'),
+    //     ],
+        
+    //     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+        
+    //     'username' => env('MAIL_USERNAME'),
+        
+    //     'password' => env('MAIL_PASSWORD'),
+        
+        
+    //     'sendmail' => '/usr/sbin/sendmail -bs',
+        
+    //     'markdown' => [
+    //         'theme' => 'default',
+        
+    //         'paths' => [
+    //             resource_path('vi587ews/vendor/mail'),
+    //         ],
+    //     ],
+        
+    //     'log_channel' => env('MAIL_LOG_CHANNEL'),
+    //     ];
+    
+        
+
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -91,9 +148,12 @@ return [
     |
     */
 
+
+    // 'driver' => 'mail',
+
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'vish2355@gmail.com'),
+        'name' => env('MAIL_FROM_NAME','hrms'),
     ],
 
     /*

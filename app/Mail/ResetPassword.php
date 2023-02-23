@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
+
 
 class ResetPassword extends Mailable
 {
@@ -16,10 +18,15 @@ class ResetPassword extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $name;
+    public $token;
+
+    public function __construct($name, $token)
     {
-        //
+        $this->name = $name;
+        $this->token = $token;
     }
+
 
     /**
      * Build the message.
@@ -28,6 +35,11 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.password');
+        $user['name'] = $this->name;
+        $user['token'] = $this->token;
+
+        return $this->from("yoursenderemail@mail.com", "Sender Name")
+        ->subject('Password Reset Link')
+        ->view('template.reset-password', ['user' => $user]);
     }
 }
