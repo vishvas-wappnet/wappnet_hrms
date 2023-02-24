@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ResetPassword;
+use DB;
 
 class CustomAuthController extends Controller
 {
@@ -82,7 +83,7 @@ class CustomAuthController extends Controller
 
 
 
-                    //forgot pass implementaion 
+            //forgot pass implementaion 
 
 
 
@@ -106,6 +107,9 @@ class CustomAuthController extends Controller
                     }
                     return redirect()->route('forgot-password')->with('failed', 'Password reset link is expired');
                 }
+
+
+
             
                 /**
                  * Reset password
@@ -132,7 +136,7 @@ class CustomAuthController extends Controller
                     Mail::to($request->email)->send(new ResetPassword($user->name, $token));
             
                     if(Mail::failures() != 0) {
-                        return back()->with('success', 'Success! password reset link has been sent to your email');
+                        return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
                     }
                     return back()->with('failed', 'Failed! there is some issue with email provider');
                 }
@@ -142,22 +146,68 @@ class CustomAuthController extends Controller
                  * @param request
                  * @return response
                  */
-                public function updatePassword(Request $request) {
-                    $this->validate($request, [
-                        'email' => 'required',
-                        'password' => 'required|min:6',
+                // public function updatePassword(Request $request) {
+                //     $this->validate($request, [
+                //         'email' => 'required',
+                //         'password' => 'required|min:6',
+                //         'confirm_password' => 'required|same:password'
+                //     ]);
+            
+                //     // $user = User::where('email', $request->email)->first();
+                //     // if ($user) {
+                //     //     $user['is_verified'] = 0;
+                //     //     $user['token'] = '';
+                //     //     $user['password'] = Hash::make($request->password);
+                //     //     $user->save();
+                //     //     return redirect()->route('login')->with('success', 'Success! password has been changed');
+                //     // }
+                //     // return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
+
+
+
+
+            public function updatePassword(Request $request)
+               {
+                    $request->validate([
+                        'email'=>'required|email|exists:users',
+                        'password' => 'required|min:8',
                         'confirm_password' => 'required|same:password'
                     ]);
-            
-                    $user = User::where('email', $request->email)->first();
-                    if ($user) {
-                        $user['is_verified'] = 0;
-                        $user['token'] = '';
-                        $user['password'] = Hash::make($request->password);
-                        $user->save();
-                        return redirect()->route('login')->with('success', 'Success! password has been changed');
-                    }
-                    return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
+
+                 $updatepassword1 = DB::table('password_resets')->where([
+
+                        'email'=> $request->email,
+                        'token'=> $request->token
+                    ])
+                    ->first();
+
+                        if(!$updatepassword1)
+                            {
+                                 return back()->withInput()->with('error','Reset link is expired!');
+                            }
+                        $user  = User::where('email', $request->email)
+                        ->update(['password'=>Hash::make($request->password)]);
+
+                        DB::table('password_resets')->where(['email'=>$request->email])->delete();
+                        return redirect('login')->with('Success','your password has been successfully changed');
                 }
-            
+
+// public function submitResetPasswordForm(Request $
+            //         $updatePassword = DB::table('password_resets')
+            //                             ->where([
+            //                             'email' => $request->email, 
+            //                             'token' => $request->token
+            //                             ])->first();
+            //         if(!$updatePassword)
+            //             {
+            //                return back()->withInput()->with('error', 'Invalid token!');
+            //            }
+            //         $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+            //         DB::table('password_resets')->where(['email'=> $request->email])->delete();
+            //         return redirect('/login')->with('message', 'Your password has been changed!');
+            //     }
+            // }
+
+
+
 }

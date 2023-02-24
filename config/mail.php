@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 return [
 
@@ -13,18 +13,18 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+     'default' => env('MAIL_MAILER', 'smtp'),
 
-    'driver' => env('MAIL_DRIVER', 'smtp') ,
+    // 'driver' => env('MAIL_DRIVER', 'smtp') ,
 
   
 
 
-    'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
-    'port' => env('MAIL_PORT', 587),
+    //  'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    //  'port' => env('MAIL_PORT', 465),
 
-    'username' => env('MAIL_USERNAME'),
-    'password' => env('MAIL_PASSWORD'),
+    // 'username' => env('MAIL_USERNAME'),
+    // 'password' => env('MAIL_PASSWORD'),
 
    
 
@@ -55,14 +55,16 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST','smtp.googlemail.com'),
-            'port' => env('MAIL_PORT', 587),
+            'host' => env('MAIL_HOST','smtp.gmail.com'),
+            'host' => env('MAIL_HOST',''),
+            'host' => env('MAIL_HOST',''),
+            'port' => env('MAIL_PORT', 2525),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'sendmail' => '/your/sendmail/path -t',
-            //'auth_mode' => null,
+            'auth_mode' => null,
         ],
 
         'ses' => [
@@ -151,11 +153,6 @@ return [
 
     // 'driver' => 'mail',
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'vish2355@gmail.com'),
-        'name' => env('MAIL_FROM_NAME','hrms'),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
@@ -167,12 +164,12 @@ return [
     |
     */
 
-    'markdown' => [
-        'theme' => 'default',
+//     'markdown' => [
+//         'theme' => 'default',
 
-        'paths' => [
-            resource_path('views/vendor/mail'),
-        ],
-    ],
+//         'paths' => [
+//             resource_path('views/vendor/mail'),
+//         ],
+//     ],
 
 ];
