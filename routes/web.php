@@ -36,14 +36,6 @@ Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name(
 Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
 Route::post('custom-registration',[CustomAuthController::class, 'customRegistration'])->name('register.custom');
 
-
-
-//fotgot password
-
-// Route::get('forget-password',[ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-// Route::post('forget-password',[ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
-// Route::get('reset-password/{token}',[ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-// Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -56,8 +48,7 @@ Route::middleware([
 
 
 
-
-// second forgot password 
+//  forgot password 
 Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
 Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
 Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password');

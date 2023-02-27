@@ -14,11 +14,12 @@ php
     <div class="container py-5">
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-auto">
-                {{-- <form action="{{ route('reset-password') }}" method="post" autocomplete="off"> --}}
 
-                    <form action="{{ route('login') }}" method="post" autocomplete="off">
+                 <form action="{{ route('reset-password') }}" method="post" autocomplete="off">
+
+                    {{-- <form action="{{ route('login') }}" method="post" autocomplete="off"> --}}
                     @csrf
-                    @method('POST')
+                    {{-- @method('POST') --}}
                     <div class="card shadow">
 
                         @if (Session::has("success"))

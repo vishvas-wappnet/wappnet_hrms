@@ -141,73 +141,26 @@ class CustomAuthController extends Controller
                     return back()->with('failed', 'Failed! there is some issue with email provider');
                 }
             
-                /**
-                 * Change password
-                 * @param request
-                 * @return response
-                 */
-                // public function updatePassword(Request $request) {
-                //     $this->validate($request, [
-                //         'email' => 'required',
-                //         'password' => 'required|min:6',
-                //         'confirm_password' => 'required|same:password'
-                //     ]);
-            
-                //     // $user = User::where('email', $request->email)->first();
-                //     // if ($user) {
-                //     //     $user['is_verified'] = 0;
-                //     //     $user['token'] = '';
-                //     //     $user['password'] = Hash::make($request->password);
-                //     //     $user->save();
-                //     //     return redirect()->route('login')->with('success', 'Success! password has been changed');
-                //     // }
-                //     // return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
+              
 
-
-
-
-            public function updatePassword(Request $request)
-               {
-                    $request->validate([
-                        'email'=>'required|email|exists:users',
-                        'password' => 'required|min:8',
+                //update password 
+                public function updatePassword(Request $request) {
+                    $this->validate($request, [
+                        'email' => 'required',
+                        'password' => 'required|min:6',
                         'confirm_password' => 'required|same:password'
                     ]);
-
-                 $updatepassword1 = DB::table('password_resets')->where([
-
-                        'email'=> $request->email,
-                        'token'=> $request->token
-                    ])
-                    ->first();
-
-                        if(!$updatepassword1)
-                            {
-                                 return back()->withInput()->with('error','Reset link is expired!');
-                            }
-                        $user  = User::where('email', $request->email)
-                        ->update(['password'=>Hash::make($request->password)]);
-
-                        DB::table('password_resets')->where(['email'=>$request->email])->delete();
-                        return redirect('login')->with('Success','your password has been successfully changed');
+            
+                    $user = User::where('email', $request->email)->first();
+                    if ($user) {
+                        $user['is_verified'] = 0;
+                        $user['token'] = '';
+                        $user['password'] = Hash::make($request->password);
+                        $user->save();
+                        return redirect()->route('login')->with('success', 'Success! password has been changed');
+                    }
+                    return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
                 }
-
-// public function submitResetPasswordForm(Request $
-            //         $updatePassword = DB::table('password_resets')
-            //                             ->where([
-            //                             'email' => $request->email, 
-            //                             'token' => $request->token
-            //                             ])->first();
-            //         if(!$updatePassword)
-            //             {
-            //                return back()->withInput()->with('error', 'Invalid token!');
-            //            }
-            //         $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-            //         DB::table('password_resets')->where(['email'=> $request->email])->delete();
-            //         return redirect('/login')->with('message', 'Your password has been changed!');
-            //     }
-            // }
-
 
 
 }
