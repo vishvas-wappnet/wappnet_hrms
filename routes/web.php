@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\UserController;
 //Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Auth;
@@ -69,3 +70,7 @@ Route::get('/ch', function () {
 });
 
 
+//user list page rputes ------
+Route::get('/user',[UserController::class, 'index'])->name('user_list');
+Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::post('/{user}/update', [UserController::class, 'update'])->name('users.update');

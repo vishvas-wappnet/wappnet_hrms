@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth; 
 
-class RegisterRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,14 +24,15 @@ class RegisterRequest extends FormRequest
      *
      * @return array
      */
-    
-     public function rules()
-     {
-         return [
-             'email' => 'required|email:rfc,dns|unique:users,email',
-             'username' => 'required|unique:users,username',
-             'password' => 'required|min:8',
-             //'c_password' => 'required|same:password'
-         ];
-     }
+    public function rules()
+    {
+        // return User::$rules;
+        $user = request()->route('user');
+
+        return [
+
+            'name' => 'required',
+            'email' => 'required|email:rfc,dns|unique:users,email,'.$user->id,
+        ];
+    }
 }

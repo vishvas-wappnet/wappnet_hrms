@@ -241,7 +241,7 @@
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
         <li> <a href="index.html" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
           <ul class="nav nav-second-level">
-            <li> <a href="index.html">Minimalistic</a> </li>
+            <li> <a href="{{ route('user_list') }}">Users</a> </li>
             <li> <a href="index2.html">Demographical</a> </li>
             <li> <a href="index3.html">Analitical</a> </li>
             <li> <a href="index4.html">Simpler</a> </li>
