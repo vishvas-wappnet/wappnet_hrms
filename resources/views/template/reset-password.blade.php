@@ -69,7 +69,7 @@
                                             Thank
                                             you, </p>
                                         <p style="margin:0 0 12px 0;font-size:14px;font-family:Arial,sans-serif;">
-                                            Programming Fields </p>
+                                           HRMS</p>
                                     </td>
                                 </tr>
                             </table>

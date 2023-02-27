@@ -1,8 +1,8 @@
-php
+{{-- change password php --}}
 <!doctype html>
 <html lang="en">
   <head>
-    <title> HRMS |Password Reset | </title>
+    <title> HRMS|Password Reset| </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -19,7 +19,7 @@ php
 
                     {{-- <form action="{{ route('login') }}" method="post" autocomplete="off"> --}}
                     @csrf
-                    {{-- @method('POST') --}}
+                  
                     <div class="card shadow">
 
                         @if (Session::has("success"))

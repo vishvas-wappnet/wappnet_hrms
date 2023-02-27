@@ -15,7 +15,7 @@ class CustomAuthController extends Controller
             
             public function index()
             {
-                return view('auth.login1');
+                return view('auth.login');
             }  
       
             public function customLogin(Request $request)
@@ -143,7 +143,7 @@ class CustomAuthController extends Controller
             
               
 
-                //update password 
+                //update password ------------------------------------------------
                 public function updatePassword(Request $request) {
                     $this->validate($request, [
                         'email' => 'required',
@@ -162,5 +162,66 @@ class CustomAuthController extends Controller
                     return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
                 }
 
+
+
+
+
+            //change password using current password
+                
+                public function changePassword()
+                {
+                    return view('auth.old_change_password');
+                }
+
+
+
+                public function old_updatePassword(Request $request)
+                    {
+                            # Validation
+                            $request->validate([
+                                'old_password' => 'required',
+                                'new_password' => 'required|confirmed',
+                            ]);
+
+
+                            #Match The Old Password
+                            if(!Hash::check($request->old_password, auth()->user()->password)){
+                                return back()->with("error", "Old Password Doesn't match!");
+                            }
+
+
+                            #Update the new Password
+                            User::whereId(auth()->user()->id)->update([
+                                'password' => Hash::make($request->new_password)
+                            ]);
+
+                            return back()->with("status", "Password changed successfully!");
+                    }
+
+
+
+
+                    // profile update-----------------------------profile_update
+
+
+                    public function view_profile_update()
+                    {
+                        return view('auth.user_profile');
+                    }
+
+
+                    public function profile_Update(Request $request){
+                        //validation rules
+                
+                        $request->validate([
+                            'name' =>'required|min:4|string|max:255',
+                            'email'=>'required|email|string|max:255'
+                        ]);
+                        $user =Auth::user();
+                        $user->name = $request['name'];
+                        $user->email = $request['email'];
+                        $user->save();
+                        return back()->with('message','Profile Updated');
+                    }
 
 }

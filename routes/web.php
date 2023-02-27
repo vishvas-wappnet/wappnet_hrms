@@ -52,12 +52,20 @@ Route::middleware([
 Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
 Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
 Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password');
-
 Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password');
 
+//old change password
+Route::get('/change-password', [CustomAuthController::class, 'changePassword'])->name('change-password');
+Route::post('/change-password', [CustomAuthController::class, 'old_updatePassword'])->name('old_update-password');
 
+//profile view & update 
+
+Route::get('/profile_update',[CustomAuthController::class, 'view_profile_update'])->name('profile_update');
+Route::post('/profile_update',[CustomAuthController::class, 'profile_Update'])->name('profileupdate');
 
 
 Route::get('/ch', function () {
     return view('auth.change-password');
 });
+
+
