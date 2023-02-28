@@ -30,6 +30,11 @@
 </div>
 <section id="wrapper" class="login-register">
   <div class="login-box login-sidebar">
+
+
+    <div class="mt-2">
+      @include('layouts.partial.messages')
+  </div>
     <div class="white-box">
 
       <form class="form-horizontal form-material" id="loginform" method="post" action="{{ route('login.custom') }}">
@@ -40,11 +45,21 @@
         <div class="form-group m-t-40">
           <div class="col-xs-12">
             <input class="form-control" type="text" required="" placeholder="email" name="email" >
+            
+            @if ($errors->has('name'))
+            <span class="text-danger text-left">{{ $errors->first('email') }}</span>
+        @endif
+    
           </div>
+
+          
         </div>
         <div class="form-group">
           <div class="col-xs-12">
             <input class="form-control" type="password" required="" placeholder="Password" name="password">
+            @if ($errors->has('password'))
+            <span class="text-danger text-left">{{ $errors->first('password') }}</span>
+        @endif
           </div>
         </div>
         <div class="form-group">

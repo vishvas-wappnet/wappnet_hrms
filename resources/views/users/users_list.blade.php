@@ -12,7 +12,7 @@
 
 
 @extends('layouts.app')
-
+{{-- @include('layouts.partial.messages]') --}}
 @include('layouts.header')
 @section('content')
 
@@ -58,6 +58,10 @@
                                                         
   
                                                         <h2 class="m-0 font-weight-bold text-primary">All Users</h2>
+
+                                                        <div class="mt-2">
+                                                          @include('layouts.partial.messages')
+                                                      </div>
 
                                                         <form action="" class="col-9">
                                                           <div class="form-group">

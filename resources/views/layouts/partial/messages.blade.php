@@ -3,14 +3,15 @@
     @if (is_array($data))
         @foreach ($data as $msg)
             <div class="alert alert-success" role="alert">
-                <i class="fa fa-check"></i>
+               
                 {{ $msg }}
             </div>
         @endforeach
     @else
-        <div class="alert alert-success" role="alert">
-            <i class="fa fa-check"></i>
+        <div class="alert  alert-danger" role="alert">
+           
             {{ $data }}
         </div>
     @endif
 @endif
+

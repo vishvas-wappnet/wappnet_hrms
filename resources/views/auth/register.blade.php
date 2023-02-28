@@ -50,7 +50,9 @@
       <form class="form-horizontal form-material"  name="form" id="loginform" method="post" action="{{ Route('register.custom')}}">
         <h3 class="box-title m-b-20">Sign In</h3>
 
-     
+        <div class="mt-2">
+          @include('layouts.partial.messages')
+      </div>
         <div class="form-group ">
                 
           @csrf
@@ -60,6 +62,8 @@
             @if ($errors->has('name'))
             <span class="text-danger">{{ $errors->first('name') }}</span>
             @endif
+
+
           </div>
         </div>
         <div class="form-group ">
