@@ -77,3 +77,7 @@ Route::post('/{user}/update', [UserController::class, 'update'])->name('users.up
 Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
 
 
+
+
+Route::get('users', [UserController::class, 'index'])->name('users.index');
+

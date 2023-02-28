@@ -15,17 +15,45 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-                $users = User::select('id', 'email', 'name')->paginate(10);
-        
-                return view('users.users_list')->with([
-                    'users' => $users
-                ]);
-        }
+                 $search = $request['search'] ?? "";
+                 if($search != "")
+                     {
+                        $users = User::where('name' , 'LIKE' , "%$search%")->orwhere('email' , 'LIKE' , "%$search%")->paginate(10);
+                     }
+                 else
+                     {
+                        $users = User::paginate(10);
+                     }     
+                    //$users = User::paginate(10);
+                    $data = compact('users', 'search');
+                   // $users = User::select('id', 'email', 'name')->paginate(10);
+                    //$data = compact('user' , 'search');
+                    return view('users.users_list')->with($data);
+
+        //              return view('users.users_list')->with([
+        //                  'users' => $users
+        //              ]);
+         }
     
 
+
+        // public function index(Request $request)
+        // {
+        //     if ($request->ajax()) {
+        //         $data = User::select('id','name','email')->get();
+        //         return Datatables::of($data)->addIndexColumn()
+        //             ->addColumn('action', function($row){
+        //                 $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+        //                 return $btn;
+        //             })
+        //             ->rawColumns(['action'])
+        //             ->make(true);
+        //     }
+    
+        //     return view('users');
+        // }
        
     
     /**
