@@ -11,12 +11,11 @@
 
 
 
-
-
 @extends('layouts.app')
 
 @include('layouts.header')
 @section('content')
+
 
 <style>
     .cardStyle {
@@ -113,7 +112,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Chnage Password') }}</div>
+                 
 
 
  <div class="row">
@@ -124,17 +123,25 @@
               <div class="col-in row">
                  <div class="col-md-6 col-sm-6 col-xs-6">
                     
-                                                                        
+                                                           
                                                 <!-- DataTales Example -->
                                                 <div class="card shadow mb-4">
                                                     <div class="card-header py-3">
-                                                        <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
+
+                                                 
+
+    
+  
+                                                        <h2 class="m-0 font-weight-bold text-primary">All Users</h2>
 
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="table-responsive">
+                                                          {{$users->onEachSide(1)->links()}}
                                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                                                 <thead>
+
+
                                                                     <tr>
                                                                         <th>Name</th>
                                                                         <th>Email</th>
@@ -145,14 +152,29 @@
                                                                 <tbody>
                                                                 @foreach ($users as $user)
                                                                     <tr>
-                                                                        <td>{{$user->name}}</td>
-                                                                        <td>{{$user->email}}</td>
-                                                                        <td><a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a></td>
-                                                                        <td><a href="" class="btn btn-info btn-sm">Delete</a></td>
+                                                                      <td style="width: 60%">{{$user->name}}</td>
+                                                                      <td style="width: 100%">{{$user->email}}</td>
+                                                                      <td style="width: 50%"><a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a></td>
+                                                                       
+                                                                        <td>
+                                                                          {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                                                                          {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                                                          {!! Form::close() !!}
+                                                                      </td>
+                                                                       {{-- <td>
+                                                                              <form action="{{ url('/users.destroy',$user->id) }}" method="POST">
+                                                                             
+                                                                                @csrf
+                                                                                @method('delete')
+                                                                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                                                              </form>
+                                                                       </td>         --}}
+                                                                        {{-- <td><a href="{{ route('users.destroy', $user->id) }}" class="btn btn-info btn-sm">Delete</a></td> --}}
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
                                                             </table>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -170,25 +192,5 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection

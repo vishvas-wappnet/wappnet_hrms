@@ -74,3 +74,6 @@ Route::get('/ch', function () {
 Route::get('/user',[UserController::class, 'index'])->name('user_list');
 Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::post('/{user}/update', [UserController::class, 'update'])->name('users.update');
+Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
+
+

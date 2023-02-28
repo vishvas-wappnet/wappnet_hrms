@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         
-                $users = User::select('id', 'email', 'name')->get();
+                $users = User::select('id', 'email', 'name')->paginate(10);
         
                 return view('users.users_list')->with([
                     'users' => $users
@@ -98,8 +98,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user) 
     {
-        //
+        $user->delete();
+
+        return redirect()->route('user_list')->withSuccess(__('User deleted successfully.'));
     }
+
+
+
+    public function delete($id) 
+        {
+                $user = User::findOrFail($id);
+                $user->delete();
+
+                return redirect()->route('user_list');
+        }
 }
