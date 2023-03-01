@@ -17,7 +17,7 @@
                     placeholder="Name" required>
 
                 @if ($errors->has('name'))
-                    <span class="text-danger text-left">{{ $errors->first('name') }}</span>
+                    <span class="text-success text-left">{{ $errors->first('name') }}</span>
                 @endif
             </div>
 
@@ -29,7 +29,7 @@
                     name="email" 
                     placeholder="Email address" required>
                 @if ($errors->has('email'))
-                    <span class="text-danger text-left">{{ $errors->first('email') }}</span>
+                    <span class="text-success text-left">{{ $errors->first('email') }}</span>
                 @endif
             </div>
            

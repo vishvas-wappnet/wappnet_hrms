@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Jobs\ResetPasswordMailJob;
 use App\Mail\ResetPassword;
 use DB;
 
@@ -15,10 +16,10 @@ class CustomAuthController extends Controller
             
             public function index()
             {
-                return view('auth.login');
+                    return view('auth.login');
             }  
       
-            public function customLogin(Request $request)
+            public function customLogin(Request $request) ///login 
             {
                 $request->validate([
                     'email' => 'required',
@@ -27,6 +28,8 @@ class CustomAuthController extends Controller
         
                 $credentials = $request->only('email', 'password');
                 if (Auth::attempt($credentials)) {
+
+                   // Session::put('user' ,$credentials);
                     return redirect()->intended('dashboard')->withSuccess('Signed in');
                  }
                  else
@@ -48,16 +51,20 @@ class CustomAuthController extends Controller
                   {  
                     $request->validate([
                         'name' => 'required',
-                        'email' => 'required|email|unique:users',
+                       // 'email' => 'required|email|unique:users',
                         'password' => 'required|min:6',
-                        //'c_password' => 'required|min:6'
+                        'email' => 'required|email:rfc,dns|unique:users'
                     ]);
                     
                     $data = $request->all();
                     $check = $this->create($data);
-                    return redirect("login")->withSuccess('sign  sucessfull.');
+                    if($check == true )
+                    {
+                      return redirect("login")->withSuccess('sign  sucessfull.');
+                    }    
+
                   }
-                public function create(array $data)
+                        public function create(array $data)
                   {
                 
                         return User::create([
@@ -78,9 +85,9 @@ class CustomAuthController extends Controller
                 }
 
                 public function signOut() {
-                    Session::flush();
+                  
                     Auth::logout();
-            
+                    Session::flush();
                     return Redirect('login');
                 }
 
@@ -114,6 +121,33 @@ class CustomAuthController extends Controller
 
 
             
+                    //reset password Queue 
+
+                    public function reset_mail_queue(Request $request)
+                        {
+                            $this->validate($request, [
+                                'email' => 'required|email',
+                            ]);
+                    
+                            $user = User::where('email', $request->email)->first();
+                            if (!$user) {
+                                return back()->with('failed', 'Failed! email is not registered.');
+                            }
+                    
+                            $token = Str::random(60);
+                    
+                            $user['token'] = $token;
+                            $user['is_verified'] = 0;
+                            $user->save();
+                    
+                            Mail::to($request->email)->queue(new ResetPassword($user->name, $token));
+                    
+                            if(Mail::failures() != 0) {
+                                return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
+                            }
+                            return back()->with('failed', 'Failed! there is some issue with email provider');
+                        }
+
                 /**
                  * Reset password
                  * @param request
@@ -136,7 +170,7 @@ class CustomAuthController extends Controller
                     $user['is_verified'] = 0;
                     $user->save();
             
-                    Mail::to($request->email)->send(new ResetPassword($user->name, $token));
+                    Mail::to($request->email)->queue(new ResetPassword($user->name, $token));
             
                     if(Mail::failures() != 0) {
                         return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
@@ -160,7 +194,7 @@ class CustomAuthController extends Controller
                         $user['token'] = '';
                         $user['password'] = Hash::make($request->password);
                         $user->save();
-                        return redirect()->route('login')->with('success', 'Success! password has been changed');
+                        return redirect()->route('login')->with('success', 'Success! password has been Reset');
                     }
                     return redirect()->route('forgot-password')->with('failed', 'Failed! something went wrong');
                 }

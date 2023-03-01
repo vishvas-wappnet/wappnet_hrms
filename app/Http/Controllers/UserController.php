@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth; 
+use Session;
 
 
 class UserController extends Controller
@@ -26,34 +27,15 @@ class UserController extends Controller
                      {
                         $users = User::paginate(10);
                      }     
-                    //$users = User::paginate(10);
+                   
                     $data = compact('users', 'search');
-                   // $users = User::select('id', 'email', 'name')->paginate(10);
-                    //$data = compact('user' , 'search');
+                  
                     return view('users.users_list')->with($data);
 
-        //              return view('users.users_list')->with([
-        //                  'users' => $users
-        //              ]);
+        
          }
     
 
-
-        // public function index(Request $request)
-        // {
-        //     if ($request->ajax()) {
-        //         $data = User::select('id','name','email')->get();
-        //         return Datatables::of($data)->addIndexColumn()
-        //             ->addColumn('action', function($row){
-        //                 $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
-        //                 return $btn;
-        //             })
-        //             ->rawColumns(['action'])
-        //             ->make(true);
-        //     }
-    
-        //     return view('users');
-        // }
        
     
     /**
@@ -97,9 +79,13 @@ class UserController extends Controller
 
         public function edit(User $user) 
         {
+            
             return view('users.edit', [
                 'user' => $user
             ]);
+
+                    return $request->input();
+           
         }
     
 
@@ -128,6 +114,8 @@ class UserController extends Controller
      */
     public function destroy(User $user) 
     {
+
+      //dd($user);
         $user->delete();
 
         return redirect()->route('user_list')->withSuccess(__('User deleted successfully.'));
@@ -135,11 +123,12 @@ class UserController extends Controller
 
 
 
-    public function delete($id) 
-        {
-                $user = User::findOrFail($id);
-                $user->delete();
-
-                return redirect()->route('user_list');
-        }
+    // public function delete($id) 
+    //     {      
+           
+    //             $user = User::findOrFail($id);
+    //             $user->delete();
+                
+    //             return redirect()->route('user_list');
+    //     }
 }

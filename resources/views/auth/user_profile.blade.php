@@ -58,29 +58,7 @@
    cursor: not-allowed;
    border: solid 1px #eee;
  }
- .buttonWrapper {
-   margin-top: 40px;
- }
-   .submitButton {
-     width: 70%;
-     height: 40px;
-     margin: auto;
-     display: block;
-     color: #fff;
-     background-color: #065492;
-     border-color: #065492;
-     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
-     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
-     border-radius: 4px;
-     font-size: 14px;
-     cursor: pointer;
-   }
- .submitButton:disabled,
- button[disabled] {
-   border: 1px solid #cccccc;
-   background-color: #cccccc;
-   color: #666666;
- }
+ 
  
  #loader {
    position: absolute;
@@ -105,16 +83,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-               
-
-
- <div class="row">
-   <div class="col-md-12 col-lg-12 col-sm-12">
-     <div class="white-box">
-       <div class="row row-in">
-            <div class="">
-              <div class="col-in row">
-                 <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                  <div class="white-box">
+                    <div class="row row-in">
+                          <div class="">
+                            <div class="col-in row">
+                              <div class="col-md-6 col-sm-6 col-xs-6">
                     
                                 <form action="{{route('profile_update')}}" method="POST">
                                     @csrf
@@ -126,21 +101,19 @@
                                         <label for="email"><strong>Email:</strong></label>
                                         <input type="text" class="form-control" id ="email" value="{{Auth::user()->email}}" name="email">
                                     </div>
-                                        <button class="btn btn-primary" type="submit">Update Profile</button>
+                                    <button type="submit" class="btn btn-info text-white">Submit</button>
                                 </form>
-
-
+                     </div>
+                   </div>
                 </div>
+             </div>
             </div>
-        </div>
+          </div>
+         </div>
+      </div>
     </div>
-</div>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-    </div>
+  </div>
+ 
 @endsection
 
 
