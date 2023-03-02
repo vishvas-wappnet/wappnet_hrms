@@ -154,4 +154,5 @@ Route::get('/send-mail',[CustomAuthController::class, 'reset_mail_queue'])->name
 
 Route::get('view_users', [UserController::class, 'user_listt'])->name('users.index');
 // Route::delet('delete/{$id}',[UserController::class, 'user_delete'])->name('deletedata');
-Route::delete('delete/{$id}',[UserController::class, 'user_delete'])->name('Userdelete');
+// Route::delete('delete/{$id}',[UserController::class, 'user_delete'])->name('Userdelete');
+Route::post('delete-user', [UserController::class, 'destroy']);

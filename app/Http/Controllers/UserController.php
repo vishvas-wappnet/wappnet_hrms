@@ -110,15 +110,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    // public function destroy(User $user)
+    // {
+
+    //     //dd($user);
+    //     $user->delete();
+
+    //     return redirect()->route('users.index')->withSuccess(__('User deleted successfully.'));
+    // }
+
+
+    public function destroy(Request $request)
     {
-
-        //dd($user);
-        $user->delete();
-
-        return redirect()->route('users.index')->withSuccess(__('User deleted successfully.'));
+        
+        $user = User::where('id',$request->id)->delete();
+      
+      
+       return Response()->json($user);
     }
-
 
 
     public function user_delete($id)
@@ -126,9 +135,8 @@ class UserController extends Controller
          dd("dd");
         $user = User::find($id);
         $user->delete();
-        return redirect()->back();
+        return redirect()->back()->withSuccess('sucess', 'User updated successfully.');
     }
-
 
 
     //user list using Yajra
@@ -137,20 +145,41 @@ class UserController extends Controller
     {
 
 
+        // if ($request->ajax()) {
+        //     $data = User::select('id', 'name', 'email')->get();
+        //     return Datatables::of($data)->addIndexColumn()
+        //         ->addColumn("action", '<form action="" method="post">
+        //         @csrf
+        //         @method("DELETE")
+        //             <a  href="{{route("Userdelete",$id)}}" title="Delete" >
+        //             <i class="fa fa-trash" style="font-size:20px;color:red "></i>
+        //         </a>               
+        //         @method("Edit")
+        //             <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
+        //             <i class="fa fa-edit" style="font-size:20px;color:green "></i>
+        //         </a>   
+        //         </form>')
+        //         ->rawColumns(['action'])
+        //         ->addIndexColumn()
+        //         ->make(true);
+        // }
+
+
+
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')->get();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn("action", '<form action="" method="post">
-                @csrf
-                @method("DELETE")
-                    <a  href="{{route("Userdelete",$id)}}" title="Delete" >delete
-                    <i class="fa fa-trash" style="font-size:20px;color:red "></i>
-                </a>               
-                @method("Edit")
-                    <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
-                    <i class="fa fa-edit" style="font-size:20px;color:green "></i>
-                </a>   
-                </form>')
+                ->addColumn("action", 'action.user_action')
+                // @csrf
+                // @method("DELETE")
+                //     <a  href="{{route("Userdelete",$id)}}" title="Delete" >
+                //     <i class="fa fa-trash" style="font-size:20px;color:red "></i>
+                // </a>               
+                // @method("Edit")
+                //     <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
+                //     <i class="fa fa-edit" style="font-size:20px;color:green "></i>
+                // </a>   
+                // </form>')
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
