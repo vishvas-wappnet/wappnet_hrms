@@ -97,11 +97,12 @@ Route::get('/forgot', function () {
 Route::group(['middleware'=>"guest"],function()
 {
 
-        Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
+       // Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
         Route::get('login', [CustomAuthController::class, 'index'])->name('login');
         Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
         Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
         Route::post('custom-registration',[CustomAuthController::class, 'customRegistration'])->name('register.custom');
+        //Route::delete('delete/{$id}',[UserController::class, 'user_delete'])->name('Userdelete');
 
 
 
@@ -110,7 +111,7 @@ Route::group(['middleware'=>"guest"],function()
         //  forgot password 
         Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
         Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
-        Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password');
+        Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password2');
         Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password');
 
 Route::group(['middleware'=>"auth"],function()
@@ -143,10 +144,14 @@ Route::group(['middleware'=>"auth"],function()
         Route::get('/user',[UserController::class, 'index'])->name('user_list');
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::post('/{user}/update', [UserController::class, 'update'])->name('users.update');
-        Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
+        // Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
 
 });
 
 
+
 Route::get('/send-mail',[CustomAuthController::class, 'reset_mail_queue'])->name('send_mail');
 
+Route::get('view_users', [UserController::class, 'user_listt'])->name('users.index');
+// Route::delet('delete/{$id}',[UserController::class, 'user_delete'])->name('deletedata');
+Route::delete('delete/{$id}',[UserController::class, 'user_delete'])->name('Userdelete');

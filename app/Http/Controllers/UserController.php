@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Session;
+
+use DataTables;
+
+//use App\DatatTables\UserDataTable;
 
 
 class UserController extends Controller
@@ -18,26 +22,21 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-                 $search = $request['search'] ?? "";
-                 if($search != "")
-                     {
-                        $users = User::where('name' , 'LIKE' , "%$search%")->orwhere('email' , 'LIKE' , "%$search%")->paginate(10);
-                     }
-                 else
-                     {
-                        $users = User::paginate(10);
-                     }     
-                   
-                    $data = compact('users', 'search');
-                  
-                    return view('users.users_list')->with($data);
+        $search = $request['search'] ?? "";
+        if ($search != "") {
+            $users = User::where('name', 'LIKE', "%$search%")->orwhere('email', 'LIKE', "%$search%")->paginate(10);
+        } else {
+            $users = User::paginate(10);
+        }
 
-        
-         }
-    
+        $data = compact('users', 'search');
 
-       
-    
+        return view('users.users_list')->with($data);
+    }
+
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -77,17 +76,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-        public function edit(User $user) 
-        {
-            
-            return view('users.edit', [
-                'user' => $user
-            ]);
+    public function edit(User $user)
+    {
 
-                    return $request->input();
-           
-        }
-    
+        return view('users.edit', [
+            'user' => $user
+        ]);
+
+        return $request->input();
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -96,15 +94,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
-    
-        public function update(User $user, UpdateUserRequest $request) 
-        {
-            $user->update($request->validated());
-    
-            return redirect()->route('user_list')->withSuccess('sucess','User updated successfully.');
-        }
-    
+
+
+    public function update(User $user, UpdateUserRequest $request)
+    {
+        $user->update($request->validated());
+
+        return redirect()->route('user_list')->withSuccess('sucess', 'User updated successfully.');
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -112,23 +110,53 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user) 
+    public function destroy(User $user)
     {
 
-      //dd($user);
+        //dd($user);
         $user->delete();
 
-        return redirect()->route('user_list')->withSuccess(__('User deleted successfully.'));
+        return redirect()->route('users.index')->withSuccess(__('User deleted successfully.'));
     }
 
 
 
-    // public function delete($id) 
-    //     {      
-           
-    //             $user = User::findOrFail($id);
-    //             $user->delete();
-                
-    //             return redirect()->route('user_list');
-    //     }
+    public function user_delete($id)
+    {
+         dd("dd");
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back();
+    }
+
+
+
+    //user list using Yajra
+
+    public function user_listt(Request $request)
+    {
+
+
+        if ($request->ajax()) {
+            $data = User::select('id', 'name', 'email')->get();
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn("action", '<form action="" method="post">
+                @csrf
+                @method("DELETE")
+                    <a  href="{{route("Userdelete",$id)}}" title="Delete" >delete
+                    <i class="fa fa-trash" style="font-size:20px;color:red "></i>
+                </a>               
+                @method("Edit")
+                    <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
+                    <i class="fa fa-edit" style="font-size:20px;color:green "></i>
+                </a>   
+                </form>')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+
+        return view('users.users_li');
+    }
 }
