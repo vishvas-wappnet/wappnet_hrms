@@ -54,8 +54,21 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {  
+ 
+        $userId = $request->id;
+ 
+        $user   =   User::updateOrCreate(
+                    [
+                     'id' => $userId
+                    ],
+                    [
+                    'name' => $request->name, 
+                    'email' => $request->email,
+                    ]);    
+                         
+        return Response()->json($user);
+ 
     }
 
     /**
@@ -76,15 +89,23 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit(User $user)
-    {
+     public function edit(Request $request)
+     {   
+         $where = array('id' => $request->id);
+         $user  = User::where($where)->first();
+       
+         return Response()->json($user);
+     }
 
-        return view('users.edit', [
-            'user' => $user
-        ]);
+    // public function edit1(User $user)
+    // {
 
-        return $request->input();
-    }
+    //     return view('users.edit', [
+    //         'user' => $user
+    //     ]);
+
+    //     return $request->input();
+    // }
 
 
     /**
@@ -130,13 +151,13 @@ class UserController extends Controller
     }
 
 
-    public function user_delete($id)
-    {
-         dd("dd");
-        $user = User::find($id);
-        $user->delete();
-        return redirect()->back()->withSuccess('sucess', 'User updated successfully.');
-    }
+    // public function user_delete($id)
+    // {
+    //      dd("dd");
+    //     $user = User::find($id);
+    //     $user->delete();
+    //     return redirect()->back()->withSuccess('sucess', 'User updated successfully.');
+    // }
 
 
     //user list using Yajra

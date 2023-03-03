@@ -142,7 +142,7 @@ Route::group(['middleware'=>"auth"],function()
 
         //user list page rputes ------
         Route::get('/user',[UserController::class, 'index'])->name('user_list');
-        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::get('/{user}/edit', [UserController::class, 'edit1'])->name('users.edit');
         Route::post('/{user}/update', [UserController::class, 'update'])->name('users.update');
         // Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
 
@@ -153,6 +153,6 @@ Route::group(['middleware'=>"auth"],function()
 Route::get('/send-mail',[CustomAuthController::class, 'reset_mail_queue'])->name('send_mail');
 
 Route::get('view_users', [UserController::class, 'user_listt'])->name('users.index');
-// Route::delet('delete/{$id}',[UserController::class, 'user_delete'])->name('deletedata');
-// Route::delete('delete/{$id}',[UserController::class, 'user_delete'])->name('Userdelete');
+Route::post('store-user', [UserController::class, 'store']);
+Route::post('edit-user', [UserController::class, 'edit']);
 Route::post('delete-user', [UserController::class, 'destroy']);
