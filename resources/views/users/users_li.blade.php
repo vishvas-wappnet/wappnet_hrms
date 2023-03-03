@@ -20,20 +20,20 @@
             <div class="col-12 table-responsive">
 
 
+                <div id="success_message"></div>
 
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
-                @endif
+
+
                 <table class="table table-bordered user_datatable" id="user_datatable">
                     <thead>
+                        <div id="success_message"></div>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th width="100px">Action</th>
+                            <th>Action</th>
                         </tr>
+                        <div id="success_message"></div>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -85,7 +85,7 @@
 
 </body>
 <script type="text/javascript">
-    jQuery(function($) {
+    jQuery(function load_data($) {
 
         $.ajaxSetup({
             headers: {
@@ -145,6 +145,7 @@
 
 
     function editFunc(id) {
+       
         // var id = id;
         $.ajax({
             type: "POST",
@@ -154,14 +155,25 @@
             },
             dataType: 'json',
             success: function(res) {
+             
                 $('#UserModal').html("Edit User");
                 $('#user-modal').modal('show');
                 $('#id').val(res.id);
                 $('#name').val(res.name);
                 $('#email').val(res.email);
+                
+                user_datatable
+                    var oTable = $("#user_datatable").dataTable();
+                    oTable.fnDraw(false);
+                    $('#success_message').addClass('alert alert-success');
+                $('#success_message').text(res.message);
+               
             }
+
         });
+        
     }
+   
 
     function deleteFunc(id) {
         if (confirm("Delete Record?") == true) {
@@ -175,9 +187,12 @@
                 },
                 dataType: "json",
                 success: function(res) {
+                    
                     user_datatable
                     var oTable = $("#user_datatable").dataTable();
                     oTable.fnDraw(false);
+                    $('#success_message').addClass('alert alert-success');
+                    $('#success_message').text(res.message);
                 },
             });
         }

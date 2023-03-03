@@ -67,8 +67,12 @@ class UserController extends Controller
                     'email' => $request->email,
                     ]);    
                          
-        return Response()->json($user);
- 
+            //  return Response()->json($user);
+
+            return response()->json([
+                'status'=>200,
+                'message'=>'Student Updated Successfully.'
+            ]);
     }
 
     /**
@@ -144,11 +148,31 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         
-        $user = User::where('id',$request->id)->delete();
+        // $user = User::where('id',$request->id)->delete();
       
-      
-       return Response()->json($user);
+        $user = User::where('id',$request->id);
+       //return Response()->json($user);
+
+
+       if($user)
+       {
+           $user->delete();
+           return response()->json([
+               'status'=>200,
+               'message'=>'Student Deleted Successfully.'
+           ]);
+       }
     }
+
+
+    // public function destroy(Request $request)
+    // {
+        
+    //     $user = User::where('id',$request->id)->delete();
+      
+      
+    //    return Response()->json($user);
+    // }
 
 
     // public function user_delete($id)
@@ -164,43 +188,10 @@ class UserController extends Controller
 
     public function user_listt(Request $request)
     {
-
-
-        // if ($request->ajax()) {
-        //     $data = User::select('id', 'name', 'email')->get();
-        //     return Datatables::of($data)->addIndexColumn()
-        //         ->addColumn("action", '<form action="" method="post">
-        //         @csrf
-        //         @method("DELETE")
-        //             <a  href="{{route("Userdelete",$id)}}" title="Delete" >
-        //             <i class="fa fa-trash" style="font-size:20px;color:red "></i>
-        //         </a>               
-        //         @method("Edit")
-        //             <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
-        //             <i class="fa fa-edit" style="font-size:20px;color:green "></i>
-        //         </a>   
-        //         </form>')
-        //         ->rawColumns(['action'])
-        //         ->addIndexColumn()
-        //         ->make(true);
-        // }
-
-
-
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn("action", 'action.user_action')
-                // @csrf
-                // @method("DELETE")
-                //     <a  href="{{route("Userdelete",$id)}}" title="Delete" >
-                //     <i class="fa fa-trash" style="font-size:20px;color:red "></i>
-                // </a>               
-                // @method("Edit")
-                //     <a  href="{{Route("profile_update",$id)}}" title="Edit"  >
-                //     <i class="fa fa-edit" style="font-size:20px;color:green "></i>
-                // </a>   
-                // </form>')
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
