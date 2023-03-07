@@ -1,3 +1,6 @@
+
+
+@role('admin')
 <a href="javascript:void(0)" id="edit-user" data-toggle="tooltip" onClick="editFunc({{ $id }})" data-original-title="Edit"
     class="edit btn btn-success edit">
     Edit
@@ -6,3 +9,4 @@
     data-original-title="Delete" class="delete btn btn-danger">
     Delete
 </a>
+@endrole

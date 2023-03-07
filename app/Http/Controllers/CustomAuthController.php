@@ -23,7 +23,6 @@ class CustomAuthController extends Controller
     }
 
     public function customLogin(Request $request) ///login 
-
     {
         $request->validate([
             'email' => 'required',
@@ -44,7 +43,6 @@ class CustomAuthController extends Controller
 
 
     public function registration() //registration
-
     {
         return view('auth.register'); //registration
         //echo"hello";
@@ -126,18 +124,17 @@ class CustomAuthController extends Controller
 
     //reset password Queue 
 
-    
 
 
-        
-       //sendemail job 
-       //resetpasssword mail
 
-     public  function get_email()
 
-        {
-            return view('emails.passwors_reset_mail');
-        }
+    //sendemail job 
+    //resetpasssword mail
+
+    public function get_email()
+    {
+        return view('emails.passwors_reset_mail');
+    }
     public function emailSend(Request $request)
     {
 
@@ -154,19 +151,19 @@ class CustomAuthController extends Controller
         $user['is_verified'] = 0;
         $user->save();
 
-         dispatch(new SendEmail());
-        
-         return 'mail send succefully.';
-    
-          
+        dispatch(new SendEmail());
 
-       //  Mail::to($request->email)->send(new ResetPassword($user->name, $token));
-           //  Notification::queue($user ,new ResetPassword($user->name, $token));
-            // if(Mail::failures() != 0) {
-            //     return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
-            // }
-            // return back()->with('failed', 'Failed! there is some issue with email provider');
-        }
+        return 'mail send succefully.';
+
+
+
+        //  Mail::to($request->email)->send(new ResetPassword($user->name, $token));
+        //  Notification::queue($user ,new ResetPassword($user->name, $token));
+        // if(Mail::failures() != 0) {
+        //     return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
+        // }
+        // return back()->with('failed', 'Failed! there is some issue with email provider');
+    }
 
     /**
      * Reset password
@@ -191,7 +188,7 @@ class CustomAuthController extends Controller
         $user->save();
 
         Mail::to($request->email)->send(new ResetPassword($user->name, $token));
-        
+
         if (Mail::failures() != 0) {
             return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
         }
@@ -267,6 +264,10 @@ class CustomAuthController extends Controller
         return view('auth.user_profile');
     }
 
+    public function testpage()
+    {
+        return view('users.test');
+    }
 
     public function profile_Update(Request $request)
     {

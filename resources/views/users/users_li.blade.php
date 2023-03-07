@@ -1,3 +1,9 @@
+
+
+@extends('layouts.app')
+
+@include('layouts.header')
+@section('content')
 <!DOCTYPE html>
 <html>
 
@@ -15,15 +21,20 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 table-responsive">
+
+    <div class="container newconwidth"  style ="padding: 100px; width:100%">  
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="white-box">
+                   
+           
 
 
                 <div id="success_message"></div>
 
 
-
+                <div class="pull-right mb-2">
+                    <a class="btn btn-success" onClick="add()" href="javascript:void(0)"> Create user</a>
+                </div>
                 <table class="table table-bordered user_datatable" id="user_datatable">
                     <thead>
                         <div id="success_message"></div>
@@ -200,3 +211,5 @@
 </script>
 
 </html>
+
+@endsection

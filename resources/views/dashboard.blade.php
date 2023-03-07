@@ -217,7 +217,7 @@
       <div class="user-profile">
         <div class="dropdown user-pro-body">
           <div><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"></div>
-          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave Gection <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}}<span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
                 <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
                 <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
@@ -244,8 +244,8 @@
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
         <li> <a href="" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
           <ul class="nav nav-second-level">
-            <li> <a href="{{ route('user_list') }}">Users</a> </li>
-            <li> <a href="index2.html">Demographical</a> </li>
+            <li> <a href="{{ Route('users.index') }}">Users</a> </li>
+            <li> <a href="{{ Route('test.page') }}">Demographical</a> </li>
             <li> <a href="index3.html">Analitical</a> </li>
             <li> <a href="index4.html">Simpler</a> </li>
           </ul>

@@ -129,32 +129,35 @@ Route::group(['middleware' => "auth"], function () {
         Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profileupdate');
 
 
-        Route::get('/ch', function () {
-                return view('auth.change-password');
-        }
+        Route::get(
+                '/ch',
+                function () {
+                        return view('auth.change-password');
+                }
         );
 
-
-        //user list page rputes ------
-        Route::get('/user', [UserController::class, 'index'])->name('user_list');
-        Route::get('/{user}/edit', [UserController::class, 'edit1'])->name('users.edit');
-        Route::post('/{user}/update', [UserController::class, 'update'])->name('users.update');
-        // Route::delete('/{user}/delete',[UserController::class, 'destroy'])->name('users.destroy');
+        //user
+        Route::get('view_users', [UserController::class, 'user_listt'])->name('users.index');
+        Route::post('store-user', [UserController::class, 'store']);
+        Route::post('edit-user', [UserController::class, 'edit']);
+        Route::post('delete-user', [UserController::class, 'destroy']);
 
 });
 
 
 
-Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
-Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
-Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password');
-Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password');
+        Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
+        Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
+        Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password2 ');
+        Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password1');
 
-Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
-Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
+        Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
+        Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
 
-//user
-Route::get('view_users', [UserController::class, 'user_listt'])->name('users.index');
-Route::post('store-user', [UserController::class, 'store']);
-Route::post('edit-user', [UserController::class, 'edit']);
-Route::post('delete-user', [UserController::class, 'destroy']);
+
+
+
+                
+
+        Route::get('/test' , [CustomAuthController::class,'testpage'])->name('test.page');
+       

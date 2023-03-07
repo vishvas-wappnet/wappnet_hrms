@@ -31,7 +31,7 @@ class UserController extends Controller
 
         $data = compact('users', 'search');
 
-        return view('users.users_list')->with($data);
+        return view('users.users_li')->with($data);
     }
 
 
@@ -135,14 +135,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(User $user)
-    // {
-
-    //     //dd($user);
-    //     $user->delete();
-
-    //     return redirect()->route('users.index')->withSuccess(__('User deleted successfully.'));
-    // }
+    
 
 
     public function destroy(Request $request)
@@ -159,29 +152,11 @@ class UserController extends Controller
            $user->delete();
            return response()->json([
                'status'=>200,
-               'message'=>'Student Deleted Successfully.'
+               'message'=>'User Deleted Successfully.'
            ]);
        }
     }
 
-
-    // public function destroy(Request $request)
-    // {
-        
-    //     $user = User::where('id',$request->id)->delete();
-      
-      
-    //    return Response()->json($user);
-    // }
-
-
-    // public function user_delete($id)
-    // {
-    //      dd("dd");
-    //     $user = User::find($id);
-    //     $user->delete();
-    //     return redirect()->back()->withSuccess('sucess', 'User updated successfully.');
-    // }
 
 
     //user list using Yajra
@@ -196,7 +171,6 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-
 
         return view('users.users_li');
     }
