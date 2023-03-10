@@ -82,19 +82,6 @@ public function user_list(Request $request)
     {
 
         $user = $request->id;
-
-
-       
-        // $user = User::updateOrCreate(
-        //     [
-        //         //  'id' => $userId
-        //         // ],
-        //         // [
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //     ]
-        // );
-
         if ($user)
          {
             $user = User::updateOrCreate(
@@ -110,22 +97,7 @@ public function user_list(Request $request)
         
 
 
-        // if ($user) {
-        //     $user->delete();
-        //     return Response()->json([
-        //         'status' => 200,
-        //         'message' => 'User Deleted Successfully.'
-        //     ]);
-        // }
     }
-
-    /* Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-   
 
 
     /**
@@ -166,7 +138,6 @@ public function user_list(Request $request)
 
 
 
-    //user list using Yajra
-
+    
     
 }

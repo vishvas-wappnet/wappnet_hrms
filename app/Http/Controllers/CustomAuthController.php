@@ -155,14 +155,6 @@ class CustomAuthController extends Controller
 
         return 'mail send succefully.';
 
-
-
-        //  Mail::to($request->email)->send(new ResetPassword($user->name, $token));
-        //  Notification::queue($user ,new ResetPassword($user->name, $token));
-        // if(Mail::failures() != 0) {
-        //     return back()->with('success', 'Success! password reset link has been sent to your email'); //password reset link----------------------------
-        // }
-        // return back()->with('failed', 'Failed! there is some issue with email provider');
     }
 
     /**

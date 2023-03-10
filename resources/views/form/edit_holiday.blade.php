@@ -2,16 +2,13 @@
 @section('main_section')
     @include('layouts.header')
 
-
-
-
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                     <h4 class="page-title">Edit Holiday</h4>
                 </div>
-               
+
             </div>
             <!-- Row -->
             <div class="row">
@@ -25,53 +22,52 @@
                             </div>
                         </div>
                         <div class="modal-body">
-                            <form action="{{Route('holiday.edit.action')}}" id="Holidayform"  method="post" name="Holidayform" class="form-horizontal"
-                                method="POST" enctype="multipart/form-data">
+                            <form action="{{ Route('holiday.edit.action') }}" id="Holidayform" method="post"
+                                name="Holidayform" class="form-horizontal" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden"  name="id" id="id">
+                                <input type="hidden" name="id" id="id">
                                 <div class="form-group">
                                     <label for="title" class="col-sm-2 ">Title</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="title" name="title"
-                                        value="{{$holiday->title}}" maxlength="50" required>
+                                            value="{{ $holiday->title }}" maxlength="50" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="input-daterange input-group" id="date-range">
-                                        <input type="date" class="form-control" name="start_date" value="{{$holiday->start_date}}" required />
+                                        <input type="date" class="form-control" name="start_date"
+                                            value="{{ $holiday->start_date }}" required />
                                         <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                        <input type="date" class="form-control" name="end_date"  value="{{$holiday->end_date}}" required/>
+                                        <input type="date" class="form-control" name="end_date"
+                                            value="{{ $holiday->end_date }}" required />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="name" class="col-sm-2 ">Year</label>
                                     <div class="col-sm-12">
-                                        <input type="number" placeholder="YYYY" min="2023" name="year" value="{{$holiday->year}}" required>
+                                        <input type="number" placeholder="YYYY" min="2023" name="year"
+                                            value="{{ $holiday->year }}" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                       <input type="checkbox" id="vehicle1" name="isoptional" value="yes">Is Optional 
+                                        <input type="checkbox" id="vehicle1" name="isoptional" value="yes">Is Optional
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary" id="btn-save" >
+                                        <button type="submit" class="btn btn-primary" id="btn-save">
                                             Submmit
                                         </button>
                                         <button type="reset" class="btn btn-primary" id="btn-save">
                                             Cancel
                                         </button>
-
                                     </div>
                                 </div>
-
-                                
                         </div>
                     </div>
                 </div>
