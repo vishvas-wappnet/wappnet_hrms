@@ -60,13 +60,14 @@ Route::group(['middleware' => "auth"], function () {
         Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
 
 
-
-
-        // {{ Route('test.page') }}    
-
-        Route::get('/test' , [HolidayController::class,'index'])->name('test.page');
-        Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
-        Route::post('/holidays/save', [HolidayController::class, 'saveRecord'])->name('holiday.save');
+        //TESTING PAGE
+        Route::get('/test',[HolidayController::class,'index'])->name('test.page');
+           
+        //----------------------------------HOLIDAY-ROUTES--------------------------------------------
+        
+        Route::get('/holiday',[HolidayController::class,'index'])->name('holiday.index');
+        Route::get('/holidays-add',[HolidayController::class,'add_holiday'])->name('holiday.add');
+        Route::post('/holidays-add-data',[HolidayController::class,'add_holiday_actoin'])->name('holiday.addaction');
       //  Route::post('/holidays/update', [HolidayController::class, 'updateRecord'])->middleware('auth')->name('form/holidays/update');
 
        

@@ -46,11 +46,11 @@
                                 
                             </div>
                         </div>
-                                 <a class="btn btn-success" onClick="add()" href="javascript:void(0)">Add Holiday</a>
+                                 <a class="btn btn-success" onClick="add()" href="{{route('holiday.add')}}">Add Holiday</a>
                         </div>
                             
                            
-                        <table class="table table-bordered user_datatable" id="user_datatable">
+                        <table class="table table-bordered holiday_datatable" id="holiday_datatable">
                             <thead>
 
                                 <tr>
@@ -78,29 +78,50 @@
 
 
 
-            <div class="modal  " id="user-modal" aria-hidden="true">
+            <div class="modal  " id="holiday-modal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="UserModal"></h4>
+                            <h4 class="modal-title" id="HolidayModal"></h4>
                         </div>
                         <div class="modal-body">
-                            <form action="javascript:void(0)" id="Userform" name="Userform" class="form-horizontal"
+                            <form action="javascript:void(0)" id="Holidayform" name="Holidayform" class="form-horizontal"
                                 method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group">
-                                    <label for="name" class="col-sm-2 ">User Name</label>
+                                    <label for="name" class="col-sm-2 ">Title</label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            placeholder="Enter User  Name" maxlength="50" required="">
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            placeholder="Enter Holiday Title" maxlength="50" required="">
                                     </div>
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="name" class="col-sm-2 ">User Email</label>
+                                    
                                     <div class="col-sm-12">
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Enter User Email" maxlength="50" required="">
+                                        <input type="date" class="form-control" id="from_date" name="from_date"
+                                            placeholder="select date" maxlength="50" required="">
+                                         <span class="input-group-addon bg-info b-5 text-white">to</span>
+                                            <input type="date" class="form-control" id="to_date" name="end_date"
+                                            placeholder="select ending date" maxlength="50" required="">
+                                    </div>
+
+                                    {{-- <div class="input-daterange input-group" id="date-range">
+                                        <label for="name" class="col-sm-2 ">Date </label>
+                                        <input type="date" class="form-control" name="start_date" />
+                                        <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                        <input type="date" class="form-control" name="end_date" />
+                                    </div> --}}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 ">Year</label>
+                                    <div class="col-sm-12">
+                                        {{-- <input type="year" class="form-control" id="year" name="year"
+                                            placeholder="select year" maxlength="50" required=""> --}}
+
+                                            <input type="number" placeholder="YYYY" min="2023" max="2050">
                                     </div>
                                 </div>
 
@@ -139,7 +160,7 @@
     // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     //         }
 
-            var table = $('.user_datatable').DataTable({
+            var table = $('.holiday_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('holiday.index') }}",
@@ -180,38 +201,38 @@
         })
 
 
-        // $('#Userform').submit(function(e) {
-        //     e.preventDefault();
-        //     var formData = new FormData(this);
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: "{{ url('store-user') }}",
-        //         data: formData,
-        //         cache: false,
-        //         contentType: false,
-        //         processData: false,
-        //         success: (data) => {                            
-        //             $("#user-modal").modal('hide');
-        //             var oTable =  $('.user_datatable').DataTable();
-        //             // oTable.fnDraw(false);
-        //             $("#btn-save").html('Submit');
-        //             $("#btn-save").attr("disabled", false);
-        //             $('#success_message').addClass('alert alert-success');
-        //              $('#success_message').text(res.message);
-        //         },
-        //         error: function(data) {
-        //             console.log(data);
-        //         }
-        //     });
-        // });
+        $('#Holidayform').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('store-user') }}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: (data) => {                            
+                    $("#holiday-modal").modal('hide');
+                    var oTable =  $('.user_datatable').DataTable();
+                    // oTable.fnDraw(false);
+                    $("#btn-save").html('Submit');
+                    $("#btn-save").attr("disabled", false);
+                    $('#success_message').addClass('alert alert-success');
+                     $('#success_message').text(res.message);
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
 
-        // function add() 
-        // {
-        //     $('#UserForm').trigger("reset");
-        //     $('#UserModal').html("Add user");
-        //     $('#user-modal').modal('show');
-        //     $('#id').val('');
-        // }
+        function add() 
+         {
+            $('#Holidayform').trigger("reset");
+            $('#HolidayModal').html("Add Holiday");
+            $('#-modal').modal('show');
+            $('#id').val('');
+        }
 
 
 
@@ -227,8 +248,8 @@
         //         },
         //         dataType: 'json',
         //         success: function(res) {
-        //             $('#UserModal').html("Edit User");
-        //             $('#user-modal').modal('show');
+        //             $('#HolidayModal').html("Edit User");
+        //             $('#holiday-modal').modal('show');
         //             $('#id').val(res.id);
         //             $('#name').val(res.name);
         //             $('#email').val(res.email);
