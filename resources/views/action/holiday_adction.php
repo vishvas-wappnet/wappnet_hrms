@@ -1,9 +1,17 @@
 
-<a href="javascript:void(0)" id="edit-holiday" data-toggle="tooltip" onClick="editFunc({{ $id }})" data-original-title="Edit"
-    class="edit btn btn-success edit">
+
+ <form action="{{Route('holiday.edit')}}"  method="post">
+<!-- <a href="#" id="edit-holiday" data-toggle="tooltip"  data-original-title="Edit" -->
+   <button class="edit btn btn-success edit">
     Edit
-</a>
+   </button>
+<!-- </a>
 <a href="javascript:void(0)" id="delete-delete" onClick="deleteFunc({{ $id }})" data-toggle="tooltip"
     data-original-title="Delete" class="delete btn btn-danger">
     Delete
-</a>
+</a> -->
+
+</form>
+<!-- 
+
+//onClick="editFunc({{ $id }})" -->

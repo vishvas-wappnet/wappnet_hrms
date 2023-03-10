@@ -67,7 +67,11 @@ Route::group(['middleware' => "auth"], function () {
         
         Route::get('/holiday',[HolidayController::class,'index'])->name('holiday.index');
         Route::get('/holidays-add',[HolidayController::class,'add_holiday'])->name('holiday.add');
-        Route::post('/holidays-add-data',[HolidayController::class,'add_holiday_actoin'])->name('holiday.addaction');
+        Route::post('/holidays-add-action',[HolidayController::class,'add_holiday_actoin'])->name('holiday.addaction');
+        Route::get('/holidays-edit/{id}',[HolidayController::class,'holiday_edit'])->name('holiday.edit');
+        Route::post('/holidays-edit-action',[HolidayController::class,'holidate_Update_action'])->name('holiday.edit.action');
+        Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
+       
       //  Route::post('/holidays/update', [HolidayController::class, 'updateRecord'])->middleware('auth')->name('form/holidays/update');
 
        

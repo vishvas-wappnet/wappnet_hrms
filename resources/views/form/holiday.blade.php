@@ -172,12 +172,9 @@
                         data: 'title',
                         name: 'title'
                     },
+                    
                     {
-                        data: 'day',
-                        name: 'day'
-                    },
-                    {
-                        data: 'date',
+                        data: 'start_date',
                         name: 'date'
                     },
             
@@ -193,8 +190,8 @@
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
@@ -226,61 +223,8 @@
             });
         });
 
-        function add() 
-         {
-            $('#Holidayform').trigger("reset");
-            $('#HolidayModal').html("Add Holiday");
-            $('#-modal').modal('show');
-            $('#id').val('');
-        }
 
 
-
-        // function editFunc(id) {
-
-        //     // var id = id;
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "{{ route('edit.user') }}",
-        //         data: {
-        //             id: id
-        //            // _token: '{!! csrf_token() !!}'
-        //         },
-        //         dataType: 'json',
-        //         success: function(res) {
-        //             $('#HolidayModal').html("Edit User");
-        //             $('#holiday-modal').modal('show');
-        //             $('#id').val(res.id);
-        //             $('#name').val(res.name);
-        //             $('#email').val(res.email);
-                    
-        //         } ,
-                  
-        //     });
-        // }
-
-
-        // function deleteFunc(id) {
-        //     if (confirm("Delete Record?") == true) {
-        //         var id = id;
-        //         // ajax
-        //         $.ajax({
-        //             type: "post",
-        //             url: "{{ url('delete-user') }}",
-        //             data: {
-        //                 id: id, 
-        //                 _token: '{!! csrf_token() !!}'
-        //             },
-                  
-        //             dataType: 'json',
-        //                  success: function(res) {
-        //              $('#success_message').addClass('alert alert-success');
-        //              $('#success_message').text(res.message);
-
-        //         }
-        //         });
-        //     }
-        // }
     </script>
  
 
