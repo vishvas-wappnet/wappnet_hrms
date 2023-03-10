@@ -3,6 +3,8 @@
 @section('main_section')
 @include('layouts.header')
 
+
+
 {{-- 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
@@ -44,7 +46,7 @@
                                 
                             </div>
                         </div>
-                                 <a class="btn btn-success" onClick="add()" href="javascript:void(0)"> Create user</a>
+                                 <a class="btn btn-success" onClick="add()" href="javascript:void(0)">Add Holiday</a>
                         </div>
                             
                            
@@ -53,9 +55,16 @@
 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
+                                    <th>Title</th>
+                                    <th>Day</th>
+                                    <th>Date</th>
+                                    <th>Is Optiona</th>
+                                    <th>Status</th>
+                                    <th>action</th>
+                                    {{-- <th>Edit</th>
+                                    <th>Delete</th> --}}
+
+
                                 </tr>
                                 <div id="success_message"></div>
 
@@ -117,7 +126,7 @@
 
     
 
-    <script type="text/javascript">
+     <script type="text/javascript">
         jQuery(function load_data($) {
 
             $.ajaxSetup({
@@ -133,18 +142,32 @@
             var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('users.index') }}",
+                ajax: "{{ route('holiday.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'title',
+                        name: 'title'
                     },
                     {
-                        data: 'email',
-                        name: 'email'
+                        data: 'day',
+                        name: 'day'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+            
+                    {
+                        data: 'is_optional',
+                        name: 'is_optional'
+                    },
+
+                     {
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'action',
@@ -157,88 +180,88 @@
         })
 
 
-        $('#Userform').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('store-user') }}",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: (data) => {                            
-                    $("#user-modal").modal('hide');
-                    var oTable =  $('.user_datatable').DataTable();
-                    // oTable.fnDraw(false);
-                    $("#btn-save").html('Submit');
-                    $("#btn-save").attr("disabled", false);
-                    $('#success_message').addClass('alert alert-success');
-                     $('#success_message').text(res.message);
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        });
+        // $('#Userform').submit(function(e) {
+        //     e.preventDefault();
+        //     var formData = new FormData(this);
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "{{ url('store-user') }}",
+        //         data: formData,
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false,
+        //         success: (data) => {                            
+        //             $("#user-modal").modal('hide');
+        //             var oTable =  $('.user_datatable').DataTable();
+        //             // oTable.fnDraw(false);
+        //             $("#btn-save").html('Submit');
+        //             $("#btn-save").attr("disabled", false);
+        //             $('#success_message').addClass('alert alert-success');
+        //              $('#success_message').text(res.message);
+        //         },
+        //         error: function(data) {
+        //             console.log(data);
+        //         }
+        //     });
+        // });
 
-        function add() 
-        {
-            $('#UserForm').trigger("reset");
-            $('#UserModal').html("Add user");
-            $('#user-modal').modal('show');
-            $('#id').val('');
-        }
+        // function add() 
+        // {
+        //     $('#UserForm').trigger("reset");
+        //     $('#UserModal').html("Add user");
+        //     $('#user-modal').modal('show');
+        //     $('#id').val('');
+        // }
 
 
 
-        function editFunc(id) {
+        // function editFunc(id) {
 
-            // var id = id;
-            $.ajax({
-                type: "GET",
-                url: "{{ route('edit.user') }}",
-                data: {
-                    id: id
-                   // _token: '{!! csrf_token() !!}'
-                },
-                dataType: 'json',
-                success: function(res) {
-                    $('#UserModal').html("Edit User");
-                    $('#user-modal').modal('show');
-                    $('#id').val(res.id);
-                    $('#name').val(res.name);
-                    $('#email').val(res.email);
+        //     // var id = id;
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "{{ route('edit.user') }}",
+        //         data: {
+        //             id: id
+        //            // _token: '{!! csrf_token() !!}'
+        //         },
+        //         dataType: 'json',
+        //         success: function(res) {
+        //             $('#UserModal').html("Edit User");
+        //             $('#user-modal').modal('show');
+        //             $('#id').val(res.id);
+        //             $('#name').val(res.name);
+        //             $('#email').val(res.email);
                     
-                } ,
+        //         } ,
                   
-            });
-        }
+        //     });
+        // }
 
 
-        function deleteFunc(id) {
-            if (confirm("Delete Record?") == true) {
-                var id = id;
-                // ajax
-                $.ajax({
-                    type: "post",
-                    url: "{{ url('delete-user') }}",
-                    data: {
-                        id: id, 
-                        _token: '{!! csrf_token() !!}'
-                    },
+        // function deleteFunc(id) {
+        //     if (confirm("Delete Record?") == true) {
+        //         var id = id;
+        //         // ajax
+        //         $.ajax({
+        //             type: "post",
+        //             url: "{{ url('delete-user') }}",
+        //             data: {
+        //                 id: id, 
+        //                 _token: '{!! csrf_token() !!}'
+        //             },
                   
-                    dataType: 'json',
-                         success: function(res) {
-                     $('#success_message').addClass('alert alert-success');
-                     $('#success_message').text(res.message);
+        //             dataType: 'json',
+        //                  success: function(res) {
+        //              $('#success_message').addClass('alert alert-success');
+        //              $('#success_message').text(res.message);
 
-                }
-                });
-            }
-        }
+        //         }
+        //         });
+        //     }
+        // }
     </script>
-
+ 
 
 @include('layouts.footer')
  @endsection 

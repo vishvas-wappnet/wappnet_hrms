@@ -218,7 +218,7 @@
        <div class="user-profile">
         <div class="dropdown user-pro-body">
           <div><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"></div>
-          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave Gection <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}} <span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
                 <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
                 <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
@@ -243,7 +243,7 @@
         </li>
         
         <li class="nav-small-cap m-t-10">--- Main Menu</li>
-        <li> <a href="{{ url('/dashboard')}} class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+        <li> <a href="{{ url('/dashboard')}}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
           <ul class="nav nav-second-level">
             <li> <a href="index.html">Minimalistic</a> </li>
             <li> <a href="index2.html">Demographical</a> </li>
