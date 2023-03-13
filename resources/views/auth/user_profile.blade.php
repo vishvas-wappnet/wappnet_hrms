@@ -33,7 +33,7 @@
                 </div>
                        
                 </div>
-              <form action="{{route('profile_update')}}" method="POST">
+              <form action="{{route('profile.update')}}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="name"><strong>Name:</strong></label>

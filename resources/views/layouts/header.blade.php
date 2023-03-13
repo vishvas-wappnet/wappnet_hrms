@@ -30,10 +30,8 @@
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-19175540-9', 'auto');
   ga('send', 'pageview');
-
 </script>
 </head>
 <body class="fix-sidebar fix-header">
@@ -220,9 +218,8 @@
           <div><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"></div>
           <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}} <span class="caret"></span></a>
               <ul class="dropdown-menu animated flipInY">
-                <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                <li><a href="{{ route('profile.update') }}"><i class="ti-user"></i> My Profile</a></li>
+               
                 <li role="separator" class="divider"></li>
                 <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                 <li><a href="{{ route('change-password') }}"><i class="ti-settings"></i> Change Password</a></li>
@@ -241,16 +238,95 @@
             </span> </div>
           <!-- /input-group -->
         </li>
-        
-        <li class="nav-small-cap m-t-10">--- Main Menu</li>
-        <li> <a href="{{ url('/dashboard')}}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
-          <ul class="nav nav-second-level">
-            <li> <a href="index.html">Minimalistic</a> </li>
-            <li> <a href="index2.html">Demographical</a> </li>
-            <li> <a href="index3.html">Analitical</a> </li>
-            <li> <a href="index4.html">Simpler</a> </li>
-          </ul>
-        </li>
+
+
+
+        <ul class="nav" id="side-menu">
+          <li class="sidebar-search hidden-sm hidden-md hidden-lg">
+            <!-- input-group -->
+            <div class="input-group custom-search-form">
+              <input type="text" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="button"> <i class="fa fa-search"></i> </button>
+              </span> </div>
+            <!-- /input-group -->
+          </li>
+          
+          <li class="nav-small-cap m-t-10">--- Main Menu</li>
+          <li> <a href="{{ url('/dashboard')}}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+            <ul class="nav nav-second-level">
+              <li> <a href="{{ Route('users.index') }}">Users</a> </li>
+              <li> <a href="{{ Route('holiday.index') }}">Holiday</a> </li>
+              <li> <a href="index4.html">Simpler</a> </li>
+            </ul>
+          </li>
+  
+          <li><a href="#" class=" dropdown-toggle u-dropdown waves-effect  " data-toggle="dropdown"
+            role="button" aria-haspopup="true" aria-expanded="false">
+            <i data-icon="6"  class="fa fa-cogs"></i> <span class="hide-menu">General<span
+                    class="fa arrow"></span></span></a>
+        <ul class="dropdown-menu animated flipInY">
+  
+          
+          <li><a href="users"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>
+            Users</a></li>
+    <li><a href="#"><i class="fa fa fa-fort-awesome" data-icon="v"></i> Company</a>
+    </li>
+    <li><a href="#" class="waves-effect"><i class="fa fa-sitemap" data-icon="v"></i>
+            Department</a></li>
+    <li><a href="#" class="waves-effect"><i class="fa fa-envelope" data-icon="e"></i>
+            Email Format</a></li>
+    <li><a href="calander" class="waves-effect"><i class="fa fa-file-video-o"
+                data-icon="2"></i> Calander</a></li>
+    <li><a href="#" class="waves-effect"><i class="fa icon-key" data-icon="2"></i>
+            Role</a></li>
+    <li><a href="#" class="waves-effect"><i class="fa fa-key" data-icon="2"></i>
+            Special Module permision</a></li>
+  </ul>
+  </li>
+  
+  
+  <li> <a href="#" class="waves-effect"><i data-icon="/" class="ti-announcement"></i>
+    <span class="hide-menu">Announcement</span></a>
+  
+  </li>
+  
+  
+  <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="icon-rocket"></i> <span
+    class="hide-menu">Asset<span class="fa arrow"></span></span></a>
+  <ul class="nav nav-second-level">
+  <!-- asset pages -->
+  </ul>
+  </li>
+  
+    <li> <a href="#" class="waves-effect"><i data-icon="&#xe008;"
+                              class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Attendance
+                              Menagment<span class="fa arrow"></span></span></a>
+                      <!-- attendance menagment pages -->
+                  </li>
+                  <li> <a href="#" class="waves-effect"><i data-icon="&#xe006;" class="fa fa-institution"></i>
+                          <span class="hide-menu">Check Menagment<span class="fa arrow"></span></span></a>
+                      <ul class="nav nav-second-level">
+                          <!-- check menagment pages -->
+                      </ul>
+                  </li>
+                  <li> <a href="#" class="waves-effect"><i data-icon="O" class="fa fa-file"></i>
+                          <span class="hide-menu">Company Document</span></span></a>
+                  </li>
+  
+                  <li><a href="#" class=" dropdown-toggle u-dropdown waves-effect" data-toggle="dropdown"
+                          role="button" aria-haspopup="true" aria-expanded="false">
+                          <i data-icon="6"class="icon-user"></i> <span class="hide-menu">Users<span
+                                  class="fa arrow"></span></span></a>
+                      <ul class="dropdown-menu animated flipInY">
+                          <li><a href="changepassword"><i class="fa fa-key" aria-hidden="true"data-icon="!"></i>
+                                  Change password</a></li>
+                          <li><a href="userprofile"><i class="fas fa-user-edit"></i> Update Profile</a></li>
+                          <li><a href="users"><i class="fa fa-table" aria-hidden="true" data-icon="v"></i> View
+                                  User table</a></li>
+  
+  </ul>
+  </li>
         <li><a href="inbox.html" class="waves-effect active"><i data-icon=")" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Apps<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">New</span></span></a>
           <ul class="nav nav-second-level">
             <li><a href="chat.html">Chat-message</a></li>
@@ -394,7 +470,8 @@
                 <li> <a href="javascript:void(0)">Third Level Item</a> </li>
                 <li> <a href="javascript:void(0)">Third Level Item</a> </li>
                 <li> <a href="javascript:void(0)">Third Level Item</a> </li>
-              </ul>
+       
+       </ul>
             </li>
           </ul>
         </li>
@@ -406,3 +483,4 @@
       </ul>
     </div>
   </div>
+

@@ -49,9 +49,7 @@ class UserController extends Controller
         }
 
         public function add_user_action(Request $request)
-        {
-
-            
+        {            
             $request->validate([
                 'name' => 'required',
                 'password' => 'required|min:6',
@@ -115,9 +113,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-       // $user = User::where($where)->first();
         return view('users.edit_user', compact('user'));
-        // return Response()->json($user);
+      
     }
 
     
@@ -133,7 +130,7 @@ class UserController extends Controller
          ]);
         $user = User::find($request->id);
         $user->name = $request['name'];
-        $user->email = $request['email'];
+        $user->email = $request['email'];//store condition
         $user->save();
         return redirect("view_users")->withSuccess('User Updates Successfully');
         }
