@@ -224,7 +224,7 @@
                 <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                 <li><a href="{{ route('change-password') }}"><i class="ti-settings"></i> Change Password</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-power-off"></i> Logout</a></li>
+                <li><a href="{{route('signout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
               </ul>
         </div>
       </div>
@@ -252,7 +252,7 @@
             <!-- /input-group -->
           </li>
           
-          <li class="nav-small-cap m-t-10">--- Main Menu</li>
+          <li class="nav-small-cap m-t-10"> Main Menu</li>
           <li> <a href="{{ url('/dashboard')}}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
             <ul class="nav nav-second-level">
               <li> <a href="{{ Route('users.index') }}">Users</a> </li>

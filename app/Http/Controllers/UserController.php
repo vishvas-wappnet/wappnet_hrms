@@ -130,7 +130,7 @@ class UserController extends Controller
          ]);
         $user = User::find($request->id);
         $user->name = $request['name'];
-        $user->email = $request['email'];//store condition
+        $user->email = $request['email'];//store condition      
         $user->save();
         return redirect("view_users")->withSuccess('User Updates Successfully');
         }

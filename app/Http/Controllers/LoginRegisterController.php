@@ -38,9 +38,7 @@ class LoginRegisterController extends Controller
 
     }
 
-
     //function for registration 
-
     public function registration() 
     {
         return view('auth.register'); //registration

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginRegisterRepostoryController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -13,11 +14,11 @@ use App\Http\Controllers\ForgotPasswordController;
 
     //----------------------------------guest middleware ---login not required-------------------------------------------
     Route::group(['middleware' => "guest"], function () {
-        Route::get('/', [LoginRegisterController::class, 'index']);
-        Route::get('login', [LoginRegisterController::class, 'index'])->name('login');
-        Route::post('custom-login', [LoginRegisterController::class, 'customLogin'])->name('login.custom');
-        Route::get('registration', [LoginRegisterController::class, 'registration'])->name('register-user');
-        Route::post('custom-registration', [LoginRegisterController::class, 'customRegistration'])->name('register.custom');
+        // Route::get('/', [LoginRegisterController::class, 'index']);
+        // Route::get('login', [LoginRegisterController::class, 'index'])->name('login');
+        // Route::post('custom-login', [LoginRegisterController::class, 'customLogin'])->name('login.custom');
+        // Route::get('registration', [LoginRegisterController::class, 'registration'])->name('register-user');
+        // Route::post('custom-registration', [LoginRegisterController::class, 'customRegistration'])->name('register.custom');
 
         //-----------------------------------------Mail forgot password------------------------------------------------
         Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
@@ -65,8 +66,13 @@ Route::group(['middleware' => "auth"], function ()
         Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
         Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
 
-        //TESTING PAGE
-        Route::get('/test',[HolidayController::class,'index'])->name('test.page');
-           
+    
+        Route::get('/repo', [LoginRegisterRepostoryController::class,'index']);
+        Route::get('login', [LoginRegisterRepostoryController::class, 'index'])->name('login');
+        Route::post('login', [LoginRegisterRepostoryController::class, 'custom_login'])->name('login.custom');
+        Route::get('registration', [LoginRegisterRepostoryController::class, 'registration'])->name('register-user');
+        Route::post('custom-registration', [LoginRegisterRepostoryController::class, 'customRegistration'])->name('register.custom');
+
+       
       
      
