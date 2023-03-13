@@ -15,6 +15,10 @@ class Holiday extends Model
         'day',
         'date',
         'is_optional',
-        'status'
+        'status',
+        'start_date',
+        'end_date',
+        'year'
+
     ];
 }

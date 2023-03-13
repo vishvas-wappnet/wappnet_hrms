@@ -24,20 +24,15 @@
       <!-- Row -->
       <div class="row">
           <div class="col-sm-12">
-              <div class="white-box">
-                  
-              @if (session()->has('status'))
-                  <div class="alert alert-success" role="alert">
-                      {{ session()->get('status') }}
-                  </div>
-              @endif
-              @if (session()->has('Success'))
-                  <div class="alert alert-success" role="alert">
-                      {{ session()->get('Success') }}
-                  </div>
-              @endif 
-
-
+            <div class="col-sm-12">
+                <div class="white-box">
+                <div class="row">
+                    <div>
+                        @include('layouts.partial.messages')
+                </div>
+                </div>
+                       
+                </div>
               <form action="{{route('profile_update')}}" method="POST">
                 @csrf
                 <div class="form-group">

@@ -42,20 +42,20 @@
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
       <div class="top-left-part"><a class="logo" href="index.html"><b><!--This is dark logo icon--><img src="../plugins/images/eliteadmin-logo.png" alt="home" class="dark-logo" /><!--This is light logo icon--><img src="../plugins/images/eliteadmin-logo-dark.png" alt="home" class="light-logo" /></b><span class="hidden-xs"><!--This is dark logo text--><img src="../plugins/images/eliteadmin-text.png" alt="home" class="dark-logo" /><!--This is light logo text--><img src="../plugins/images/eliteadmin-text-dark.png" alt="home" class="light-logo" /></span></a></div>
       <ul class="nav navbar-top-links navbar-left hidden-xs">
-        <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
+        {{-- <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
 
 
-        <li>
-
+        <li> --}}
+{{-- 
           <form role="search" class="app-search hidden-xs">
             <input type="text" placeholder="Search..." class="form-control">
             <a href=""><i class="fa fa-search"></i></a>
 
-      
+       --}}
           </form>
         </li>
       </ul>
-      <ul class="nav navbar-top-links navbar-right pull-right">
+      {{-- <ul class="nav navbar-top-links navbar-right pull-right">
         <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
           <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
           </a>
@@ -87,10 +87,10 @@
                 </a> </div>
             </li>
             <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
-          </ul>
+          </ul> --}}
           <!-- /.dropdown-messages -->
         </li>
-        <!-- /.dropdown -->
+        {{-- <!-- /.dropdown -->
         <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-note"></i>
           <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
           </a>
@@ -135,8 +135,8 @@
           </ul>
           <!-- /.dropdown-tasks -->
         </li>
-        <!-- /.dropdown -->
-        <!-- .Megamenu -->
+        <!-- /.dropdown --> --}}
+        {{-- <!-- .Megamenu -->
         <li class="mega-dropdown">
           <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><span class="hidden-xs">Mega</span> <i class="icon-options-vertical"></i></a>
           <ul class="dropdown-menu mega-dropdown-menu animated bounceInDown">
@@ -204,8 +204,8 @@
           </ul>
         </li>
         <!-- /.Megamenu -->
-        
-        <li class="right-side-toggle"> <a class="waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+         --}}
+        {{-- <li class="right-side-toggle"> <a class="waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li> --}}
         <!-- /.dropdown -->
       </ul>
     </div>
@@ -225,7 +225,7 @@
                 <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                 <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="{{ route('profile_update') }}"><i class="ti-settings"></i> Account Setting</a></li>
+                <li><a href="{{ route('profile.update') }}"><i class="ti-settings"></i> Account Setting</a></li>
                  <li><a href="{{ route('change-password') }}"><i class="ti-settings"></i> Change Password</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="{{ route('signout') }}"><i class="fa fa-power-off"></i> Logout</a></li>
@@ -818,10 +818,13 @@
         </div>
       </div>
       <!-- /.right-sidebar -->
+
+
+      
     </div>
     <!-- /.container-fluid -->
 
-
+     
     <footer class="footer text-center"> 2016 &copy; Elite Admin brought to you by themedesigner.in </footer>
   </div>
   <!-- /#page-wrapper -->
@@ -854,7 +857,7 @@
   
    $(document).ready(function() {
       $.toast({
-        heading: 'Welcome to HRMS admin',
+        heading:'Welcome to HRMS admin',
         text: 'Use the predefined ones, or specify a custom position object.',
         position: 'top-right',
         loaderBg:'#ff6849',

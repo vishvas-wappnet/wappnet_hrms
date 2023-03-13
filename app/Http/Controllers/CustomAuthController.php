@@ -92,12 +92,7 @@ class CustomAuthController extends Controller
         return Redirect('login');
     }
 
-
-
     //forgot pass implementaion 
-
-
-
 
     public function forgotPassword()
     {
@@ -118,15 +113,6 @@ class CustomAuthController extends Controller
         }
         return redirect()->route('forgot-password')->with('failed', 'Password reset link is expired');
     }
-
-
-
-
-    //reset password Queue 
-
-
-
-
 
     //sendemail job 
     //resetpasssword mail
@@ -273,7 +259,8 @@ class CustomAuthController extends Controller
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->save();
-        return back()->with('message', 'Profile Updated');
+        // return back()->with('message', 'Profile Updated');
+        return redirect("profile_update")->withSuccess('User Updated Successfully');
     }
 
 }

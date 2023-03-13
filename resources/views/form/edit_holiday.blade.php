@@ -14,8 +14,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="white-box">
-
-
                         <div class="row">
                             <div id="success_message">
                                 @include('layouts.partial.messages')
@@ -25,7 +23,7 @@
                             <form action="{{ Route('holiday.edit.action') }}" id="Holidayform" method="post"
                                 name="Holidayform" class="form-horizontal" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="id" id="id"  value="{{$holiday->id}}">
                                 <div class="form-group">
                                     <label for="title" class="col-sm-2 ">Title</label>
                                     <div class="col-sm-12">

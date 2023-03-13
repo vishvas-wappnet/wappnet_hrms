@@ -1,4 +1,5 @@
 
+
 @extends('layouts.main') 
 @section('main_section')
 @include('layouts.header')
@@ -35,16 +36,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-
-
                         <div class="row">
-                               
                             <div id="success_message">
-                                @include('layouts.partial.messages')
-                                
-                            </div>
+                                @include('layouts.partial.messages') 
                         </div>
-                                 <a class="btn btn-success" onClick="add()" href="javascript:void(0)"> Create user</a>
+                        </div>
+                                 <a class="btn btn-success" onClick="add()" href="{{route('add.user')}}"> Create user</a>
                         </div>
                             
                            
@@ -119,18 +116,13 @@
 
     <script type="text/javascript">
         jQuery(function load_data($) {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-    //         var headers = {
-    // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         }
-
-            var table = $('.user_datatable').DataTable({
+         var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('users.index') }}",
@@ -155,67 +147,7 @@
                 ]
             });
         })
-
-
-        $('#Userform').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('store-user') }}",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: (data) => {                            
-                    $("#user-modal").modal('hide');
-                    var oTable =  $('.user_datatable').DataTable();
-                    // oTable.fnDraw(false);
-                    $("#btn-save").html('Submit');
-                    $("#btn-save").attr("disabled", false);
-                    $('#success_message').addClass('alert alert-success');
-                     $('#success_message').text(res.message);
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        });
-
-        function add() 
-        {
-            $('#UserForm').trigger("reset");
-            $('#UserModal').html("Add user");
-            $('#user-modal').modal('show');
-            $('#id').val('');
-        }
-
-
-
-        function editFunc(id) {
-
-            // var id = id;
-            $.ajax({
-                type: "GET",
-                url: "{{ route('edit.user') }}",
-                data: {
-                    id: id
-                   // _token: '{!! csrf_token() !!}'
-                },
-                dataType: 'json',
-                success: function(res) {
-                    $('#UserModal').html("Edit User");
-                    $('#user-modal').modal('show');
-                    $('#id').val(res.id);
-                    $('#name').val(res.name);
-                    $('#email').val(res.email);
-                    
-                } ,
-                  
-            });
-        }
-
-
+       
         function deleteFunc(id) {
             if (confirm("Delete Record?") == true) {
                 var id = id;
@@ -232,7 +164,6 @@
                          success: function(res) {
                      $('#success_message').addClass('alert alert-success');
                      $('#success_message').text(res.message);
-
                 }
                 });
             }

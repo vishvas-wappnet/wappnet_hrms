@@ -2,32 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Auth;
 use Session;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
-
 use DataTables;
-
-
-//use App\DatatTables\UserDataTable;
-
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class UserController extends Controller
 {
-   
 
-
-public function user_list(Request $request)
+    public function user_list(Request $request)
     {
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')->get();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn("action", 'action.user_action')
+                ->addColumn("action", '<form action="" method="post">
+                 @csrf
+                 @method("EDIT")
+                 <a href="{{route("edit.user",$id)}}" id="edit-user" data-toggle="tooltip"  data-original-title="Edit"
+                class="edit btn btn-success edit">
+                    Edit
+                    </a>
+                 @method("DELETE")                
+                <a  href="{{route("delete.user",$id)}}" id="delet-user" title="Delete" data-toggle="tooltip"  data-original-title="delete"
+                class="delete btn btn-danger edit">Delete
+                </a>    
+                   </form>')
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -35,6 +40,44 @@ public function user_list(Request $request)
 
         return view('users.users_li');
     }
+
+
+
+    public function add_user()
+        {
+            return view('users.add_user');
+        }
+
+        public function add_user_action(Request $request)
+        {
+
+            
+            $request->validate([
+                'name' => 'required',
+                'password' => 'required|min:6',
+                'email' => 'required|email:rfc,dns|unique:users'
+            ]);
+          
+            $data = $request->all();
+           
+            $check = $this->create($data);
+            if ($check == true) {
+                return redirect("add-user")->withSuccess('User Added Successfully.');
+            }
+    
+        }
+
+            public function create(array $data)
+            {
+        
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password'])
+                ]);
+        
+            }
+        
 
     /**
      * Show the form for creating a new resource.
@@ -49,7 +92,7 @@ public function user_list(Request $request)
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
 
     /**
      * Display the specified resource.
@@ -69,35 +112,31 @@ public function user_list(Request $request)
      * @return \Illuminate\Http\Response
      */
 
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $where = array('id' => $request->id);
-        $user = User::where($where)->first();
-
-        return Response()->json($user);
+        $user = User::find($id);
+       // $user = User::where($where)->first();
+        return view('users.edit_user', compact('user'));
+        // return Response()->json($user);
     }
 
+    
 
-    public function store(Request $request) 
+
+    public function store(Request $request)
     {
+        //validation rules
 
-        $user = $request->id;
-        if ($user)
-         {
-            $user = User::updateOrCreate(
-                ['email' => request('email')],
-                ['name' => request('name')]
-            );
-
-            return Response()->json([
-                'status' => 200,
-                'message' => 'User Updated Successfully.' ]);
-
+         $request->validate([
+             'name' => 'required|min:4|string|max:255',
+            'email' => 'required|email|string|max:255'
+         ]);
+        $user = User::find($request->id);
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->save();
+        return redirect("view_users")->withSuccess('User Updates Successfully');
         }
-        
-
-
-    }
 
 
     /**
@@ -117,7 +156,6 @@ public function user_list(Request $request)
      */
 
 
-
     public function destroy(Request $request)
     {
 
@@ -125,19 +163,11 @@ public function user_list(Request $request)
 
         $user = User::where('id', $request->id);
         //return Response()->json($user);
+        $user->delete();
+        return redirect("view_users")->withSuccess('User deleted Successfully');
 
-
-        if ($user) {
-            $user->delete();
-            return Response()->json([
-                'status' => 200,
-                'message' => 'User Deleted Successfully.'
-            ]);
-        }
+        
     }
 
 
-
-    
-    
 }

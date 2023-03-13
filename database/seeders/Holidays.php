@@ -14,6 +14,6 @@ class Holidays extends Seeder
      */
     public function run()
     {
-        Holiday::factory(20)->create();
+       // Holiday::factory(20)->create();
     }
 }
