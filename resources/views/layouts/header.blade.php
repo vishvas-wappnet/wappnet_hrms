@@ -255,7 +255,7 @@
           <li class="nav-small-cap m-t-10"> Main Menu</li>
           <li> <a href="{{ url('/dashboard')}}" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> Dashboard <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
             <ul class="nav nav-second-level">
-              <li> <a href="{{ Route('users.index') }}">Users</a> </li>
+              {{-- <li> <a href="{{ Route('users.index') }}">Users</a> </li> --}}
               <li> <a href="{{ Route('holiday.index') }}">Holiday</a> </li>
               <li> <a href="index4.html">Simpler</a> </li>
             </ul>
@@ -268,8 +268,8 @@
         <ul class="dropdown-menu animated flipInY">
   
           
-          <li><a href="users"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>
-            Users</a></li>
+            <li><a href="{{Route('users.index')}}"><i class="linea-icon linea-basic fa-fw" data-icon="!"></i>  
+             Users</a></li>
     <li><a href="#"><i class="fa fa fa-fort-awesome" data-icon="v"></i> Company</a>
     </li>
     <li><a href="#" class="waves-effect"><i class="fa fa-sitemap" data-icon="v"></i>

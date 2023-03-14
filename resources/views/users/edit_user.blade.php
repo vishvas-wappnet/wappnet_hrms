@@ -31,8 +31,8 @@
 
                     </div>
                 </div>
-                <form action="{{ route('users.store') }}" method="POST">
-                    
+                <form action="{{ route('users.store') }}" method="post">
+                    @method('put')
                     <div class="form-group">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" id="id"  value="{{$user->id}}">

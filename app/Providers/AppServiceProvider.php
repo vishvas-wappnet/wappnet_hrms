@@ -18,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //Schema::defaultstringLength(191);  
+        //Schema::defaultstringLength(191);
+        $this->app->bind(LoginRegisterRepositoryInterface::class, LoginRegisterRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);  
     }
 
     /**

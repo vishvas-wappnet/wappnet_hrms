@@ -1,5 +1,4 @@
 
-
 @extends('layouts.main') 
 @section('main_section')
 @include('layouts.header')
@@ -121,7 +120,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
          var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,

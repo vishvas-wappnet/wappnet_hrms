@@ -21,7 +21,7 @@ class LoginRegisterRepostoryController extends Controller
 {
 
     
-    private  $LoginRegisterrepostory;  
+    private   $LoginRegisterrepostory;  
 
     public function __construct(LoginRegisterRepository $LoginRegisterrepostory) 
     {
