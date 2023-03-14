@@ -56,7 +56,7 @@
                 @endif
 
                 <form class="form-horizontal form-material" name="form" id="loginform" method="post"
-                    action="{{ Route('register.custom') }}">
+                    action="{{ Route('register.action') }}">
                     <h3 class="box-title m-b-20">Sign In</h3>
 
                     <div class="mt-2">

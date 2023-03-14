@@ -67,11 +67,12 @@ Route::group(['middleware' => "auth"], function ()
         Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
 
     
-        Route::get('/repo', [LoginRegisterRepostoryController::class,'index']);
-        Route::get('login', [LoginRegisterRepostoryController::class, 'index'])->name('login');
+       // Route::get('/repo', [LoginRegisterRepostoryController::class,'index']);
+        Route::get('/login', [LoginRegisterRepostoryController::class, 'index'])->name('login');
+        Route::get('/', [LoginRegisterRepostoryController::class, 'index']);
         Route::post('login', [LoginRegisterRepostoryController::class, 'custom_login'])->name('login.custom');
         Route::get('registration', [LoginRegisterRepostoryController::class, 'registration'])->name('register-user');
-        Route::post('custom-registration', [LoginRegisterRepostoryController::class, 'customRegistration'])->name('register.custom');
+        Route::post('registration', [LoginRegisterRepostoryController::class, 'registration_action'])->name('register.action');
 
        
       

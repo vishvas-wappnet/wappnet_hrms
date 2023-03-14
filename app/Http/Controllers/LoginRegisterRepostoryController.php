@@ -48,7 +48,27 @@ class LoginRegisterRepostoryController extends Controller
 
     }
 
-
+        //registration
+       public function registration()
+        {
+            return view('auth.register'); //registration
+        }
+         //registration  action 
+        public function registration_action(Request $request)
+        { 
+            $request->validate([
+                'name' => 'required',
+                'password' => 'required|min:6',
+                'email' => 'required|email:rfc,dns|unique:users'
+            ]);
+    
+            $data = $request->all();
+             $this->LoginRegisterrepostory->registration_action($data);
+             return view('auth.login');; 
+        }
+            
+    
+        
 	/**
 	 * @return LoginRegisterRepositoryInterface
 	 */
