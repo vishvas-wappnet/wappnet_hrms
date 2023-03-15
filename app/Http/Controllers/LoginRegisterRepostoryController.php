@@ -15,67 +15,75 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 use App\Interfaces\LoginRegisterRepositoryInterface;
 use Illuminate\Http\Response;
-use  App\Repositories\LoginRegisterRepository;
+use App\Repositories\LoginRegisterRepository;
 
 class LoginRegisterRepostoryController extends Controller
 {
 
-    
-    private   $LoginRegisterrepostory;  
 
-    public function __construct(LoginRegisterRepository $LoginRegisterrepostory) 
+    private $LoginRegisterrepostory;
+
+    public function __construct(LoginRegisterRepository $LoginRegisterrepostory)
     {
         $this->LoginRegisterrepostory = $LoginRegisterrepostory;
     }
-    
-     public function index()
-        {
-            return view('auth.login');
-        }
 
-        
-        public function custom_login(Request $request)
-        
-    {   
+    public function index()
+    {
+        return view('auth.login');
+    }
+
+
+    public function custom_login(Request $request)
+    {
         $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
         $credentials = $request->only('email', 'password');
-        $credentials = $this->LoginRegisterrepostory->custom_login($credentials);
-        return view('dashboard');
+        // $this->LoginRegisterrepostory->custom_login($credentials);
+
+        if (Auth::attempt($credentials)) {
+
+            return redirect()->intended('dashboard')->withSuccess('Signed in');
+        } else {
+            return redirect("login")->withSuccess('Login details are not valid');
+        }
+
+       // return view('dashboard');
 
 
     }
 
-        //registration
-       public function registration()
-        {
-            return view('auth.register'); //registration
-        }
-         //registration  action 
-        public function registration_action(Request $request)
-        { 
-            $request->validate([
-                'name' => 'required',
-                'password' => 'required|min:6',
-                'email' => 'required|email:rfc,dns|unique:users'
-            ]);
-    
-            $data = $request->all();
-             $this->LoginRegisterrepostory->registration_action($data);
-             return view('auth.login');; 
-        }
-            
-    
-        
-	/**
-	 * @return LoginRegisterRepositoryInterface
-	 */
-	
+    //registration
+    public function registration()
+    {
+        return view('auth.register'); //registration
+    }
+    //registration  action 
+    public function registration_action(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required|min:6',
+            'email' => 'required|email:rfc,dns|unique:users'
+        ]);
 
-	/**
-	 * @param LoginRegisterRepositoryInterface $LoginRegisterrepostory 
-	 * @return self
-	 */
+        $data = $request->all();
+        $this->LoginRegisterrepostory->registration_action($data);
+        return view('auth.login');
+        ;
+    }
+
+
+
+/**
+ * @return LoginRegisterRepositoryInterface
+ */
+
+
+/**
+ * @param LoginRegisterRepositoryInterface $LoginRegisterrepostory 
+ * @return self
+ */
 }

@@ -19,15 +19,7 @@ class LoginRegisterRepository implements LoginRegisterRepositoryInterface
 
 
     //login  credentials is password & email
-    public function custom_login($credentials)
-    {
-        if (Auth::attempt($credentials)) {
-
-            return redirect()->intended('dashboard')->withSuccess('Signed in');
-        } else {
-            return redirect("login")->withSuccess('Login details are not valid');
-        }
-    }
+  
     //registration action method
     public function registration_action($data)
         {

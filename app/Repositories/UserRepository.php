@@ -14,6 +14,7 @@ use DataTables;
 class UserRepository implements UserRepositoryInterface
 {
 
+    //this method will return list of users
     public function user_index()
     {
         $user = User::all();
@@ -47,12 +48,9 @@ class UserRepository implements UserRepositoryInterface
 
     public function user_edit_action($user)
     {
-
         $data = User::find($user->id);
-
         $data->name = $user['name'];
         $data->email = $user['email']; //store condition  
-
         $data->save();
     }
 

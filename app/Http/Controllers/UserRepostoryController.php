@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+
+use Redirect;
 use DataTables;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\Type\VoidType;
+use Illuminate\Http\RedirectResponse;
 use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Support\Facades\View;
 
 class UserRepostoryController extends Controller
 {
@@ -24,42 +29,32 @@ class UserRepostoryController extends Controller
     {
         $this->UserRepository = $UserRepository;
     }
-    public function index(Request $request)
+
+     /**
+     * Display a listing of the users
+     *
+     * 
+     */
+    public function index(Request $request) 
     {
 
         if ($request->ajax()) {
-
             $data = $this->UserRepository->user_index();
-
-
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn("action", '<form action="" method="post">
-                 @csrf
-                 @method("EDIT")
-                 <a href="{{route("edit.user",$id)}}" id="edit-user" data-toggle="tooltip"  data-original-title="Edit"
-                class="edit btn btn-success edit">
-                    Edit
-                    </a>
-                 @method("DELETE")                
-                <a  href="{{route("delete.user",$id)}}" id="delet-user" title="Delete" data-toggle="tooltip"  data-original-title="delete"
-                class="delete btn btn-danger edit">Delete
-                </a>    
-                   </form>')
+                ->addColumn("action","action.user_action") 
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-
         return view('users.users_li');
     }
 
 
-    public function add_user()
+    //open add  user page
+    public function add_user() 
     {
-
         return view('users.add_user');
     }
-
 
     public function add_user_action(Request $request)
     {
@@ -80,9 +75,6 @@ class UserRepostoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-
-
     public function create(array $data)
     {
 
@@ -94,7 +86,6 @@ class UserRepostoryController extends Controller
 
     }
 
-  
     //show edit user
     public function edit($id)
     {
@@ -116,24 +107,6 @@ class UserRepostoryController extends Controller
         $this->UserRepository->user_edit_action($user);
         return redirect("users")->withSuccess('User Updates Successfully');
     }
-    public function show($id)
-    {
-        //
-    }
-
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -141,12 +114,13 @@ class UserRepostoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request) : RedirectResponse
     {
 
         $data = $request;
         $this->UserRepository->user_destroy($data);
-        return redirect("users")->withSuccess('User deleted Successfully');
+       // return redirect("users")->withSuccess('User deleted Successfully');
+        return Redirect::route('users.index')->withSuccess('User deleted Successfully');
 
         
     }

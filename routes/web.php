@@ -50,22 +50,17 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('/profile_update', [CustomAuthController::class, 'view_profile_update'])->name('profile.update');
     Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profile.update.action');
 
-    // //------------------------------------------EMployee------------------------------------------
-    // Route::get('view_users',[UserController::class, 'user_list'])->name('users.index');
-    // Route::get('add-user', [UserController::class, 'add_user'])->name('add.user');
-    // Route::post('add-user', [UserController::class, 'add_user_action'])->name('add.user.action');
-    // Route::get('edit-user/{id}', [UserController::class, 'edit'])->name('edit.user');
-    // Route::post('store-user', [UserController::class, 'store'])->name('users.store');
-    // Route::get('delete-user/{id}', [UserController::class, 'destroy'])->name('delete.user');
-
+    
      //------------------------------------------EMployee------------------------------------------
-    Route::get('users', [UserRepostoryController::class, 'index'])->name('users.index');
+Route::group(['prefix' => 'users'], function()
+{
+    Route::get('/', [UserRepostoryController::class, 'index'])->name('users.index');
     Route::get('add-user', [UserRepostoryController::class, 'add_user'])->name('add.user');
     Route::post('add-user', [UserRepostoryController::class, 'add_user_action'])->name('add.user.action');
     Route::get('edit-user/{id}', [UserRepostoryController::class, 'edit'])->name('edit.user');
     Route::put('store-user', [UserRepostoryController::class, 'store'])->name('users.store');
-    Route::get('delete-user/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
- 
+    Route::get('delete/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
+});
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
     Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
     Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');
@@ -75,7 +70,9 @@ Route::group(['middleware' => "auth"], function () {
     Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
 
 });
+        
 
+// });
 //----------------------------------under testin----------------- 
 Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
 Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
