@@ -128,15 +128,16 @@ class UserRepostoryController extends Controller
     public function profile_update_action(Request $request)
     {
         //validation rules
+        $this->UserRepository->profile_update_action_repostory($request);
 
-        $request->validate([
-            'name' => 'required|min:4|string|max:255',
-            'email' => 'required|email|string|max:255'
-        ]);
-        $user = Auth::user();
-        $user->name = $request['name'];
-        $user->email = $request['email'];
-        $user->save();
+        // $request->validate([
+        //     'name' => 'required|min:4|string|max:255',
+        //     'email' => 'required|email|string|max:255'
+        // ]);
+        // $user = Auth::user();
+        // $user->name = $request['name'];
+        // $user->email = $request['email'];
+        // $user->save();
         // return back()->with('message', 'Profile Updated');
         return redirect("profile_update")->withSuccess('User Updated Successfully');
     }

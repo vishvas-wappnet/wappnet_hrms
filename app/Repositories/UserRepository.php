@@ -66,10 +66,17 @@ class UserRepository implements UserRepositoryInterface
 
 
     //profile update action method
-    // public function profile_update(Request $request)
-    //     {
-
-    //     }
+     public function profile_update_action_repostory($request)
+        {
+            $request->validate([
+                'name' => 'required|min:4|string|max:255',
+                'email' => 'required|email|string|max:255'
+            ]);
+            $user = Auth::user();
+            $user->name = $request['name'];
+            $user->email = $request['email'];
+            $user->save();
+        }
 
 
 }
