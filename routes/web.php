@@ -60,13 +60,15 @@ Route::group(['middleware' => "auth"], function () {
     });
 
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
-    Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
-    Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');
-    Route::post('/holidays-add-action', [HolidayController::class, 'add_holiday_actoin'])->name('holiday.add.action');
-    Route::get('/holidays-edit/{id}', [HolidayController::class, 'holiday_edit'])->name('holiday.edit');
-    Route::post('/holidays-edit-action', [HolidayController::class, 'holidate_Update_action'])->name('holiday.edit.action');
-    Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
-
+    Route::group(['prefix' => 'holiday'] , function()
+    {
+        Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
+        Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');
+        Route::post('/holidays-add-action', [HolidayController::class, 'add_holiday_actoin'])->name('holiday.add.action');
+        Route::get('/holidays-edit/{id}', [HolidayController::class, 'holiday_edit'])->name('holiday.edit');
+        Route::post('/holidays-edit-action', [HolidayController::class, 'holidate_Update_action'])->name('holiday.edit.action');
+        Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
+    });
 });
         
 

@@ -65,6 +65,11 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
+    //profile update action method
+    // public function profile_update(Request $request)
+    //     {
+
+    //     }
 
 
 }

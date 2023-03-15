@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Database\Seeders\Holidays;
-use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
-use App\Models\Holiday;
 use DB;
 use DataTables;
+use App\Models\Holiday;
+use Illuminate\Http\Request;
+use Database\Seeders\Holidays;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Redirect;
 
 class HolidayController extends Controller
 {
@@ -95,7 +96,8 @@ class HolidayController extends Controller
         $holiday->year = $request->input('year');
         $holiday->save();
 
-        return redirect("holiday")->withSuccess('Holiday Updated Successfully');
+        //return redirect("holiday")->withSuccess('Holiday Updated Successfully');
+        return Redirect::route('holiday.index')->withSuccess('User deleted Successfully');   
     }
 
     public function destroy(Request $request)
