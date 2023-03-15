@@ -60,7 +60,7 @@ Route::group(['middleware' => "auth"], function () {
     });
 
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
-    Route::group(['prefix' => 'holiday'] , function()
+    Route::group(['prefix' => 'holiday'] ,function()
     {
         Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
         Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');

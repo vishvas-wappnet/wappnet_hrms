@@ -21,4 +21,6 @@ class Holiday extends Model
         'year'
 
     ];
+
+    // protected $dateFormat = 'H:i:s';
 }

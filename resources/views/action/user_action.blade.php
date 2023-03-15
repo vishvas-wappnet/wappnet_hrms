@@ -1,19 +1,5 @@
 
-{{-- 
-@role('admin')
-<a href="javascript:void(0)" id="edit-user" data-toggle="tooltip" onClick="editFunc({{ $id }})" data-original-title="Edit"
-    class="edit btn btn-success edit">
-    Edit
-</a>
-<a href="javascript:void(0)" id="delete-user" onClick="deleteFunc({{ $id }})" data-toggle="tooltip"
-    data-original-title="Delete" class="delete btn btn-danger">
-    Delete
-</a>
-@endrole --}}
-
-
-
-    <a href="{{ route('edit.user',$id) }}" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-success edit">
+<a href="{{ route('edit.user',$id) }}" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-success edit">
     Edit
     </a>
     <a href="{{ route('delete.user',$id) }}" data-id="{{ $id }}" data-toggle="tooltip" data-original-title="Delete" class="delete btn btn-danger">

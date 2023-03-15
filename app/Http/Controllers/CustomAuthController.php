@@ -204,7 +204,7 @@ class CustomAuthController extends Controller
     {
         return view('auth.old_change_password');
     }
-    
+
     public function old_updatePassword(Request $request)
     {
         # Validation
@@ -232,7 +232,6 @@ class CustomAuthController extends Controller
 
 
     // profile update-----------------------------profile_update
-
 
     public function view_profile_update()
     {

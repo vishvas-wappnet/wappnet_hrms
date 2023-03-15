@@ -7,8 +7,10 @@ use DataTables;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
 use Database\Seeders\Holidays;
+use Illuminate\Support\Carbon;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Redirect;
+use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
 
 class HolidayController extends Controller
 {
@@ -16,8 +18,12 @@ class HolidayController extends Controller
     //holiday list method--
     public function index(Request $request)
     {
+
+        
+
         if ($request->ajax()) {
-            $data = Holiday::select('id', 'title', 'start_date', 'is_optional', 'status')->get();
+            $data = Holiday::select('id', 'title', 'day' , 'start_date', 'is_optional', 'status')->get();
+            
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn("action", '<form action="{{route("holiday.delete",$id)}}" method="post">
                 @csrf
@@ -36,7 +42,7 @@ class HolidayController extends Controller
                 ->make(true);
         }
 
-                return view('form.holiday');
+        return view('form.holiday');
     }
 
     //add holiday 
@@ -48,26 +54,52 @@ class HolidayController extends Controller
     //add holiday action function
     public function add_holiday_actoin(Request $request)
     {
-        $request->validate(
+        
+       
+       $request->validate(
             [
                 'title' => 'required|string|min:3',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'year' => 'required|min:4|max:4',
+                
 
             ]
         );
-
+        
+        $data = $request->all();
+       // dd($data);
         $holiday = new Holiday;
         $holiday->title = $request->input('title');
         $holiday->start_date = $request->input('start_date');
         $holiday->end_date = $request->input('end_date');
         $holiday->year = $request->input('year');
+        $holiday->is_optional =$request->input('is_optional');
+
+
+
+        if (array_key_exists('is_optional',$data )) {
+
+            $holiday->title = $request->input('title');
+            $holiday->start_date = $request->input('start_date');
+            $holiday->end_date = $request->input('end_date');
+            $holiday->year = $request->input('year');
+            $holiday->is_optional =('yes');
+            $holiday->save();
+        } else {
+
+            $holiday->title = $request->input('title');
+            $holiday->start_date = $request->input('start_date');
+            $holiday->end_date = $request->input('end_date');
+            $holiday->year = $request->input('year');
+            $holiday->is_optional =('no');
+            $holiday->save();
+        }
+        return back()->with('success', 'Holiday added');
         $holiday->save();
+        return Redirect::route('holiday.index')->withSuccess('Holiday added Successfully');
 
-        return redirect("holidays-add")->withSuccess('Holiday added Successfully');
     }
-
 
     //get holiday edit method
     public function holiday_edit($id)
@@ -96,8 +128,7 @@ class HolidayController extends Controller
         $holiday->year = $request->input('year');
         $holiday->save();
 
-        //return redirect("holiday")->withSuccess('Holiday Updated Successfully');
-        return Redirect::route('holiday.index')->withSuccess('User deleted Successfully');   
+        return Redirect::route('holiday.index')->withSuccess('User updates Successfully');
     }
 
     public function destroy(Request $request)
@@ -105,7 +136,7 @@ class HolidayController extends Controller
 
         $holiday = Holiday::where('id', $request->id);
         $holiday->delete();
-        return redirect("holiday")->withSuccess('Holiday deleted Successfully');
+        return Redirect::route('holiday.index')->withSuccess('Holiday  Deleted Successfully');
 
     }
 

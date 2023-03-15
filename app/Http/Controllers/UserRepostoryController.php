@@ -107,16 +107,35 @@ class UserRepostoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *
      */
     public function destroy(Request $request) : RedirectResponse
     {
-
+         
         $data = $request;
         $this->UserRepository->user_destroy($data);
         return Redirect::route('users.index')->withSuccess('User deleted Successfully');   
     }
+
+    // public function destroy(Redirect $request)
+    // {
+    //     dd('id');
+    //     // $user = User::where('id',$request->id)->delete();
+      
+    // //     $user = User::where('id',$id);
+    // //    //return Response()->json($user);
+
+
+    //    if($user)
+    //    {
+    //        $user->delete();
+    //        return response()->json([
+    //            'status'=>200,
+    //            'message'=>'Student Deleted Successfully.'
+    //        ]);
+    //    }
+    // }
+
 
     //view profile update page
     public function profile_update_view()
@@ -127,18 +146,8 @@ class UserRepostoryController extends Controller
     //profile update action
     public function profile_update_action(Request $request)
     {
-        //validation rules
+        
         $this->UserRepository->profile_update_action_repostory($request);
-
-        // $request->validate([
-        //     'name' => 'required|min:4|string|max:255',
-        //     'email' => 'required|email|string|max:255'
-        // ]);
-        // $user = Auth::user();
-        // $user->name = $request['name'];
-        // $user->email = $request['email'];
-        // $user->save();
-        // return back()->with('message', 'Profile Updated');
         return redirect("profile_update")->withSuccess('User Updated Successfully');
     }
 

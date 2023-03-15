@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="modal-body">
-                            <form action="{{Route('holiday.addaction')}}" id="Holidayform"  method="post" name="Holidayform" class="form-horizontal"
+                            <form action="{{Route('holiday.add.action')}}" id="Holidayform"  method="post" name="Holidayform" class="form-horizontal"
                                 method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="id" id="id">
@@ -54,7 +54,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                       <input type="checkbox" id="vehicle1" name="isoptional" value="yes">Is Optional 
+                                       <input type="checkbox" id="vehicle1" name="is_optional" value="yes">Is Optional 
                                     </div>
                                 </div>
 
@@ -70,8 +70,7 @@
 
                                     </div>
                                 </div>
-
-                                
+                                	
                         </div>
                     </div>
                 </div>

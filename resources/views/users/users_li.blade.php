@@ -82,7 +82,7 @@
 
 
         <script type="text/javascript">
-            jQuery(function load_data($) {
+            jQuery(function ($) {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -105,41 +105,19 @@
                             name: 'email'
                         },
 
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
 
-                        @role('admin')
-                            {
-
-                                data: 'action',
-                                name: 'action',
-
-                                orderable: false,
-                                searchable: false
-                            },
-                        @endrole
                     ]
                 });
             })
 
-            function deleteFunc(id) {
-                if (confirm("Delete Record?") == true) {
-                    var id = id;
-                    // ajax
-                    $.ajax({
-                        type: "post",
-                        url: "{{ url('delete-user') }}",
-                        data: {
-                            id: id,
-                            _token: '{!! csrf_token() !!}'
-                        },
 
-                        dataType: 'json',
-                        success: function(res) {
-                            $('#success_message').addClass('alert alert-success');
-                            $('#success_message').text(res.message);
-                        }
-                    });
-                }
-            }
+
         </script>
 
 
