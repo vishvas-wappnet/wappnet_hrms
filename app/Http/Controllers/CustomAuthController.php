@@ -41,7 +41,6 @@ class CustomAuthController extends Controller
 
     }
 
-
     public function registration() //registration
     {
         return view('auth.register'); //registration
@@ -205,9 +204,7 @@ class CustomAuthController extends Controller
     {
         return view('auth.old_change_password');
     }
-
-
-
+    
     public function old_updatePassword(Request $request)
     {
         # Validation

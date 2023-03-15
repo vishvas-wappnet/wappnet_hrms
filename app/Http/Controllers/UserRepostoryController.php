@@ -49,7 +49,6 @@ class UserRepostoryController extends Controller
         return view('users.users_li');
     }
 
-
     //open add  user page
     public function add_user() 
     {
@@ -69,11 +68,8 @@ class UserRepostoryController extends Controller
         return view('users.add_user');
 
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+     // creating a new resource.
 
     public function create(array $data)
     {
@@ -89,6 +85,7 @@ class UserRepostoryController extends Controller
     //show edit user
     public function edit($id)
     {
+        dd($id);
         $user = User::find($id);
         return view('users.edit_user', compact('user'));
 
@@ -118,8 +115,33 @@ class UserRepostoryController extends Controller
 
         $data = $request;
         $this->UserRepository->user_destroy($data);
-        return Redirect::route('users.index')->withSuccess('User deleted Successfully');
-
-        
+        return Redirect::route('users.index')->withSuccess('User deleted Successfully');   
     }
+
+    //view profile update page
+    public function profile_update_view()
+    {
+        return view('auth.user_profile');
+    }
+
+    //profile update action
+    public function profile_update_action(Request $request)
+    {
+        //validation rules
+
+        $request->validate([
+            'name' => 'required|min:4|string|max:255',
+            'email' => 'required|email|string|max:255'
+        ]);
+        $user = Auth::user();
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->save();
+        // return back()->with('message', 'Profile Updated');
+        return redirect("profile_update")->withSuccess('User Updated Successfully');
+    }
+
+
+
+
 }

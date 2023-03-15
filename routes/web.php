@@ -30,7 +30,7 @@ Route::group(['middleware' => "guest"], function () {
 
 });
 
-//---------------------auth middleare----login must required to accesee these routes ---------------------------------
+//---------------------auth middleare ----login must required to accesee these routes ---------------------------------
 Route::group(['middleware' => "auth"], function () {
 
     Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
@@ -41,8 +41,11 @@ Route::group(['middleware' => "auth"], function () {
     Route::post('/change-password', [UserProfileController::class, 'old_updatePassword'])->name('old_update-password');
 
     //--------------------------------profile view & update---------------------------------------------- 
-    Route::get('/profile_update', [CustomAuthController::class, 'view_profile_update'])->name('profile.update');
-    Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profile.update.action');
+    // Route::get('/profile_update', [CustomAuthController::class, 'view_profile_update'])->name('profile.update');
+    // Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profile.update.action');
+
+    Route::get('/profile_update', [UserRepostoryController::class, 'profile_update_view'])->name('profile.update');
+    Route::post('/profile_update', [UserRepostoryController::class, 'profile_update_action'])->name('profile.update.action');
 
     
         //------------------------------------------EMployee------------------------------------------
