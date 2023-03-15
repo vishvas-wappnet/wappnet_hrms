@@ -15,12 +15,6 @@ use App\Http\Controllers\ForgotPasswordController;
 
 //----------------------------------guest middleware ---login not required-------------------------------------------
 Route::group(['middleware' => "guest"], function () {
-    // Route::get('/', [LoginRegisterController::class, 'index']);
-    // Route::get('login', [LoginRegisterController::class, 'index'])->name('login');
-    // Route::post('custom-login', [LoginRegisterController::class, 'customLogin'])->name('login.custom');
-    // Route::get('registration', [LoginRegisterController::class, 'registration'])->name('register-user');
-    // Route::post('custom-registration', [LoginRegisterController::class, 'customRegistration'])->name('register.custom');
-
     Route::get('/', [LoginRegisterRepostoryController::class, 'index']);
     Route::get('/login', [LoginRegisterRepostoryController::class, 'index'])->name('login');
     Route::post('login', [LoginRegisterRepostoryController::class, 'custom_login'])->name('login.custom');
@@ -36,7 +30,7 @@ Route::group(['middleware' => "guest"], function () {
 
 });
 
-//---------------------auth middleare -  login must required to accesee these routes ---------------------------------
+//---------------------auth middleare----login must required to accesee these routes ---------------------------------
 Route::group(['middleware' => "auth"], function () {
 
     Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
@@ -51,16 +45,17 @@ Route::group(['middleware' => "auth"], function () {
     Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profile.update.action');
 
     
-     //------------------------------------------EMployee------------------------------------------
-Route::group(['prefix' => 'users'], function()
-{
-    Route::get('/', [UserRepostoryController::class, 'index'])->name('users.index');
-    Route::get('add-user', [UserRepostoryController::class, 'add_user'])->name('add.user');
-    Route::post('add-user', [UserRepostoryController::class, 'add_user_action'])->name('add.user.action');
-    Route::get('edit-user/{id}', [UserRepostoryController::class, 'edit'])->name('edit.user');
-    Route::put('store-user', [UserRepostoryController::class, 'store'])->name('users.store');
-    Route::get('delete/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
-});
+        //------------------------------------------EMployee------------------------------------------
+    Route::group(['prefix' => 'users'], function()
+    {
+        Route::get('/', [UserRepostoryController::class, 'index'])->name('users.index');
+        Route::get('add-user', [UserRepostoryController::class, 'add_user'])->name('add.user');
+        Route::post('add-user', [UserRepostoryController::class, 'add_user_action'])->name('add.user.action');
+        Route::get('edit-user/{id}', [UserRepostoryController::class, 'edit'])->name('edit.user');
+        Route::put('store-user', [UserRepostoryController::class, 'store'])->name('users.store');
+        Route::get('delete/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
+    });
+
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
     Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
     Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');

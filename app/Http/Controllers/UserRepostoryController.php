@@ -98,7 +98,6 @@ class UserRepostoryController extends Controller
     public function store(Request $request)
     {
         //validation rules
-
         $request->validate([
             'name' => 'required|min:4|string|max:255',
             'email' => 'required|email|string|max:255'
@@ -119,7 +118,6 @@ class UserRepostoryController extends Controller
 
         $data = $request;
         $this->UserRepository->user_destroy($data);
-       // return redirect("users")->withSuccess('User deleted Successfully');
         return Redirect::route('users.index')->withSuccess('User deleted Successfully');
 
         
