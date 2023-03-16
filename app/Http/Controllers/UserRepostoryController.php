@@ -30,18 +30,18 @@ class UserRepostoryController extends Controller
         $this->UserRepository = $UserRepository;
     }
 
-     /**
+    /**
      * Display a listing of the users
      *
      * 
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
 
         if ($request->ajax()) {
             $data = $this->UserRepository->user_index();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn("action","action.user_action") 
+                ->addColumn("action", "action.user_action")
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -50,7 +50,7 @@ class UserRepostoryController extends Controller
     }
 
     //open add  user page
-    public function add_user() 
+    public function add_user()
     {
         return view('users.add_user');
     }
@@ -69,7 +69,7 @@ class UserRepostoryController extends Controller
 
     }
 
-     // creating a new resource.
+    // creating a new resource.
 
     public function create(array $data)
     {
@@ -99,7 +99,7 @@ class UserRepostoryController extends Controller
             'name' => 'required|min:4|string|max:255',
             'email' => 'required|email|string|max:255'
         ]);
-         $user = $request;
+        $user = $request;
         $this->UserRepository->user_edit_action($user);
         return redirect("users")->withSuccess('User Updates Successfully');
     }
@@ -109,12 +109,12 @@ class UserRepostoryController extends Controller
      *
      *
      */
-    public function destroy(Request $request) : RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
-         
+
         $data = $request;
         $this->UserRepository->user_destroy($data);
-        return Redirect::route('users.index')->withSuccess('User deleted Successfully');   
+        return Redirect::route('users.index')->withSuccess('User deleted Successfully');
     }
 
     //view profile update page
@@ -126,12 +126,9 @@ class UserRepostoryController extends Controller
     //profile update action
     public function profile_update_action(Request $request)
     {
-        
+
         $this->UserRepository->profile_update_action_repostory($request);
         return redirect("profile_update")->withSuccess('User Updated Successfully');
     }
-
-
-
 
 }

@@ -41,38 +41,38 @@ class UserController extends Controller
     }
 
     public function add_user()
-        {
-            return view('users.add_user');
+    {
+        return view('users.add_user');
+    }
+
+    public function add_user_action(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required|min:6',
+            'email' => 'required|email:rfc,dns|unique:users'
+        ]);
+
+        $data = $request->all();
+
+        $check = $this->create($data);
+        if ($check == true) {
+            return redirect("add-user")->withSuccess('User Added Successfully.');
         }
 
-        public function add_user_action(Request $request)
-        {            
-            $request->validate([
-                'name' => 'required',
-                'password' => 'required|min:6',
-                'email' => 'required|email:rfc,dns|unique:users'
-            ]);
-          
-            $data = $request->all();
-           
-            $check = $this->create($data);
-            if ($check == true) {
-                return redirect("add-user")->withSuccess('User Added Successfully.');
-            }
-    
-        }
+    }
 
-            public function create(array $data)
-            {
-        
-                return User::create([
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'password' => Hash::make($data['password'])
-                ]);
-        
-            }
+    public function create(array $data)
+    {
 
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
+
+    }
+    /*  */
     /**
      * Show the form for editing the specified resource.
      *
@@ -84,22 +84,19 @@ class UserController extends Controller
     {
         $user = User::find($id);
         return view('users.edit_user', compact('user'));
-      
+
     }
-
-    
-
 
     public function store(Request $request)
     {
         //validation rules
-         $request->validate([
-             'name' => 'required|min:4|string|max:255',
+        $request->validate([
+            'name' => 'required|min:4|string|max:255',
             'email' => 'required|email|string|max:255'
-         ]);
+        ]);
         $user = User::find($request->id);
         $user->name = $request['name'];
-        $user->email = $request['email'];//store condition      
+        $user->email = $request['email']; //store condition      
         $user->save();
         return redirect("view_users")->withSuccess('User Updates Successfully');
     }
@@ -127,7 +124,7 @@ class UserController extends Controller
         $user = User::where('id', $request->id);
         //return Response()->json($user);
         $user->delete();
-        return redirect("view_users")->withSuccess('User deleted Successfully'); 
+        return redirect("view_users")->withSuccess('User deleted Successfully');
     }
 
 

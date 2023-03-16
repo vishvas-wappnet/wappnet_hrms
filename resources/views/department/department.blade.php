@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Holidays</h4>
+                    <h4 class="page-title">Department</h4>
                 </div>
                 </div>
             <!-- Row -->
@@ -16,30 +16,25 @@
                             @include('layouts.partial.messages')
                         </div>
                     </div>
-                    <a class="btn btn-success" onClick="add()" href="{{ route('holiday.add') }}">Add Holiday</a>
+                    <a class="btn btn-success" onClick="add()" href="{{ route('holiday.add') }}">Add Department</a>
 
                 </div>
-                <table class="table table-bordered holiday_datatable" id="holiday_datatable">
+                <table class="table table-bordered department_datatable" id="department_datatable">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
-                            <th>Day</th>
-                            <th>Start Date</th>
-                            <th>Is Optional</th>
-                            <th>Status</th>
+                            <th>Department Name</th>
                             <th>action</th>
                         </tr>
                     </thead>
                 </table>
-                <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
         </div>
     </div>
 
 
     <script type="text/javascript">
-        jQuery(function load_data($) {
+        jQuery(function ($) {
 
             $.ajaxSetup({
                 headers: {
@@ -50,39 +45,19 @@
             // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             //         }
 
-            var table = $('.holiday_datatable').DataTable({
+            var table = $('.department_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('holiday.index') }}",
+                ajax: "{{ route('department.index') }}",
                 columns: [{
+
                         data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'title',
-                        name: 'title'
+                        data: 'name',
+                        name: 'name'
                     },
-
-                    {
-                        data: 'day',
-                        name: 'date'
-                    },
-
-                    {
-                        data: 'start_date',
-                        name: 'date'
-                    },
-
-                    {
-                        data: 'is_optional',
-                        name: 'is_optional'
-                    },
-
-                    {
-                        data: 'status',
-                        name: 'status'
-                    },
-
                     {
                         data: 'action',
                         name: 'action',

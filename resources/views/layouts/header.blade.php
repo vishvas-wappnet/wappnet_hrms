@@ -257,7 +257,7 @@
             <ul class="nav nav-second-level">
               {{-- <li> <a href="{{ Route('users.index') }}">Users</a> </li> --}}
               <li> <a href="{{ Route('holiday.index') }}">Holiday</a> </li>
-              <li> <a href="index4.html">Simpler</a> </li>
+              <li> <a href="{{route('department.index')}}">Department</a> </li>
             </ul>
           </li>
   

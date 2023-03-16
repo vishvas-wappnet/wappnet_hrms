@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LoginRegisterRepostoryController;
 use App\Http\Controllers\UserRepostoryController;
 use Illuminate\Support\Facades\Route;
@@ -69,5 +70,11 @@ Route::group(['middleware' => "auth"], function () {
 Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
 Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
 Route:: get('/status-update',[HolidayController::class ,'updateStatus'])->name('holiday.change.status');
+
+//------------------------------------------department ----------------------------------------------------------
+Route::get('/department',[DepartmentController::class,'index'])->name('department.index');
+Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
+Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
+
 
 
