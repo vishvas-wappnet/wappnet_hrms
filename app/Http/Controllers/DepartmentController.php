@@ -15,6 +15,7 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //display list of  Department
     public function index(Request $request)
     {
         
@@ -68,6 +69,8 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //department edit display edit page
     public function edit($id)
     {
         $departmnet = Department::find($id);
@@ -81,6 +84,8 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //department edit action
     public function update(Request $request)
     {
         $request->validate([
