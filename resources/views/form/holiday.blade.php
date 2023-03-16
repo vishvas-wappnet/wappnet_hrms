@@ -17,6 +17,7 @@
                         </div>
                     </div>
                     <a class="btn btn-success" onClick="add()" href="{{ route('holiday.add') }}">Add Holiday</a>
+
                 </div>
                 <table class="table table-bordered holiday_datatable" id="holiday_datatable">
                     <thead>
@@ -27,10 +28,14 @@
                             <th>Start Date</th>
                             <th>Is Optional</th>
                             <th>Status</th>
+                           
                             <th>action</th>
+
+                            
                         </tr>
                     </thead>
                 </table>
+                <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
         </div>
     </div>
@@ -81,6 +86,7 @@
                         data: 'status',
                         name: 'status'
                     },
+
                     {
                         data: 'action',
                         name: 'action',
@@ -89,35 +95,7 @@
                     },
                 ]
             });
-        })
-
-
-        $('#Holidayform').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('store-user') }}",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: (data) => {
-                    $("#holiday-modal").modal('hide');
-                    var oTable = $('.user_datatable').DataTable();
-                    // oTable.fnDraw(false);
-                    $("#btn-save").html('Submit');
-                    $("#btn-save").attr("disabled", false);
-                    $('#success_message').addClass('alert alert-success');
-                    $('#success_message').text(res.message);
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        });
+        })   
     </script>
-
-
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection

@@ -27,13 +27,12 @@ class LoginRegisterRepostoryController extends Controller
     {
         $this->LoginRegisterrepostory = $LoginRegisterrepostory;
     }
-
+    //display login page
     public function index()
     {
         return view('auth.login');
     }
-
-
+    //login action method
     public function custom_login(Request $request)
     {
         $request->validate([
@@ -75,15 +74,4 @@ class LoginRegisterRepostoryController extends Controller
         ;
     }
 
-
-
-/**
- * @return LoginRegisterRepositoryInterface
- */
-
-
-/**
- * @param LoginRegisterRepositoryInterface $LoginRegisterrepostory 
- * @return self
- */
 }

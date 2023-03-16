@@ -27,8 +27,6 @@
                                 </div>
                             @endif
                         </div>
-
-
                     </div>
                 </div>
                 <form action="{{ route('add.user.action') }}"   id="AddForm" method="POST">
@@ -59,8 +57,5 @@
                 </form>
             </div>
         </div>
-    </div>
-
-
-    
+    </div>   
 @endsection

@@ -2,16 +2,10 @@
 
 use App\Http\Controllers\LoginRegisterRepostoryController;
 use App\Http\Controllers\UserRepostoryController;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\HolidayController;
-use App\Http\Middleware\EnsureTokenIsValid;
-use App\Http\Middleware\WebGuard;
 use App\Http\Controllers\CustomAuthController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\LoginRegisterController;
-use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\UserProfileController;;
 
 //----------------------------------guest middleware ---login not required-------------------------------------------
 Route::group(['middleware' => "guest"], function () {
@@ -24,8 +18,8 @@ Route::group(['middleware' => "guest"], function () {
     //-----------------------------------------Mail forgot password------------------------------------------------
     Route::get('forgot-password', [CustomAuthController::class, 'forgotPassword'])->name('forgot-password');
     Route::get('forgot-password/{token}', [CustomAuthController::class, 'forgotPasswordValidate']);
-    Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password2 ');
-    Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password1');
+    Route::post('forgot-password', [CustomAuthController::class, 'resetPassword'])->name('forgot-password.action');
+    Route::post('reset-password', [CustomAuthController::class, 'updatePassword'])->name('reset-password');
 
 
 });
@@ -40,10 +34,7 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('/change-password', [UserProfileController::class, 'changePassword'])->name('change-password');
     Route::post('/change-password', [UserProfileController::class, 'old_updatePassword'])->name('old_update-password');
 
-    //--------------------------------profile view & update---------------------------------------------- 
-    // Route::get('/profile_update', [CustomAuthController::class, 'view_profile_update'])->name('profile.update');
-    // Route::post('/profile_update', [CustomAuthController::class, 'profile_Update'])->name('profile.update.action');
-
+   
     Route::get('/profile_update', [UserRepostoryController::class, 'profile_update_view'])->name('profile.update');
     Route::post('/profile_update', [UserRepostoryController::class, 'profile_update_action'])->name('profile.update.action');
 
@@ -68,20 +59,15 @@ Route::group(['middleware' => "auth"], function () {
         Route::get('/holidays-edit/{id}', [HolidayController::class, 'holiday_edit'])->name('holiday.edit');
         Route::post('/holidays-edit-action', [HolidayController::class, 'holidate_Update_action'])->name('holiday.edit.action');
         Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
+       
     });
 });
         
 
 // });
-//----------------------------------under testin----------------- 
+//----------------------------------under testin------------------------------
 Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
 Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
+Route:: get('/status-update',[HolidayController::class ,'updateStatus'])->name('holiday.change.status');
 
-
-//    // Route::get('/repo', [LoginRegisterRepostoryController::class,'index']);
-//     Route::get('/login', [LoginRegisterRepostoryController::class, 'index'])->name('login');
-//     Route::get('/', [LoginRegisterRepostoryController::class, 'index']);
-//     Route::post('login', [LoginRegisterRepostoryController::class, 'custom_login'])->name('login.custom');
-//     Route::get('registration', [LoginRegisterRepostoryController::class, 'registration'])->name('register-user');
-//     Route::post('registration', [LoginRegisterRepostoryController::class, 'registration_action'])->name('register.action');
 

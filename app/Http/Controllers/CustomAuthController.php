@@ -128,6 +128,7 @@ class CustomAuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
+        dd($user);
         if (!$user) {
             return back()->with('failed', 'Failed! email is not registered.');
         }

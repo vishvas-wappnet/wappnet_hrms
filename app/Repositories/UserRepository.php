@@ -46,6 +46,7 @@ class UserRepository implements UserRepositoryInterface
 
     }
 
+    //method for user edit action
     public function user_edit_action($user)
     {
         $data = User::find($user->id);

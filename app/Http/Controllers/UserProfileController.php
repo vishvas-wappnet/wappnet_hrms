@@ -8,7 +8,6 @@ use App\Models\User;
 
 class UserProfileController extends Controller
 {
-
     //change old password   
     public function changePassword()
     {

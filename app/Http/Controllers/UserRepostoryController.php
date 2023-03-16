@@ -117,26 +117,6 @@ class UserRepostoryController extends Controller
         return Redirect::route('users.index')->withSuccess('User deleted Successfully');   
     }
 
-    // public function destroy(Redirect $request)
-    // {
-    //     dd('id');
-    //     // $user = User::where('id',$request->id)->delete();
-      
-    // //     $user = User::where('id',$id);
-    // //    //return Response()->json($user);
-
-
-    //    if($user)
-    //    {
-    //        $user->delete();
-    //        return response()->json([
-    //            'status'=>200,
-    //            'message'=>'Student Deleted Successfully.'
-    //        ]);
-    //    }
-    // }
-
-
     //view profile update page
     public function profile_update_view()
     {

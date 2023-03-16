@@ -15,7 +15,6 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 class UserController extends Controller
 {
-
     public function user_list(Request $request)
     {
         if ($request->ajax()) {
@@ -40,8 +39,6 @@ class UserController extends Controller
 
         return view('users.users_li');
     }
-
-
 
     public function add_user()
         {
@@ -75,33 +72,6 @@ class UserController extends Controller
                 ]);
         
             }
-        
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -123,7 +93,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //validation rules
-
          $request->validate([
              'name' => 'required|min:4|string|max:255',
             'email' => 'required|email|string|max:255'
@@ -133,7 +102,7 @@ class UserController extends Controller
         $user->email = $request['email'];//store condition      
         $user->save();
         return redirect("view_users")->withSuccess('User Updates Successfully');
-        }
+    }
 
 
     /**
@@ -155,15 +124,10 @@ class UserController extends Controller
 
     public function destroy(Request $request)
     {
-
-        // $user = User::where('id',$request->id)->delete();
-
         $user = User::where('id', $request->id);
         //return Response()->json($user);
         $user->delete();
-        return redirect("view_users")->withSuccess('User deleted Successfully');
-
-        
+        return redirect("view_users")->withSuccess('User deleted Successfully'); 
     }
 
 

@@ -15,28 +15,28 @@ use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
 class HolidayController extends Controller
 {
 
-    //holiday list method--
+    //holiday list method 
     public function index(Request $request)
     {
-
-        
-
         if ($request->ajax()) {
             $data = Holiday::select('id', 'title', 'day' , 'start_date', 'is_optional', 'status')->get();
-            
+
             return Datatables::of($data)->addIndexColumn()
+       
+                ->addColumn("status",'action.holiday_change_status') 
                 ->addColumn("action", '<form action="{{route("holiday.delete",$id)}}" method="post">
                 @csrf
                 @method("EDIT")
                     <a  href="{{route("holiday.edit",$id)}}" title="Edit"data-toggle="tooltip" >
-                    <i class="fa fa-edit" style="font-size:20px;color:green"></i>
+                    <i class="fa fa-edit" style="font-size:20px;color:green" ></i>
                 </a>
                 @method("DELETE")
                 <button type ="submit" title="Delete" style="font-size:24px;color:red;background-color:white;border:0px;">   
                 <i class="fa fa-trash"  style="font-size:24px;color:red;background-color:white;">
                     </i>
-                
                 </button></form>')
+                ->rawColumns(['status'])
+                ->escapeColumns([])
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -45,7 +45,7 @@ class HolidayController extends Controller
         return view('form.holiday');
     }
 
-    //add holiday 
+    //display add holiday page
     public function add_holiday()
     {
         return view('form.add_holiday');
@@ -55,7 +55,6 @@ class HolidayController extends Controller
     public function add_holiday_actoin(Request $request)
     {
         
-       
        $request->validate(
             [
                 'title' => 'required|string|min:3',
@@ -68,7 +67,6 @@ class HolidayController extends Controller
         );
         
         $data = $request->all();
-       // dd($data);
         $holiday = new Holiday;
         $holiday->title = $request->input('title');
         $holiday->start_date = $request->input('start_date');
@@ -77,6 +75,7 @@ class HolidayController extends Controller
         $holiday->is_optional =$request->input('is_optional');
 
 
+        //if optional option existst data store with optional  yes
 
         if (array_key_exists('is_optional',$data )) {
 
@@ -86,7 +85,11 @@ class HolidayController extends Controller
             $holiday->year = $request->input('year');
             $holiday->is_optional =('yes');
             $holiday->save();
-        } else {
+        }
+
+        //if optional option   does not existst data store with optional no
+         else
+          {
 
             $holiday->title = $request->input('title');
             $holiday->start_date = $request->input('start_date');
@@ -95,6 +98,7 @@ class HolidayController extends Controller
             $holiday->is_optional =('no');
             $holiday->save();
         }
+
         return back()->with('success', 'Holiday added');
         $holiday->save();
         return Redirect::route('holiday.index')->withSuccess('Holiday added Successfully');
@@ -131,6 +135,7 @@ class HolidayController extends Controller
         return Redirect::route('holiday.index')->withSuccess('User updates Successfully');
     }
 
+    //method for holiday delete
     public function destroy(Request $request)
     {
 
@@ -138,6 +143,18 @@ class HolidayController extends Controller
         $holiday->delete();
         return Redirect::route('holiday.index')->withSuccess('Holiday  Deleted Successfully');
 
+    }
+
+
+    // method for holiday Update status action
+    public function updateStatus(Request $request)
+    {
+       dd($request);
+        $holiday = Holiday::find($request->id); 
+        $holiday->status = $request->status; 
+       
+        $holiday->save(); 
+        return response()->json(['success'=>'Status change successfully.']); 
     }
 
 }
