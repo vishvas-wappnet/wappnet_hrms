@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use DataTables;
-use App\Models\Department;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
-class DepartmentController extends Controller
+use App\Models\Leave;
+use Illuminate\Http\Request;
+use DataTables;
+
+class LeavesController extends Controller
 {
     /**
-     * Display department index page
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    //display list of  Department
-    public function index(Request $request)
-    {
+    
 
-        if ($request->ajax()) {
-            $department = Department::select('id', 'name')->get();
-
-            return Datatables::of($department)->addIndexColumn()
-                ->addColumn("action", "action.department_action")
+public function index(Request $request)
+{  
+   
+        if($request->ajax()) {
+            $leaves = Leave::select('id','leave_subject','description','leave_start_date','leave_end_date','is_full_day','leave_balance','leave_reason','work_reliever')->get();
+            return DataTables::of($leaves)->addIndexColumn()
+                ->addColumn("action", "action.leavse_action")
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('department.department');
+        return view('leaves.leaves_index');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +38,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -69,12 +69,9 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-    //department edit display edit page
     public function edit($id)
     {
-        $departmnet = Department::find($id);
-        return view('department.edit_department', compact('departmnet'));
+        //
     }
 
     /**
@@ -84,21 +81,10 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-    //department edit action
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-
-        ]);
-
-        $data = Department::find($request->id);
-        $data->name = $request['name'];
-        $data->save();
-        return Redirect::route('department.index')->withSuccess('department Updated Successfully');
+        //
     }
-
 
     /**
      * Remove the specified resource from storage.

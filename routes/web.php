@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\LoginRegisterRepostoryController;
 use App\Http\Controllers\UserRepostoryController;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,13 @@ Route::group(['middleware' => "auth"], function () {
         Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
        
     });
+
+    //------------------------------------------department ----------------------------------------------------------
+    Route::get('/department',[DepartmentController::class,'index'])->name('department.index');
+    Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
+    Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
+
+
 });
         
 
@@ -72,7 +80,7 @@ Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('sen
 Route:: get('/status-update',[HolidayController::class ,'updateStatus'])->name('holiday.change.status');
 
 //------------------------------------------department ----------------------------------------------------------
-Route::get('/department',[DepartmentController::class,'index'])->name('department.index');
+Route::get('/leaves',[LeavesController::class,'index'])->name('leaves.index');
 Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
 Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
 
