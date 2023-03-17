@@ -81,8 +81,14 @@ Route:: get('/status-update',[HolidayController::class ,'updateStatus'])->name('
 
 //------------------------------------------department ----------------------------------------------------------
 Route::get('/leaves',[LeavesController::class,'index'])->name('leaves.index');
-Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
-Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
+Route::get('/add-leaves',[LeavesController::class,'add'])->name('leaves.add');
+Route::post('/store-leaves',[LeavesController::class,'add_action'])->name('leaves.store');
+Route::delete('/delete-leaves/{id}',[LeavesController::class,'add_action'])->name('delete.leave');
+
+
+
+// Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
+// Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
 
 
 
