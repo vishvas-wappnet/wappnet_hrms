@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Leave;
-use Illuminate\Http\Request;
 use DataTables;
+use App\Models\Leave;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class LeavesController extends Controller
 {
@@ -59,8 +61,6 @@ class LeavesController extends Controller
 
         if(Leave::create($data))
         {
-
-        // dd($data);
             return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
         }
 
@@ -68,47 +68,49 @@ class LeavesController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create($data)
-    // {
-
-    //     return Leave::create([
-    //         'leave_subject' => $data['leave_subject'],
-    //         'name' => $data['name'],
-    //         'description' => $data['description'],
-    //         'leave_start_date' => $data['leave_start_date'],
-    //         'leave_end_date' => $data['leave_end_date'],
-    //         'is_full_day' => $data['is_full_day'],
-    //         'leave_balance' => $data['leave_balance'],
-    //         'leave_reason' => $data['leave_reason'],
-    //         'work_reliever' => $data['work_reliever']
-    //     ]);
-
-    // }
-
-
-    // public function create(array $data)
-    // {
-
-    //     return User::create([
-    //         'name' => $data['name'],
-    //         'email' => $data['email'],
-    //         'password' => Hash::make($data['password'])
-    //     ]);
-
-    // }
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
-        //
+
+        // dd($request);
+     
+        $data=$request->validate(
+            [
+            
+                'name' => 'required',
+                'leave_subject' => 'required',
+                'description' => 'required',
+                'leave_start_date' => 'required|date',
+                'leave_end_date' => 'required|date',
+                'is_full_day' => 'required',
+                'leave_balance' => 'required|integer',
+                'leave_reason' => 'required',
+                'work_reliever' => 'required',
+        ]);
+
+                     
+        $leave = Leave::find($request->id);
+        $leave->name = $request->input('name');
+        $leave->leave_subject = $request->input('leave_subject');
+        $leave->description = $request->input('description');
+        $leave->leave_start_date = $request->input('leave_start_date'); 
+        $leave->leave_end_date = $request->input('leave_end_date'); 
+        $leave->is_full_day = $request->input('is_full_day'); 
+        $leave->leave_balance = $request->input('leave_balance'); 
+        $leave->leave_reason = $request->input('leave_reason'); 
+        $leave->work_reliever = $request->input('work_reliever'); 
+        
+
+        if($leave->save())
+        {
+            return redirect()->route('leaves.index')->with('success', 'Leave Upadted successfully.');
+        }
+    
+        
     }
 
     /**
@@ -130,7 +132,10 @@ class LeavesController extends Controller
      */
     public function edit($id)
     {
-        //
+        // dd($id);
+        $leave = Leave::find($id);
+        // dd($leave);
+        return view('leaves.leave_edit', compact('leave'));
     }
 
     /**
@@ -151,8 +156,16 @@ class LeavesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //delete leave which is  specified in request
     public function destroy($id)
     {
-        dd('hello');
+       // dd('hello');
+
+
+        $leave = Leave::where('id', $id);
+        $leave->delete();
+        return Redirect::route('leaves.index')->withSuccess('Leave Deleted Successfully');
+
     }
 }

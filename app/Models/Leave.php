@@ -10,6 +10,7 @@ class Leave extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name' ,
         'leave_subject',
         'description',
         'leave_start_date',
@@ -18,6 +19,13 @@ class Leave extends Model
         'leave_balance',
         'leave_reason',
         'work_reliever'
+    ];
+
+    protected $casts = [
+
+        'leave_start_date' => 'date',
+        'leave_end_date' => 'date'
+        
     ];
 
 
