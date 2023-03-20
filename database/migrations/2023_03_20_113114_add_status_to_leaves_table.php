@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStartDateToHolidaysTable extends Migration
+class AddStatusToLeavesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class AddStartDateToHolidaysTable extends Migration
      */
     public function up()
     {
-        Schema::table('holidays', function (Blueprint $table) {
-            $table->string('start_date')->nullable();
-             $table->string('end_date')->nullable();
-             $table->integer('year')->nullable();
-        
+        Schema::table('leaves', function (Blueprint $table) {
+            $table->string('status')->default('pending')->after('work_reliever');
         });
     }
 
@@ -28,8 +25,8 @@ class AddStartDateToHolidaysTable extends Migration
      */
     public function down()
     {
-        Schema::table('holidays', function (Blueprint $table) {
-            //
+        Schema::table('leaves', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 }

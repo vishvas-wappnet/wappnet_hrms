@@ -13,14 +13,17 @@ class CreateHolidayTable extends Migration
      */
     public function up()
     {
-        Schema::create('holiday', function (Blueprint $table) {
-        $table->id();
-        $table->string('title')->nullable();
-        $table->string('day')->nullable();
-        $table->string('date')->nullable();
-        $table->string('is_optional')->nullable();
-        $table->string('status')->nullable();
-        $table->timestamps();
+        Schema::create('holidays', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->nullable();
+            $table->string('day')->nullable();
+            $table->string('date')->nullable();
+            $table->string('is_optional')->nullable();
+            $table->string('status')->nullable();
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
+            $table->integer('year')->nullable();
+            $table->timestamps();
         });
     }
 

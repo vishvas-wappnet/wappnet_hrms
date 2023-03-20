@@ -46,7 +46,7 @@ class UserRepostoryController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('users.users_li');
+        return view('users.users_index');
     }
 
     //open add  user page
@@ -85,7 +85,6 @@ class UserRepostoryController extends Controller
     //show edit user
     public function edit($id)
     {
-        dd($id);
         $user = User::find($id);
         return view('users.edit_user', compact('user'));
 
@@ -95,9 +94,9 @@ class UserRepostoryController extends Controller
     public function store(Request $request)
     {
         //validation rules
-        $request->validate([
-            'name' => 'required|min:4|string|max:255',
-            'email' => 'required|email|string|max:255'
+            $request->validate([
+                'name' => 'required|min:4|string|max:255',
+                'email' => 'required|email|string|max:255'
         ]);
         $user = $request;
         $this->UserRepository->user_edit_action($user);

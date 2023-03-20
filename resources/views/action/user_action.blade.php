@@ -1,7 +1,8 @@
 {{-- button for user edit And dselete --}}
-<a href="{{ route('edit.user',$id) }}" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-success edit">
-    Edit
+<a href="{{ route('edit.user',$id) }}"  title="Edit"data-toggle="tooltip">
+    <i class="fa fa-edit" style="font-size:20px;color:green" ></i>
     </a>
-    <a href="{{ route('delete.user',$id) }}" data-id="{{ $id }}" data-toggle="tooltip" data-original-title="Delete" class="delete btn btn-danger">
-    Delete
+    <a href="{{ route('delete.user',$id) }}" data-id="{{ $id }}"      title="Delete"data-toggle="tooltip ">
+        <i class="fa fa-trash"  style="font-size:24px;color:red;background-color:white;"></i>
     </a>
+

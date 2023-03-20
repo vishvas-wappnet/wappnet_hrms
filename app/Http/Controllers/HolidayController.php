@@ -20,7 +20,7 @@ class HolidayController extends Controller
     {
         if ($request->ajax()) {
             $data = Holiday::select('id', 'title', 'day' , 'start_date', 'is_optional', 'status')->get();
-
+            
             return Datatables::of($data)->addIndexColumn()
        
                 ->addColumn("status",'action.holiday_change_status') 

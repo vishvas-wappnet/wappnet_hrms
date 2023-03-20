@@ -30,10 +30,26 @@
 </div>
 <section id="wrapper" class="login-register">
   <div class="login-box login-sidebar">
+  <div>
+    @if (session()->has('info'))
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ session()->get('info') }}
+    </div>
+    @endif
+    @if (session()->has('success'))
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ session()->get('success') }}
+    </div>
+    @endif
 
-
-    <div class="mt-2">
-      @include('layouts.partial.messages')
+    @if (session()->has('error'))
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ session()->get('error') }}
+    </div>
+    @endif
   </div>
     <div class="white-box">
 

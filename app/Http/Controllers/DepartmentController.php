@@ -19,6 +19,8 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
 
+        $department = Department::select('id', 'name')->get();
+        // dd($department);
         if ($request->ajax()) {
             $department = Department::select('id', 'name')->get();
 
@@ -31,14 +33,26 @@ class DepartmentController extends Controller
         return view('department.department');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
 
+    //show add department function
+    public function add()
+    {
+        return view('department.add_department');
+    }
+    //add departmnet action 
+    public function add_action(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+
+        ]);
+
+        
+        // $data->name= $request['name'];
+       
+        if (Department::create($data)) {
+            return Redirect::route('department.index')->withSuccess('department Updated Successfully');
+        }
     }
 
     /**

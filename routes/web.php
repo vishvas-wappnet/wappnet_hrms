@@ -66,6 +66,8 @@ Route::group(['middleware' => "auth"], function () {
 
     //------------------------------------------department ----------------------------------------------------------
     Route::get('/department',[DepartmentController::class,'index'])->name('department.index');
+    Route::get('/add-department',[DepartmentController::class,'add'])->name('add.department');
+    Route::post('/add-department',[DepartmentController::class,'add_action'])->name('add.action.department');
     Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
     Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
 
@@ -86,6 +88,8 @@ Route::get('/edit-leaves/{id}',[LeavesController::class,'edit'])->name('leaves.e
 Route::post('/store-leaves',[LeavesController::class,'add_action'])->name('leaves.store');
 Route::delete('/delete-leaves/{id}',[LeavesController::class,'destroy'])->name('delete.leave');
 Route::put('/store-leaves',[LeavesController::class,'store'])->name('leaves.update');
+Route::get('leave/approveLeave/{id}', [LeavesController::class, 'approveLeave'])->name('leave.approveLeave');
+Route::get('leave/reject/{id}', [LeavesController::class, 'reject_leave'])->name('leave.reject');
 
 
 

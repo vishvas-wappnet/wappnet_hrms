@@ -18,7 +18,9 @@ class Leave extends Model
         'is_full_day',
         'leave_balance',
         'leave_reason',
-        'work_reliever'
+        'work_reliever',
+        'status',
+        'approved'
     ];
 
     protected $casts = [
@@ -27,6 +29,11 @@ class Leave extends Model
         'leave_end_date' => 'date'
         
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 
 

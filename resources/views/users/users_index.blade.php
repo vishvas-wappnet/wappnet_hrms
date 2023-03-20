@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('main_section')
-    @include('layouts.header')
+@include('layouts.header')
 
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -23,14 +23,7 @@
                     </div>
 
                     <table class="table table-bordered user_datatable" id="user_datatable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Action</th>
-                            </tr>
-                            <div id="success_message"></div>
+                        </div>
                         </thead>
                     </table>
                 </div>
@@ -93,24 +86,29 @@
                     serverSide: true,
                     ajax: "{{ route('users.index') }}",
                     columns: [{
+                        title:'Id',
                             data: 'id',
                             name: 'id'
                         },
                         {
+                            title:'Name',
                             data: 'name',
                             name: 'name'
                         },
                         {
+                            title:'Email',
                             data: 'email',
                             name: 'email'
                         },
 
-                        {
+                       @role('admin') {
+                            title:'Action',
                             data: 'action',
                             name: 'action',
                             orderable: false,
                             searchable: false
                         },
+                        @endrole
 
                     ]
                 });
@@ -120,6 +118,5 @@
 
         </script>
 
-
-        @include('layouts.footer')
-    @endsection
+ @include('layouts.footer')
+@endsection

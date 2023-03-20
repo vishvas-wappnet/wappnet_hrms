@@ -1,4 +1,5 @@
 @method('edit')
-<a href="{{ route('edit.department',$id) }}" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-success edit">
-    Edit
+<a href="{{ route('edit.department',$id) }}" title="Edit"data-toggle="tooltip">
+   
+    <i class="fa fa-edit" style="font-size:20px;color:green" ></i>
     </a>

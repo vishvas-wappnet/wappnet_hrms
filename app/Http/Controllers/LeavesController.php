@@ -22,10 +22,15 @@ class LeavesController extends Controller
     {
 
         if ($request->ajax()) {
-            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_start_date', 'leave_end_date', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever')->get();
+            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_start_date', 'leave_end_date', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
             return DataTables::of($leaves)->addIndexColumn()
                 ->addColumn("action", "action.leavse_action")
+                ->addColumn('approve', "action.leave_approve")
+                ->escapeColumns([])
                 ->rawColumns(['action'])
+                 ->rawColumns(['approve'])
+                //
+
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -44,23 +49,23 @@ class LeavesController extends Controller
     public function add_action(Request $request)
     {
 
-        $data=$request->validate(
+        $data = $request->validate(
             [
-            
-            'name' => 'required',
-            'leave_subject' => 'required',
-            'description' => 'required',
-            'leave_start_date' => 'required|date',
-            'leave_end_date' => 'required|date',
-            'is_full_day' => 'required',
-            'leave_balance' => 'required|integer',
-            'leave_reason' => 'required',
-            'work_reliever' => 'required',
-        ]);
+
+                'name' => 'required',
+                'leave_subject' => 'required',
+                'description' => 'required',
+                'leave_start_date' => 'required|date',
+                'leave_end_date' => 'required|date',
+                'is_full_day' => 'required',
+                'leave_balance' => 'required|integer',
+                'leave_reason' => 'required',
+                'work_reliever' => 'required',
+            ]
+        );
 
 
-        if(Leave::create($data))
-        {
+        if (Leave::create($data)) {
             return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
         }
 
@@ -73,14 +78,14 @@ class LeavesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
 
         // dd($request);
-     
-        $data=$request->validate(
+
+        $data = $request->validate(
             [
-            
+
                 'name' => 'required',
                 'leave_subject' => 'required',
                 'description' => 'required',
@@ -90,27 +95,27 @@ class LeavesController extends Controller
                 'leave_balance' => 'required|integer',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
-        ]);
+            ]
+        );
 
-                     
+
         $leave = Leave::find($request->id);
         $leave->name = $request->input('name');
         $leave->leave_subject = $request->input('leave_subject');
         $leave->description = $request->input('description');
-        $leave->leave_start_date = $request->input('leave_start_date'); 
-        $leave->leave_end_date = $request->input('leave_end_date'); 
-        $leave->is_full_day = $request->input('is_full_day'); 
-        $leave->leave_balance = $request->input('leave_balance'); 
-        $leave->leave_reason = $request->input('leave_reason'); 
-        $leave->work_reliever = $request->input('work_reliever'); 
-        
+        $leave->leave_start_date = $request->input('leave_start_date');
+        $leave->leave_end_date = $request->input('leave_end_date');
+        $leave->is_full_day = $request->input('is_full_day');
+        $leave->leave_balance = $request->input('leave_balance');
+        $leave->leave_reason = $request->input('leave_reason');
+        $leave->work_reliever = $request->input('work_reliever');
 
-        if($leave->save())
-        {
+
+        if ($leave->save()) {
             return redirect()->route('leaves.index')->with('success', 'Leave Upadted successfully.');
         }
-    
-        
+
+
     }
 
     /**
@@ -157,15 +162,33 @@ class LeavesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //delete leave which is  specified in request
+    //delete leave which is  specified in request
     public function destroy($id)
     {
-       // dd('hello');
-
-
         $leave = Leave::where('id', $id);
         $leave->delete();
         return Redirect::route('leaves.index')->withSuccess('Leave Deleted Successfully');
 
     }
+
+    //leave approve method 
+
+    public function approveLeave($id)
+    {
+
+        $leave = Leave::findOrFail($id);
+        $leave->status = 'approved';
+        $leave->save();
+        return Redirect::route('leaves.index')->withSuccess('Leave Approved Successfully');
+    }
+
+    //leave rejected method
+    public function reject_leave($id)
+    {
+        $leave = Leave::findOrFail($id);
+        $leave->status = 'rejected';
+        $leave->save();
+        return Redirect::route('leaves.index')->withSuccess('Leave Rejected Successfully');
+    }
+
 }

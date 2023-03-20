@@ -16,7 +16,7 @@
                             @include('layouts.partial.messages')
                         </div>
                     </div>
-                    <a class="btn btn-success" onClick="add()" href="{{ route('holiday.add') }}">Add Department</a>
+                    <a class="btn btn-success" onClick="add()" href="{{ route('add.department') }}">Add Department</a>
 
                 </div>
                 <table class="table table-bordered department_datatable" id="department_datatable">
@@ -35,7 +35,6 @@
 
     <script type="text/javascript">
         jQuery(function ($) {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44,13 +43,11 @@
             //         var headers = {
             // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             //         }
-
             var table = $('.department_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('department.index') }}",
                 columns: [{
-
                         data: 'id',
                         name: 'id'
                     },

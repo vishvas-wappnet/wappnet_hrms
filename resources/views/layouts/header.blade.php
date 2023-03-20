@@ -258,7 +258,7 @@
               {{-- <li> <a href="{{ Route('users.index') }}">Users</a> </li> --}}
               <li> <a href="{{ Route('holiday.index') }}">Holiday</a> </li>
               <li> <a href="{{route('department.index')}}">Department</a> </li>
-              <li> <a href="{{route('leaves.index')}}">Leavse</a> </li>
+              <li> <a href="{{route('leaves.index')}}">Leave</a> </li>
             </ul>
           </li>
   
