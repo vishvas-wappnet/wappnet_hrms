@@ -1,4 +1,4 @@
-{{-- button for user edit And dselete --}}
+{{-- button for user edit And delete --}}
 <a href="{{ route('edit.user',$id) }}"  title="Edit"data-toggle="tooltip">
     <i class="fa fa-edit" style="font-size:20px;color:green" ></i>
     </a>

@@ -27,26 +27,36 @@
                                 </div>
                             @endif
                         </div>
-
-
                     </div>
                 </div>
                 <form action="{{ route('add.action.department') }}" method="post">
-                  
-                    <div class="form-group">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        
-                       
-                        <div class="form-group">
-                            <label for="name"><strong>Name:</strong></label>
-                            <input type="text" class="form-control" id="name" 
-                                name="name"  placeholder="Enter Department name" required>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="name"><strong>Name:</strong></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Enter Department name" required>
+                                </div>
+                            </div>
                         </div>
-                           
                     </div>
-                    <button type="submit" class="btn btn-primary text-white btn-lg active">Add Department</button>
-                </form>
+                               
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="raw">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary text-white btn-lg active">Add Department</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
+
+            </form>
         </div>
+    </div>
     </div>
 @endsection

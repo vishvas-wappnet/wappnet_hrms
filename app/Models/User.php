@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Leave;
 
 
 class User extends Authenticatable
@@ -22,13 +23,13 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use SoftDeletes;
-    use  HasRoles;
+    use HasRoles;
 
 
     public function sendPasswordResetNotification($token)
     {
         //dispactches the job to the queue passing it this User object
-        QueuedPasswordResetJob::dispatch($this,$token);
+        QueuedPasswordResetJob::dispatch($this, $token);
     }
     /**
      * The attributes that are mass assignable.
@@ -75,4 +76,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
+
 }

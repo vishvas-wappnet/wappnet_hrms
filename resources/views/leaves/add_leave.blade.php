@@ -20,6 +20,15 @@
                         </div>
 
                         <h1>Create Leave</h1>
+                        <div class="card">
+                            <div class="card-header">
+                                Leave Balance
+                            </div>
+                            <div class="card-body">
+                                <p>Total Leaves: {{ auth()->user()->total_leaves }}</p>
+                                {{-- <p>Remaining Leaves: {{ auth()->user()->remaining_leaves }}</p> --}}
+                            </div>
+                        </div>
 
                         <form action="{{ route('leaves.store') }}" method="POST">
                             @csrf
@@ -32,8 +41,8 @@
                             
 
                             <div class="form-group">
-                                <label for="name"><strong>User Name:</strong></label>
-                                <input type="text" class="form-control" id ="name" name="name" placeholder="enter your name">
+                                
+                                <input type="hidden" class="form-control" id ="name" name="name" value="{{Auth::user()->name}}">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description:</label>
@@ -57,12 +66,12 @@
                                     <option value="0"{{ old('is_full_day') === '0' ? ' selected' : '' }}>No</option>
                                 </select>
                             </div>
-
+{{-- 
                             <div class="form-group">
                                 <label for="leave_balance">Leavse Balance:</label>
                                 <input type="number" name="leave_balance" id="leave_balance" class="form-control"
                                     value="{{ old('leave_balance') }}">
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="leave_reason">Reason:</label>

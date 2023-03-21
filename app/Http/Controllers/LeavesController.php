@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 
 use DataTables;
+use App\Models\User;
 use App\Models\Leave;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 class LeavesController extends Controller
@@ -28,7 +31,7 @@ class LeavesController extends Controller
                 ->addColumn('approve', "action.leave_approve")
                 ->escapeColumns([])
                 ->rawColumns(['action'])
-                 ->rawColumns(['approve'])
+                ->rawColumns(['approve'])
                 //
 
                 ->addIndexColumn()
@@ -49,21 +52,39 @@ class LeavesController extends Controller
     public function add_action(Request $request)
     {
 
+    //    dd($request);
         $data = $request->validate(
             [
-
-                'name' => 'required',
                 'leave_subject' => 'required',
                 'description' => 'required',
                 'leave_start_date' => 'required|date',
                 'leave_end_date' => 'required|date',
                 'is_full_day' => 'required',
-                'leave_balance' => 'required|integer',
+                // 'leave_balance' => 'required|integer',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
         );
 
+        $user = Auth::user();
+        $leave = new Leave;
+        $leave->user_id = $user->id;
+
+        $total_leaves_taken = auth()->user()->leaves()->where('status', 'approved')->whereBetween('leave_start_date', [now()->startOfYear(), now()->endOfYear()])->sum(function ($leave) 
+        {
+            return $leave->leave_end_date->diffInDays($leave->leave_start_date) + 1;
+        });
+
+        dd($total_leaves_taken);
+    
+        // $remaining_leaves = auth()->user()->total_leaves - $total_leaves_taken;
+        // $requested_leaves = Carbon::parse($request->input('end_date'))->diffInDays(Carbon::parse($request->input('start_date'))) + 1;
+    
+        // if ($requested_leaves > $remaining_leaves) {
+        //     return redirect()->back()->withInput()->withErrors(['You do not have enough remaining leaves to make this request.']);
+        // }
+
+       
 
         if (Leave::create($data)) {
             return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
@@ -92,7 +113,7 @@ class LeavesController extends Controller
                 'leave_start_date' => 'required|date',
                 'leave_end_date' => 'required|date',
                 'is_full_day' => 'required',
-                'leave_balance' => 'required|integer',
+                // 'leave_balance' => 'required|integer',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
@@ -106,7 +127,7 @@ class LeavesController extends Controller
         $leave->leave_start_date = $request->input('leave_start_date');
         $leave->leave_end_date = $request->input('leave_end_date');
         $leave->is_full_day = $request->input('is_full_day');
-        $leave->leave_balance = $request->input('leave_balance');
+        // $leave->leave_balance = $request->input('leave_balance');
         $leave->leave_reason = $request->input('leave_reason');
         $leave->work_reliever = $request->input('work_reliever');
 
