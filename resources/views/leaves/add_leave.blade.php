@@ -6,7 +6,6 @@
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                     <h4 class="page-title">Leaves add</h4>
-
                     <div class="card">
                         <div class="card-header">
                             Leave Balance
@@ -17,7 +16,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- Row -->
             <div class="row">
@@ -30,9 +28,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <form action="{{ route('leaves.store') }}" method="POST">
                     @csrf
 
@@ -42,20 +37,17 @@
                                 <div class="form-group">
                                     <label for="leave_subject">Subject:</label>
                                     <input type="text" name="leave_subject" id="leave_subject" class="form-control"
-                                        value="{{ old('leave_subject') }}">
+                                    value="{{ old('leave_subject') }}">
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" id="name" name="name"
-                                        value="{{ Auth::user()->name }}">
+                                    value="{{ Auth::user()->name }}">
                                 </div>
                             </div>
                         </div>
@@ -68,7 +60,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
