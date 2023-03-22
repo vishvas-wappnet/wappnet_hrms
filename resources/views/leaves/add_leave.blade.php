@@ -13,6 +13,7 @@
                         <div class="card-body">
                             <p>Total Leaves: {{ auth()->user()->total_leaves }}</p>
                             {{-- <p>Remaining Leaves: {{ auth()->user()->remaining_leaves }}</p> --}}
+                            {{-- <p>Remaining Leaves: {{ $leave->remaining_leave  }}</p> --}}
                         </div>
                     </div>
                 </div>
