@@ -24,7 +24,7 @@ class LeavesController extends Controller
      */
 
     //display  list of leaves
-    public function index(Request $request) 
+    public function index(Request $request)
     {
 
         if ($request->ajax()) {
@@ -51,8 +51,8 @@ class LeavesController extends Controller
     // app leaves page action method
     public function add_action(Request $request)
     {
-        // dd($request);
-        $data = $request->validate(
+
+        $request->validate(
             [
                 'name' => 'required',
                 'leave_subject' => 'required',
@@ -60,19 +60,24 @@ class LeavesController extends Controller
                 'leave_start_date' => 'required|date',
                 'leave_end_date' => 'required|date',
                 'is_full_day' => 'required',
-                // 'leave_balance' => 'required|integer',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
         );
 
-        $user = Auth::user();
-        $leave = new Leave;
-        $leave->user_id = $user->id;
-
-       
-        if (Leave::create($data)) {
+        $leave = new Leave();
+        $user = $leave->name = $request->input('name');
+        $leave->leave_subject = $request->input('leave_subject');
+        $leave->description = $request->input('description');
+        $leave->leave_start_date = $request->input('leave_start_date');
+        $leave->leave_end_date = $request->input('leave_end_date');
+        $leave->is_full_day = $request->input('is_full_day');
+        $leave->leave_reason = $request->input('leave_reason');
+        $leave->work_reliever = $request->input('work_reliever');
+        if ($leave->save()) {
             return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
+        } else {
+            return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
         }
     }
 
@@ -100,17 +105,16 @@ class LeavesController extends Controller
             ]
         );
 
-        $leave = Leave::find($request->id);
+        $leave = new Leave();
         $leave->name = $request->input('name');
         $leave->leave_subject = $request->input('leave_subject');
         $leave->description = $request->input('description');
         $leave->leave_start_date = $request->input('leave_start_date');
         $leave->leave_end_date = $request->input('leave_end_date');
         $leave->is_full_day = $request->input('is_full_day');
-        // $leave->leave_balance = $request->input('leave_balance');
         $leave->leave_reason = $request->input('leave_reason');
         $leave->work_reliever = $request->input('work_reliever');
-
+        $leave->update();
         if ($leave->save()) {
             return redirect()->route('leaves.index')->with('success', 'Leave Upadted successfully.');
         } else {
@@ -118,8 +122,6 @@ class LeavesController extends Controller
         }
 
     }
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -167,7 +169,20 @@ class LeavesController extends Controller
     {
         $leave = Leave::findOrFail($id);
         $leave->status = 'approved';
+        $start_date = Carbon::parse($leave->leave_start_date);
+        $end_date = Carbon::parse($leave->leave_end_date);
+        $total_days = $start_date->diffInDays($end_date) + 1;
+        $data = $leave->leave_balance - $total_days;
+        $remaing_balance = $leave->leave_balance = $data;
+       
+        Leave::where('name', $leave->name)  
+            ->update(['leave_balance' => $remaing_balance]);
         $leave->save();
+
+        $user = User::where('name', $leave->name)->first();
+        $user->leave_balance = $leave->leave_balance;
+        $user->save();
+
         return Redirect::route('leaves.index')->withSuccess('Leave Approved Successfully');
     }
 
@@ -179,5 +194,7 @@ class LeavesController extends Controller
         $leave->save();
         return Redirect::route('leaves.index')->withSuccess('Leave Rejected Successfully');
     }
+
+
 
 }

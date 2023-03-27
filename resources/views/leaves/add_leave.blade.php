@@ -8,12 +8,11 @@
                     <h4 class="page-title">Leaves add</h4>
                     <div class="card">
                         <div class="card-header">
-                            Leave Balance
-                        </div>
-                        <div class="card-body">
-                            <p>Total Leaves: {{ auth()->user()->total_leaves }}</p>
-                            {{-- <p>Remaining Leaves: {{ auth()->user()->remaining_leaves }}</p> --}}
-                            {{-- <p>Remaining Leaves: {{ $leave->remaining_leave  }}</p> --}}
+                            <div class="card-body">
+                                <h4 style="color:red;">Total Leaves: {{ auth()->user()->total_leaves }}</h4>
+                                <h4 style="color:red;"> Leave Balance: {{ auth()->user()->leave_balance }}</h4>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,7 +56,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="description">Description:</label>
-                                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" class="form-control" required>{{ old('description') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -66,92 +65,67 @@
                             <div class="form-group">
                                 <label for="leave_start_date">Date:</label>
                                 <div class="input-daterange input-group" id="date-range">
-                                    <input type="date" name="leave_start_date" id="leave_start_date" class="form-control"
-                                        value="{{ old('leave_start_date') }}" min="<?php echo date('Y-m-d'); ?>">
+                                    <input type="text" class="form-control datepicker" id="leave_start_date"
+                                        name="leave_start_date" placeholder="Start Date"
+                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>  
                                     <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                    <input type="date" name="leave_end_date" id="leave_end_date" class="form-control"
-                                        value="{{ old('leave_end_date') }}" min="<?php echo date('Y-m-d'); ?>">
+                                    <input type="text" class="form-control datepicker" id="leave_end_date"
+                                        name="leave_end_date" placeholder="End Date"
+                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="is_full_day">Is Full Day:</label>
-                                <select name="is_full_day" id="is_full_day" class="form-control">
-                                    <option value="1"{{ old('is_full_day') ? ' selected' : '' }}>Yes
-                                    </option>
-                                    <option value="0"{{ old('is_full_day') === '0' ? ' selected' : '' }}>No
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- 
-                            <div class="form-group">
-                                <label for="leave_balance">Leavse Balance:</label>
-                                <input type="number" name="leave_balance" id="leave_balance" class="form-control"
-                                    value="{{ old('leave_balance') }}">
-                            </div> --}}
-
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="leave_reason">Reason:</label>
-                                <textarea name="leave_reason" id="leave_reason" class="form-control">{{ old('leave_reason') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="work_reliever">Work Reliever details:</label>
-                                <input type="text" name="work_reliever" id="work_reliever" class="form-control"
-                                    value="{{ old('work_reliever') }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </div>
-    </div>
-    </div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="is_full_day">Is Full Day:</label>
+                        <select name="is_full_day" id="is_full_day" class="form-control">
+                            <option value="1"{{ old('is_full_day') ? ' selected' : '' }}>Yes
+                            </option>
+                            <option value="0"{{ old('is_full_day') === '0' ? ' selected' : '' }}>No
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#leave_start_date').on('change', function() {
-                var start_date = new Date($('#leave_start_date').val());
-                var end_date = new Date($('#leave_end_date').val());
-                if (start_date.getTime() > end_date.getTime() && end_date.getTime() !== 0) {
-                    $('#leave_start_date').val('');
-                    alert('Start date should be before end date.');
-                }
-            });
-            $('#leave_end_date').on('change', function() {
-                var start_date = new Date($('#leave_start_date').val());
-                var end_date = new Date($('#leave_end_date').val());
-                if (end_date.getTime() < start_date.getTime()) {
-                    $('#leave_end_date').val('');
-                    alert('End date should be after start date.');
-                }
-            });
-        });
-    </script>    
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="leave_reason">Reason:</label>
+                        <textarea name="leave_reason" id="leave_reason" class="form-control">{{ old('leave_reason') }}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="work_reliever">Work Reliever details:</label>
+                        <input type="text" name="work_reliever" id="work_reliever" class="form-control"
+                            value="{{ old('work_reliever') }}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+          </div>
+      </div>
+    </div>
+</div>
+</div>
+
+
     
+
     <script>
         $('#Leaveform').validate({
             rules: {
@@ -164,15 +138,7 @@
                     required: true,
                     maxlength: 255,
                 },
-                start_date: {
-                    required: true,
-                    date: true,
-                },
-                end_date: {
-                    required: true,
-                    date: true,
-                    greaterThanStartDate: "#start_date"
-                },
+               
                 leave_reason: {
                     required: true,
                     maxlength: 255,
@@ -194,13 +160,6 @@
                     maxlength: "Leave Description should not exceed 255 characters",
                 },
 
-                start_date: {
-                    date: "Please enter valid date",
-                },
-                end_date: {
-                    date: "Please enter valid date",
-                    greaterThanStartDate: "The end date must be greater than the start date"
-                },
 
                 leave_reason: {
                     required: "Please enter Leave Reason ",
@@ -216,7 +175,7 @@
             },
 
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "start_date" && "end_date") {
+                if (element.attr("name") == "leave_start_date" && "leave_end_date") {
                     error.insertAfter("#start_date_label");
                 } else {
                     error.insertAfter(element);
@@ -235,6 +194,40 @@
             });
         });
     </script>
+
+
+<script>
+    var today = new Date();
+    $('#leave_start_date').datepicker({
+        // $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        startDate: today,
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', function(e) {
+        // Update the minimum date for the leave end date datepicker
+        $('#leave_end_date').datepicker('setStartDate', e.date);
+    });
+
+    // Initialize the leave end date datepicker
+    $('#leave_end_date').datepicker({
+        format: 'yyyy-mm-dd',
+        startDate: today,
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', function(e) {
+        // Update the maximum date for the leave start date datepicker
+        $('#leave_start_date').datepicker('setEndDate', e.date);
+    });
+
+    // <script>
+    //     $('.datepicker').datepicker({
+    //         format: 'yyyy-mm-dd',
+    //         autoclose: true,
+    //         todayHighlight: true,
+    //     });
+    // 
+</script>
 
 
     @include('layouts.footer')

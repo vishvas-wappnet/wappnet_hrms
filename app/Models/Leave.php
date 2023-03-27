@@ -51,14 +51,5 @@ class Leave extends Model
     ];
 
 
-    public function getRemainingLeaveAttribute()
-    {
-        $totalLeave = config('leave.total_leave');
-        $usedLeave = $this->user->leaves()->whereYear('leave_start_date', now()->year)->sum('leave_days');
-
-        return $totalLeave - $usedLeave;
-    }
-
-
 
 }

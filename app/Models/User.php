@@ -40,6 +40,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'leave_balance'
     ];
 
     protected $hidden1 = [
@@ -77,11 +78,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-
     public function leaves()
     {
-        return $this->hasMany(Leave::class);
+        return $this->hasMany(Leave::class, 'name', 'name');
     }
 
+
+   
 
 }
