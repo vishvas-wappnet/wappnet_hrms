@@ -31,8 +31,6 @@
                             class="form-horizontal" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="id" id="id">
-
-
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -41,7 +39,6 @@
                                             <input type="text" class="form-control" id="title" name="title"
                                                 placeholder="Enter Holiday Title" maxlength="50" required>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -110,27 +107,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
-        {{-- 
-
-                    <script>
-                        $(function() {
-                            $('#start_date').datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                onSelect: function(selected) {
-                                    $("#end_date").datepicker("option","minDate", selected)
-                                }
-                            });
-                            $('#end_date').datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                onSelect: function(selected) {
-                                    $("#start_date").datepicker("option","maxDate", selected)
-                                }
-                            });
-                        });
-                    </script> --}}
-
-
-
         <script>
             $(document).ready(function() {
                 $('#start_date').on('change', function() {
@@ -152,9 +128,6 @@
                 });
             });
         </script>
-
-
-
         <script>
             $('#Holidayform').validate({
                 rules: {
@@ -249,5 +222,5 @@
 
 
 
-        @include('layouts.footer')
-    @endsection
+@include('layouts.footer')
+@endsection

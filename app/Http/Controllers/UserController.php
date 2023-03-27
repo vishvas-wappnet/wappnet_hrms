@@ -37,7 +37,7 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('users.users_li');
+        return view('users.users_index');
     }
 
     public function add_user()
@@ -80,7 +80,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit($id)
+    public function edit($id) : Response |  \Illuminate\View\View
     {
         $user = User::find($id);
         return view('users.edit_user', compact('user'));
@@ -101,16 +101,6 @@ class UserController extends Controller
         return redirect("view_users")->withSuccess('User Updates Successfully');
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -118,8 +108,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function destroy(Request $request)
+    public function destroy(Request $request) : Response
     {
         $user = User::where('id', $request->id);
         //return Response()->json($user);

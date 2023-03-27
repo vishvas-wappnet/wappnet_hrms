@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
-
+use Illuminate\View\View;
 use DataTables;
 use App\Models\User;
 use App\Models\Leave;
@@ -12,6 +11,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Response;
+
 
 class LeavesController extends Controller
 {
@@ -19,17 +20,16 @@ class LeavesController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
      */
 
     //display  list of leaves
-    public function index(Request $request)
+    public function index(Request $request) 
     {
 
         if ($request->ajax()) {
 
-
             $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_start_date', 'leave_end_date', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
-
             return DataTables::of($leaves)->addIndexColumn()
                 ->addColumn("action", "action.leavse_action")
                 ->addColumn('approve', "action.leave_approve")
@@ -42,8 +42,6 @@ class LeavesController extends Controller
         return view('leaves.leaves_index');
     }
 
-
-
     //display app leaves  page
     public function add()
     {
@@ -53,10 +51,7 @@ class LeavesController extends Controller
     // app leaves page action method
     public function add_action(Request $request)
     {
-
         // dd($request);
-
-      
         $data = $request->validate(
             [
                 'name' => 'required',
@@ -75,36 +70,10 @@ class LeavesController extends Controller
         $leave = new Leave;
         $leave->user_id = $user->id;
 
-        $data->$leave;
-
-
-        
-        // $leave = new Leave();
-        // $leave->leave_subject = $request->input('leave_subject');
-        // $leave->leave_start_date = $request->input('leave_start_date');
-        // $leave->leave_end_date = $request->input('leave_end_date');
-        // $leave->user_id = auth()->user()->id;
-        // $leave->save();
-        // $total_leaves_taken = auth()->user()->leaves()->where('status', 'approved')->whereBetween('leave_start_date', [now()->startOfYear(), now()->endOfYear()])->sum(function ($leave) 
-        // {
-        //     return $leave->leave_end_date->diffInDays($leave->leave_start_date) + 1;
-        // });
-
-        // dd($total_leaves_taken);
-
-        // $remaining_leaves = auth()->user()->total_leaves - $total_leaves_taken;
-        // $requested_leaves = Carbon::parse($request->input('end_date'))->diffInDays(Carbon::parse($request->input('start_date'))) + 1;
-
-        // if ($requested_leaves > $remaining_leaves) {
-        //     return redirect()->back()->withInput()->withErrors(['You do not have enough remaining leaves to make this request.']);
-        // }
-
-
-
+       
         if (Leave::create($data)) {
             return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
         }
-
     }
 
 
@@ -117,11 +86,8 @@ class LeavesController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        // dd($request);
-
         $data = $request->validate(
             [
-
                 'name' => 'required',
                 'leave_subject' => 'required',
                 'description' => 'required',
@@ -134,7 +100,6 @@ class LeavesController extends Controller
             ]
         );
 
-
         $leave = Leave::find($request->id);
         $leave->name = $request->input('name');
         $leave->leave_subject = $request->input('leave_subject');
@@ -146,24 +111,14 @@ class LeavesController extends Controller
         $leave->leave_reason = $request->input('leave_reason');
         $leave->work_reliever = $request->input('work_reliever');
 
-
         if ($leave->save()) {
             return redirect()->route('leaves.index')->with('success', 'Leave Upadted successfully.');
+        } else {
+            return redirect()->route('leaves.index')->with('success', 'Leave Upadte failed.');
         }
 
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -171,7 +126,7 @@ class LeavesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): Response|\Illuminate\View\View
     {
         // dd($id);
         $leave = Leave::find($id);
@@ -208,10 +163,8 @@ class LeavesController extends Controller
     }
 
     //leave approve method 
-
     public function approveLeave($id)
     {
-
         $leave = Leave::findOrFail($id);
         $leave->status = 'approved';
         $leave->save();
