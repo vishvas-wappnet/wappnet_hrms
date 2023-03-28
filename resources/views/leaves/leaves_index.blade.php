@@ -23,20 +23,7 @@
 
                     </div>
                     <table class="table table-bordered leavse_datatable" id="leavse_datatable">
-                        {{-- <thead>
-                        <tr>
-                            <th>User name</th>
-                            <th>Subject</th>
-                            <th>Description</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Is Full Day</th>
-                            <th>Balance</th>
-                            <th>Reason</th>
-                            <th>Work Reliever</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead> --}}
+                       
                     </table>
 
                 </div>
@@ -110,20 +97,22 @@
                             name: 'status'
                         },
 
-                        {
+                         @role('admin'){
                             title: 'Approve/Reject',
                             data: 'approve',
                             name: 'approve',
                             orderable: false,
                             searchable: false
-                        },
-                        {
+                        },@endrole
+                       
+                        @role('admin') {
                             title: 'action',
                             data: 'action',
                             name: 'action',
                             orderable: false,
                             searchable: false
                         }
+                        @endrole
 
 
                     ]

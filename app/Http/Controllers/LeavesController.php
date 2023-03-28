@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
+use Response;
 use DataTables;
 use App\Models\User;
 use App\Models\Leave;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Response;
 
 
 class LeavesController extends Controller
@@ -26,7 +27,6 @@ class LeavesController extends Controller
     //display  list of leaves
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
 
             $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_start_date', 'leave_end_date', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
@@ -42,16 +42,15 @@ class LeavesController extends Controller
         return view('leaves.leaves_index');
     }
 
-    //display app leaves  page
+    //display app leaves page
     public function add()
     {
         return view('leaves.add_leave');
     }
 
-    // app leaves page action method
+    //leaves page action method
     public function add_action(Request $request)
     {
-
         $request->validate(
             [
                 'name' => 'required',
@@ -64,24 +63,46 @@ class LeavesController extends Controller
                 'work_reliever' => 'required',
             ]
         );
-
-        $leave = new Leave();
-        $user = $leave->name = $request->input('name');
-        $leave->leave_subject = $request->input('leave_subject');
-        $leave->description = $request->input('description');
-        $leave->leave_start_date = $request->input('leave_start_date');
-        $leave->leave_end_date = $request->input('leave_end_date');
-        $leave->is_full_day = $request->input('is_full_day');
-        $leave->leave_reason = $request->input('leave_reason');
-        $leave->work_reliever = $request->input('work_reliever');
-        if ($leave->save()) {
-            return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
+        $leaves = Leave::where('name', $request->name)
+            ->where('status', 'approved')
+            ->first();
+        if ($leaves == true) {
+            $leave = new Leave();
+            $user = $leave->name = $request->input('name');
+            $leave->leave_subject = $request->input('leave_subject');
+            $leave->description = $request->input('description');
+            $leave->leave_start_date = $request->input('leave_start_date');
+            $leave->leave_end_date = $request->input('leave_end_date');
+            $leave->is_full_day = $request->input('is_full_day');
+            $leave->leave_reason = $request->input('leave_reason');
+            $leave->work_reliever = $request->input('work_reliever');
+            $leaveBalance = Leave::where('name', $request->input('name'))->value('leave_balance');
+            $leave->leave_balance = $leaveBalance;
+           
+            if ($leave->save()) {
+                return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
+            } else {
+                return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
+            }
         } else {
-            return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
+            $leave = new Leave();
+            $user = $leave->name = $request->input('name');
+            $leave->leave_subject = $request->input('leave_subject');
+            $leave->description = $request->input('description');
+            $leave->leave_start_date = $request->input('leave_start_date');
+            $leave->leave_end_date = $request->input('leave_end_date');
+            $leave->is_full_day = $request->input('is_full_day');
+            $leave->leave_reason = $request->input('leave_reason');
+            $leave->work_reliever = $request->input('work_reliever');
+            $leave->leave_balance = 14;
+            if ($leave->save()) {
+                return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
+            } else {
+                return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
+            }
         }
+
     }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -104,6 +125,7 @@ class LeavesController extends Controller
                 'work_reliever' => 'required',
             ]
         );
+
 
         $leave = new Leave();
         $leave->name = $request->input('name');
@@ -168,20 +190,41 @@ class LeavesController extends Controller
     public function approveLeave($id)
     {
         $leave = Leave::findOrFail($id);
-        $leave->status = 'approved';
-        $start_date = Carbon::parse($leave->leave_start_date);
-        $end_date = Carbon::parse($leave->leave_end_date);
-        $total_days = $start_date->diffInDays($end_date) + 1;
-        $data = $leave->leave_balance - $total_days;
-        $remaing_balance = $leave->leave_balance = $data;
-       
-        Leave::where('name', $leave->name)  
-            ->update(['leave_balance' => $remaing_balance]);
-        $leave->save();
+        $leaves = Leave::where('name', $leave->name)
+            ->where('status', 'approved')
+            ->first();
+        //check if user has  already approved leavse or not    
+        if ($leaves == true) {
+            $start_date = Carbon::parse($leave->leave_start_date);
+            $end_date = Carbon::parse($leave->leave_end_date);
+            $total_days = $start_date->diffInDays($end_date) + 1;
+            $data = $leave->leave_balance - $total_days;
+            $remaing_balance = $leave->leave_balance = $data;
+            Leave::where('name', $leave->name)
+                ->update(['leave_balance' => $remaing_balance]);
+            $leave->status = 'approved';
+            $leave->save();
 
-        $user = User::where('name', $leave->name)->first();
-        $user->leave_balance = $leave->leave_balance;
-        $user->save();
+            $user = User::where('name', $leave->name)->first();
+            $user->leave_balance = $leave->leave_balance;
+            $user->save();
+
+        } else {
+            $start_date = Carbon::parse($leave->leave_start_date);
+            $end_date = Carbon::parse($leave->leave_end_date);
+            $total_days = $start_date->diffInDays($end_date) + 1;
+            $data = 14 - $total_days;
+            $remaing_balance = $leave->leave_balance = $data;
+
+            Leave::where('name', $leave->name)
+                ->update(['leave_balance' => $remaing_balance]);
+            $leave->status = 'approved';
+            $leave->save();
+
+            $user = User::where('name', $leave->name)->first();
+            $user->leave_balance = $leave->leave_balance;
+            $user->save();
+        }
 
         return Redirect::route('leaves.index')->withSuccess('Leave Approved Successfully');
     }

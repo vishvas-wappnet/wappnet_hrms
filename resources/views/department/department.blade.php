@@ -55,12 +55,13 @@
                         data: 'name',
                         name: 'name'
                     },
-                    {
+                   @role('admin') {
                         data: 'action',
                         name: 'action',
                         orderable: true,
                         searchable: true
                     },
+                    @endrole
                 ]
             });
         })   
