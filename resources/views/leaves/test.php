@@ -59,7 +59,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="description">Description:</label>
-                                <textarea name="description" id="description" class="form-control"  required>{{ old('description', $leave->description) }}</textarea>
+                                <textarea name="description" id="description" class="form-control" required value="{{ old('description', $leave->description)}}"></textarea>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                     <div class="form-group">
                         <label for="work_reliever">Work Reliever details:</label>
                         <input type="text" name="work_reliever" id="work_reliever" class="form-control"
-                            value="{{ old('work_reliever', $leave->work_reliever) }}" required>
+                              value="{{ old('work_reliever', $leave->work_reliever) }}" required>
                     </div>
                 </div>
             </div>

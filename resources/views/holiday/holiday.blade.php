@@ -17,7 +17,6 @@
                         </div>
                     </div>
                     <a class="btn btn-success" onClick="add()" href="{{ route('holiday.add') }}">Add Holiday</a>
-
                 </div>
                 <table class="table table-bordered holiday_datatable" id="holiday_datatable">
                 </table>
@@ -26,7 +25,7 @@
         </div>
     </div>
 
-
+   
     <script type="text/javascript">
         jQuery(function load_data($) {
 

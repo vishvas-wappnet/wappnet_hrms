@@ -42,13 +42,13 @@ class HolidayController extends Controller
                 ->make(true);
         }
 
-        return view('form.holiday');
+        return view('holiday.holiday');
     }
 
     //display add holiday page
     public function add_holiday()
     {
-        return view('form.add_holiday');
+        return view('holiday.add_holiday');
     }
 
     //add holiday action function
@@ -109,7 +109,7 @@ class HolidayController extends Controller
     public function holiday_edit($id)
     {
         $holiday = Holiday::find($id);
-        return view('form.edit_holiday', compact('holiday'));
+        return view('holiday.edit_holiday', compact('holiday'));
     }
 
     //holiday update method

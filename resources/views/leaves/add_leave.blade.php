@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('main_section')
-    @include('layouts.header')
+@include('layouts.header')
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row bg-title">
@@ -95,9 +95,15 @@
             <div class="col-md-12">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="leave_reason">Reason:</label>
-                        <textarea name="leave_reason" id="leave_reason" required class="form-control">{{ old('leave_reason') }} 
-                        </textarea>
+                        <label for="leave_reason">Leave Reason:</label>
+                        <select id="leave_reason" name="leave_reason">
+                            <option value="">Select a reason</option>
+                            <option value="Vacation">Vacation</option>
+                            <option value="Sick Leave">Sick Leave</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Family Emergency">Family Emergency</option>
+                            <option value="Bereavement">Bereavement</option>
+                          </select>
                     </div>
                 </div>
             </div>
@@ -183,9 +189,6 @@
             },
         });
     </script>
-
- 
-
     <!-- Include Bootstrap Datepicker CSS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
@@ -195,8 +198,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Include Bootstrap Datepicker JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-
     <script>
         //---
         var today = new Date();
@@ -229,7 +230,7 @@
                 alert("Leave end date must be after leave start date.");
                 // Reset the end date input value to an empty string
                 $("#leave_end_date").val("");
-            } 
+            }
         });
 
         $("#leave_start_date").change(function() {
@@ -246,5 +247,5 @@
         });
     </script>
 
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection

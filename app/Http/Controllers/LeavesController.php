@@ -9,6 +9,7 @@ use App\Models\Leave;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -25,14 +26,25 @@ class LeavesController extends Controller
      */
 
     //display  list of leaves
-    public function index(Request $request)
+    public function index(Request $request) : View | JsonResponse
     {
         if ($request->ajax()) {
+            $leave_start_date = Leave::select('leave_start_date') ->get();
 
-            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_start_date', 'leave_end_date', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
+            $leave_end_date = Leave::select('leave_end_date') ->get();
+
+            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
             return DataTables::of($leaves)->addIndexColumn()
                 ->addColumn("action", "action.leavse_action")
                 ->addColumn('approve', "action.leave_approve")
+                ->addColumn('leave_start_date', function ($row) {
+                    $leave_start_date = Carbon::parse($row->leave_start_date);
+                    return $leave_start_date->format('Y-m-d');
+                })
+                ->addColumn('leave_end_date', function ($row) {
+                    $leave_end_date = Carbon::parse($row->leave_end_date);
+                    return $leave_end_date->format('Y-m-d');
+                })
                 ->escapeColumns([])
                 ->rawColumns(['action'])
                 ->rawColumns(['approve'])
@@ -42,18 +54,18 @@ class LeavesController extends Controller
         return view('leaves.leaves_index');
     }
 
-
-    public function test()
-    {
-        return view('leaves.test');
-    }
+//test method for just testing purpose
+    // public function test()  :
+    // {
+    //     return view('leaves.test');
+    // }
     //display app leaves page
-    public function add()
+    public function add() : View
     {
         return view('leaves.add_leave');
     }
 
-    //leaves page action method
+    //add leave page action method
     public function add_action(Request $request)
     {
         $request->validate(
@@ -71,6 +83,7 @@ class LeavesController extends Controller
         $leaves = Leave::where('name', $request->name)
             ->where('status', 'approved')
             ->first();
+            //check user is alreay approved leaves , if yes then remainging balance will be calculated for that user 
         if ($leaves == true) {
             $leave = new Leave();
             $user = $leave->name = $request->input('name');
@@ -109,30 +122,28 @@ class LeavesController extends Controller
 
     }
     /**
-     * Store a newly created resource in storage.
+     * Store a update created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request): RedirectResponse
     {
-
-        $data = $request->validate(
+       // dd($request);
+         $request->validate(
             [
                 'name' => 'required',
                 'leave_subject' => 'required',
                 'description' => 'required',
-                'leave_start_date' => 'required|date',
+                'leave_start_date' => 'required|date',      
                 'leave_end_date' => 'required|date',
                 'is_full_day' => 'required',
-                // 'leave_balance' => 'required|integer',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
-        );
+        ); 
 
-
-        $leave = new Leave();
+        $leave = Leave::find($request->id);
         $leave->name = $request->input('name');
         $leave->leave_subject = $request->input('leave_subject');
         $leave->description = $request->input('description');
@@ -163,18 +174,7 @@ class LeavesController extends Controller
         return view('leaves.leave_edit', compact('leave'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -183,7 +183,7 @@ class LeavesController extends Controller
      */
 
     //delete leave which is  specified in request
-    public function destroy($id)
+    public function destroy($id) : RedirectResponse
     {
         $leave = Leave::where('id', $id);
         $leave->delete();
@@ -192,13 +192,17 @@ class LeavesController extends Controller
     }
 
     //leave approve method 
-    public function approveLeave($id)
+    /**
+     * approve leavse with calcaulation of remaining leavse
+     * in this method we will check if user  has already leavse or not
+     */
+    public function approveLeave($id)  : RedirectResponse
     {
         $leave = Leave::findOrFail($id);
         $leaves = Leave::where('name', $leave->name)
             ->where('status', 'approved')
             ->first();
-        //check if user has  already approved leavse or not    
+        //check if user has  already approved leaves or not    
         if ($leaves == true) {
             $start_date = Carbon::parse($leave->leave_start_date);
             $end_date = Carbon::parse($leave->leave_end_date);
@@ -235,7 +239,7 @@ class LeavesController extends Controller
     }
 
     //leave rejected method
-    public function reject_leave($id)
+    public function reject_leave($id)  : RedirectResponse
     {
         $leave = Leave::findOrFail($id);
         $leave->status = 'rejected';

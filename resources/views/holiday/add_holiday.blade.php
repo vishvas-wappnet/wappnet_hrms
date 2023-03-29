@@ -1,12 +1,6 @@
 @extends('layouts.main')
 @section('main_section')
-    @include('layouts.header')
-
-    <head>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    </head>
+@include('layouts.header')
 
 
     <div id="page-wrapper">
@@ -31,6 +25,7 @@
                             class="form-horizontal" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="id" id="id">
+
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -50,9 +45,7 @@
                                         <div class="input-daterange input-group" id="date-range">
                                             <input type="date" class="form-control" id="start_date" name="start_date"
                                                 min="<?php echo date('Y-m-d'); ?>" required />
-                                            <span class="input-group-addon bg-info b-0 text-white"
-                                                style="height:10px;">to</span>
-
+                                            <span class="input-group-addon bg-info b-0 text-white" style="height:10px;">to</span>
                                             <input type="date" class="form-control" id="end_date" name="end_date"
                                                 min="<?php echo date('Y-m-d'); ?>" required />
                                         </div>
@@ -100,9 +93,9 @@
             </div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> --}}
 
         <script>
             $(document).ready(function() {
