@@ -92,7 +92,8 @@ Route::get('leave/approveLeave/{id}', [LeavesController::class, 'approveLeave'])
 Route::get('leave/reject/{id}', [LeavesController::class, 'reject_leave'])->name('leave.reject');
 
 
-
+//testing router
+Route::get('/leaves-test',[LeavesController::class,'test'])->name('leaves.test');
 // Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
 // Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
 

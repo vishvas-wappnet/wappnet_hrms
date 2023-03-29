@@ -42,6 +42,11 @@ class LeavesController extends Controller
         return view('leaves.leaves_index');
     }
 
+
+    public function test()
+    {
+        return view('leaves.test');
+    }
     //display app leaves page
     public function add()
     {

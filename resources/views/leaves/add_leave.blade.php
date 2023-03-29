@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Leaves add</h4>
+                    <h4 class="page-title">Leave add</h4>
                     <div class="card">
                         <div class="card-header">
                             <div class="card-body">
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label for="leave_subject">Subject:</label>
                                     <input type="text" name="leave_subject" id="leave_subject" class="form-control"
-                                        value="{{ old('leave_subject') }}">
+                                        value="{{ old('leave_subject') }}" required>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                                 <div class="input-daterange input-group" id="date-range">
                                     <input type="text" class="form-control datepicker" id="leave_start_date"
                                         name="leave_start_date" placeholder="Start Date"
-                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>  
+                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                     <span class="input-group-addon bg-info b-0 text-white">to</span>
                                     <input type="text" class="form-control datepicker" id="leave_end_date"
                                         name="leave_end_date" placeholder="End Date"
@@ -96,7 +96,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="leave_reason">Reason:</label>
-                        <textarea name="leave_reason" id="leave_reason" class="form-control">{{ old('leave_reason') }}</textarea>
+                        <textarea name="leave_reason" id="leave_reason" required class="form-control">{{ old('leave_reason') }} 
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -105,7 +106,7 @@
                     <div class="form-group">
                         <label for="work_reliever">Work Reliever details:</label>
                         <input type="text" name="work_reliever" id="work_reliever" class="form-control"
-                            value="{{ old('work_reliever') }}">
+                            value="{{ old('work_reliever') }}" required>
                     </div>
                 </div>
             </div>
@@ -117,18 +118,29 @@
                 </div>
             </div>
             </form>
-          </div>
-      </div>
+        </div>
     </div>
-</div>
-</div>
-
-
-    
+    </div>
+    </div>
+    </div>
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery Validation plugin -->
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
     <script>
         $('#Leaveform').validate({
             rules: {
+                leave_start_date: {
+                    required: true,
+                    date: true,
+
+                },
+                leave_end_date: {
+                    required: true,
+                    date: true,
+
+                },
                 leave_subject: {
                     required: true,
                     maxlength: 255,
@@ -138,7 +150,7 @@
                     required: true,
                     maxlength: 255,
                 },
-               
+
                 leave_reason: {
                     required: true,
                     maxlength: 255,
@@ -150,6 +162,7 @@
             },
 
             messages: {
+
                 leave_subject: {
                     required: "Please enter Leave Subject ",
                     maxlength: "Leave Subject should not exceed 255 characters",
@@ -159,8 +172,6 @@
                     required: "Please enter Leave Description ",
                     maxlength: "Leave Description should not exceed 255 characters",
                 },
-
-
                 leave_reason: {
                     required: "Please enter Leave Reason ",
                     maxlength: "Leave Reason should not exceed 255 characters",
@@ -170,64 +181,84 @@
                     maxlength: "Work reliever details not exceed 50 characters",
                 },
             },
-            submitHandler: function(form) {
-                form.submit();
-            },
+        });
+    </script>
 
-            errorPlacement: function(error, element) {
-                if (element.attr("name") == "leave_start_date" && "leave_end_date") {
-                    error.insertAfter("#start_date_label");
-                } else {
-                    error.insertAfter(element);
-                }
-            }
+ 
+
+    <!-- Include Bootstrap Datepicker CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Include Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+    <script>
+        //---
+        var today = new Date();
+        $('#leave_start_date').datepicker({
+            // $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true,
         });
 
-        (function() {
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'left',
-                startDate: moment().subtract(7, 'days'),
-                endDate: moment(),
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
-            });
+        var today = new Date();
+        $('#leave_end_date').datepicker({
+            // $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true,
+        });
+
+
+        $("#leave_end_date").change(function() {
+            // Get the date values for the leave start and end dates
+            var startDate = new Date($("#leave_start_date").val());
+            var endDate = new Date($("#leave_end_date").val());
+
+            // Check if the end date is before the start date
+            if (endDate < startDate) {
+                // If the end date is before the start date, show an error message
+                alert("Leave end date must be after leave start date.");
+                // Reset the end date input value to an empty string
+                $("#leave_end_date").val("");
+            } 
+        });
+
+        $("#leave_start_date").change(function() {
+            // Get the date values for the leave start and end dates
+            var startDate = new Date($("#leave_start_date").val());
+            var endDate = new Date($("#leave_end_date").val());
+
+            // Check if the end date is before the start date
+            if (startDate > endDate) {
+                alert("Leave start date must be before leave end date.");
+                // Reset the end date input value to an empty string
+                $("#leave_start_date").val("");
+            }
         });
     </script>
 
 
-<script>
-    var today = new Date();
-    $('#leave_start_date').datepicker({
-        // $('.datepicker').datepicker({
-        format: 'yyyy-mm-dd',
-        startDate: today,
-        autoclose: true,
-        todayHighlight: true,
-    }).on('changeDate', function(e) {
-        // Update the minimum date for the leave end date datepicker
-        $('#leave_end_date').datepicker('setStartDate', e.date);
-    });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-    // Initialize the leave end date datepicker
-    $('#leave_end_date').datepicker({
-        format: 'yyyy-mm-dd',
-        startDate: today,
-        autoclose: true,
-        todayHighlight: true,
-    }).on('changeDate', function(e) {
-        // Update the maximum date for the leave start date datepicker
-        $('#leave_start_date').datepicker('setEndDate', e.date);
-    });
 
-    // <script>
-    //     $('.datepicker').datepicker({
-    //         format: 'yyyy-mm-dd',
-    //         autoclose: true,
-    //         todayHighlight: true,
-    //     });
-    // 
-</script>
+    <script>
+        $(document).ready(function() {
+            // Initialize the date picker for the leave start date input
+
+            // Add a change event listener to the leave end date input
+
+        });
+    </script>
 
 
     @include('layouts.footer')
