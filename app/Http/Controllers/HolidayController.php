@@ -19,11 +19,13 @@ class HolidayController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Holiday::select('id', 'title', 'day' , 'start_date', 'is_optional', 'status')->get();
-            
+            $data = Holiday::select('id', 'title', 'day', 'start_date', 'is_optional', 'status')->get();
+
             return Datatables::of($data)->addIndexColumn()
-       
-                ->addColumn("status",'action.holiday_change_status') 
+
+                ->addColumn("status", 'action.holiday_change_status')
+
+                
                 ->addColumn("action", '<form action="{{route("holiday.delete",$id)}}" method="post">
                 @csrf
                 @method("EDIT")
@@ -54,48 +56,47 @@ class HolidayController extends Controller
     //add holiday action function
     public function add_holiday_actoin(Request $request)
     {
-        
-       $request->validate(
+
+        $request->validate(
             [
                 'title' => 'required|string|min:3',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'year' => 'required|min:4|max:4',
-                
+
 
             ]
         );
-        
+
         $data = $request->all();
         $holiday = new Holiday;
         $holiday->title = $request->input('title');
         $holiday->start_date = $request->input('start_date');
         $holiday->end_date = $request->input('end_date');
         $holiday->year = $request->input('year');
-        $holiday->is_optional =$request->input('is_optional');
+        $holiday->is_optional = $request->input('is_optional');
 
 
         //if optional option existst data store with optional  yes
 
-        if (array_key_exists('is_optional',$data )) {
+        if (array_key_exists('is_optional', $data)) {
 
             $holiday->title = $request->input('title');
             $holiday->start_date = $request->input('start_date');
             $holiday->end_date = $request->input('end_date');
             $holiday->year = $request->input('year');
-            $holiday->is_optional =('yes');
+            $holiday->is_optional = ('yes');
             $holiday->save();
         }
 
         //if optional option   does not existst data store with optional no
-         else
-          {
+        else {
 
             $holiday->title = $request->input('title');
             $holiday->start_date = $request->input('start_date');
             $holiday->end_date = $request->input('end_date');
             $holiday->year = $request->input('year');
-            $holiday->is_optional =('no');
+            $holiday->is_optional = ('no');
             $holiday->save();
         }
 
@@ -145,16 +146,14 @@ class HolidayController extends Controller
 
     }
 
-
     // method for holiday Update status action
-    public function updateStatus(Request $request)
+    public function updateStatus($id)
     {
-       dd($request);
-        $holiday = Holiday::find($request->id); 
-        $holiday->status = $request->status; 
-       
-        $holiday->save(); 
-        return response()->json(['success'=>'Status change successfully.']); 
+        dd($id);
+        $holiday = Holiday::find($id);
+        $holiday->status = $id->status;
+        $holiday->save();
+        return response()->json(['success' => 'Status change successfully.']);
     }
 
 }

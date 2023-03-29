@@ -54,12 +54,13 @@ Route::group(['middleware' => "auth"], function () {
 
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
     Route::group(['prefix' => 'holiday'], function () {
-        Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
-        Route::get('/holidays-add', [HolidayController::class, 'add_holiday'])->name('holiday.add');
-        Route::post('/holidays-add-action', [HolidayController::class, 'add_holiday_actoin'])->name('holiday.add.action');
-        Route::get('/holidays-edit/{id}', [HolidayController::class, 'holiday_edit'])->name('holiday.edit');
-        Route::post('/holidays-edit-action', [HolidayController::class, 'holidate_Update_action'])->name('holiday.edit.action');
-        Route::delete('holiday-delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
+        Route::get('/holiday',[HolidayController::class,'index'])->name('holiday.index');
+        Route::get('/add',[HolidayController::class,'add_holiday'])->name('holiday.add');
+        Route::post('/add-action',[HolidayController::class,'add_holiday_actoin'])->name('holiday.add.action');
+        Route::get('/edit/{id}',[HolidayController::class,'holiday_edit'])->name('holiday.edit');
+        Route::post('/edit-action',[HolidayController::class,'holidate_Update_action'])->name('holiday.edit.action');
+        Route::delete('/delete/{id}',[HolidayController::class,'destroy'])->name('holiday.delete');
+        Route::get('/status-update/{id}/',[HolidayController::class,'updateStatus'])->name('holiday.change.status');
 
     });
 
@@ -90,7 +91,7 @@ Route::group(['middleware' => "auth"], function () {
 //----------------------------------under testin------------------------------
 Route::get('/send-mail', [CustomAuthController::class, 'get_email']);
 Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('send_email');
-Route::get('/status-update', [HolidayController::class, 'updateStatus'])->name('holiday.change.status');
+
 
 //testing router
 Route::get('/leaves-test', [LeavesController::class, 'test'])->name('leaves.test');
