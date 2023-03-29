@@ -246,20 +246,5 @@
         });
     </script>
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-    <script>
-        $(document).ready(function() {
-            // Initialize the date picker for the leave start date input
-
-            // Add a change event listener to the leave end date input
-
-        });
-    </script>
-
-
     @include('layouts.footer')
 @endsection
