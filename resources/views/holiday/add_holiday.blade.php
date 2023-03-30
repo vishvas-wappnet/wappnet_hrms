@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('main_section')
-@include('layouts.header')
+    @include('layouts.header')
 
 
     <div id="page-wrapper">
@@ -37,23 +37,22 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="title" class=" "> Date</label>
+                                        <label for="start_date">Date:</label>
                                         <div class="input-daterange input-group" id="date-range">
-                                            <input type="date" class="form-control" id="start_date" name="start_date"
-                                                min="<?php echo date('Y-m-d'); ?>" required />
-                                            <span class="input-group-addon bg-info b-0 text-white" style="height:10px;">to</span>
-                                            <input type="date" class="form-control" id="end_date" name="end_date"
-                                                min="<?php echo date('Y-m-d'); ?>" required />
+                                            <input type="text" class="form-control datepicker" id="start_date"
+                                                name="start_date" placeholder="Start Date"
+                                                min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                            <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                            <input type="text" class="form-control datepicker" id="end_date"
+                                                name="end_date" placeholder="End Date"
+                                                min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -97,27 +96,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> --}}
 
-        <script>
-            $(document).ready(function() {
-                $('#start_date').on('change', function() {
-                    var start_date = new Date($('#start_date').val());
-                    var end_date = new Date($('#end_date').val());
-                    if (start_date.getTime() > end_date.getTime() && end_date.getTime() !== 0) {
-                        $('#start_date').val('');
-                        alert('Start date should be before end date.');
-                    }
-                });
-
-                $('#end_date').on('change', function() {
-                    var start_date = new Date($('#start_date').val());
-                    var end_date = new Date($('#end_date').val());
-                    if (end_date.getTime() < start_date.getTime()) {
-                        $('#end_date').val('');
-                        alert('End date should be after start date.');
-                    }
-                });
-            });
-        </script>
         <script>
             $('#Holidayform').validate({
                 rules: {
@@ -177,9 +155,6 @@
                 }
             });
 
-
-
-
             (function() {
                 $('input[name="daterange"]').daterangepicker({
                     opens: 'left',
@@ -209,8 +184,65 @@
                 }
             };
         </script>
+        <!-- Include Bootstrap Datepicker CSS -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        <!-- Include jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Include Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- Include Bootstrap Datepicker JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+        
+        <script>
+            var today = new Date();
+            $('#start_date').datepicker({
+                // $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: today,
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+            var today = new Date();
+            $('#end_date').datepicker({
+                // $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: today,
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+
+            $("#end_date").change(function() {
+                // Get the date values for the leave start and end dates
+                var startDate = new Date($("#start_date").val());
+                var endDate = new Date($("#end_date").val());
+
+                // Check if the end date is before the start date
+                if (endDate < startDate) {
+                    // If the end date is before the start date, show an error message
+                    alert("Holiday end date must be after  start date.");
+                    // Reset the end date input value to an empty string
+                    $("#end_date").val("");
+                }
+            });
+
+            $("#start_date").change(function() {
+                // Get the date values for the leave start and end dates
+                var startDate = new Date($("#start_date").val());
+                var endDate = new Date($("#end_date").val());
+
+                // Check if the end date is before the start date
+                if (startDate > endDate) {
+                    alert("holiday start date must be before  end date.");
+                    // Reset the end date input value to an empty string
+                    $("#start_date").val("");
+                }
+            });
+        </script>
 
 
 
-@include('layouts.footer')
-@endsection
+        @include('layouts.footer')
+    @endsection

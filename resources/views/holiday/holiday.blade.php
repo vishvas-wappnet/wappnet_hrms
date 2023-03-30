@@ -25,7 +25,7 @@
         </div>
     </div>
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         jQuery(function load_data($) {
 
@@ -53,13 +53,18 @@
                     {
                         title: 'Day',
                         data: 'day',
-                        name: 'date'
+                        name: 'day'
                     },
 
                     {
                         title: 'Start date',
                         data: 'start_date',
                         name: 'date'
+                    },
+                    {
+                        title: 'End date',
+                        data: 'end_date',
+                        name: 'end_date'
                     },
 
                     {
@@ -83,8 +88,6 @@
                 ]
             });
         })
-
-
 
         $(document).ready(function() {
             $('#holiday_datatable').on('click', '.btn-toggle', function() {
@@ -112,7 +115,7 @@
                         }).then(function() {
                             location.reload();
                         });
-                        
+
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -123,7 +126,6 @@
     </script>
 
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @include('layouts.footer')
 @endsection
