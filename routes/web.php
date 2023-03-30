@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\LeavesController;
-use App\Http\Controllers\LoginRegisterRepostoryController;
-use App\Http\Controllers\UserRepostoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\UserRepostoryController;
+use App\Http\Controllers\LoginRegisterRepostoryController;
 ;
 
 //----------------------------------guest middleware ---login not required-------------------------------------------
@@ -98,3 +99,9 @@ Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('sen
 Route::get('/leaves-test', [LeavesController::class, 'test'])->name('leaves.test');
 // Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
 // Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
+
+
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+

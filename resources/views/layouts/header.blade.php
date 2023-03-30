@@ -259,6 +259,7 @@
               <li> <a href="{{ Route('holiday.index') }}">Holiday</a> </li>
               <li> <a href="{{route('department.index')}}">Department</a> </li>
               <li> <a href="{{route('leaves.index')}}">Leave</a> </li>
+              <li> <a href="{{route('documents.index')}}">Documents</a> </li>
             </ul>
           </li>
   

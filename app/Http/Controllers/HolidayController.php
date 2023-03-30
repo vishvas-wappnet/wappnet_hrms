@@ -1,21 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use DB;
 use DataTables;
 use App\Models\Holiday;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Database\Seeders\Holidays;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
-
 class HolidayController extends Controller
 {
     //holiday list method 
@@ -148,5 +140,4 @@ class HolidayController extends Controller
         $holiday->save();
         return response()->json(['success' => 'Status change successfully.']);
     }
-
 }

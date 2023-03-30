@@ -18,12 +18,10 @@ class DepartmentController extends Controller
     //display list of  Department
     public function index(Request $request)
     {
-
         $department = Department::select('id', 'name')->get();
         // dd($department);
         if ($request->ajax()) {
             $department = Department::select('id', 'name')->get();
-
             return Datatables::of($department)->addIndexColumn()
                 ->addColumn("action", "action.department_action")
                 ->rawColumns(['action'])
