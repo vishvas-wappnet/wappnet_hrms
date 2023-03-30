@@ -60,7 +60,8 @@ Route::group(['middleware' => "auth"], function () {
         Route::get('/edit/{id}',[HolidayController::class,'holiday_edit'])->name('holiday.edit');
         Route::post('/edit-action',[HolidayController::class,'holidate_Update_action'])->name('holiday.edit.action');
         Route::delete('/delete/{id}',[HolidayController::class,'destroy'])->name('holiday.delete');
-        Route::get('/status-update/{id}/',[HolidayController::class,'updateStatus'])->name('holiday.change.status');
+        // Route::get('/status-update/{id}/',[HolidayController::class,'updateStatus'])->name('holiday.change.status');
+        Route::put('/status', [HolidayController::class, 'updateStatus'])->name('holidays.toggle-status');
 
     });
 

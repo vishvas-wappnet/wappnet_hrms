@@ -25,7 +25,7 @@
         </div>
     </div>
 
-   
+
     <script type="text/javascript">
         jQuery(function load_data($) {
 
@@ -34,9 +34,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            //         var headers = {
-            // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
 
             var table = $('.holiday_datatable').DataTable({
                 processing: true,
@@ -86,8 +83,47 @@
                 ]
             });
         })
+
+
+
+        $(document).ready(function() {
+            $('#holiday_datatable').on('click', '.btn-toggle', function() {
+                const holidayId = $(this).data('id');
+                const newStatus = $(this).text().toLowerCase() === 'activate' ? 'active' : 'inactive';
+                // alert(newStatus);
+                $.ajax({
+                    url: `/holiday/status`,
+                    type: 'PUT',
+                    data: {
+                        id: holidayId,
+                        status: newStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function() {
+
+                        swal({
+                            title: "holiday status",
+                            text: "status changes successfully !",
+                            icon: "success",
+                            button: "ok",
+
+                        }).then(function() {
+                            location.reload();
+                        });
+                        
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
     </script>
 
 
-@include('layouts.footer')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @include('layouts.footer')
 @endsection

@@ -6,15 +6,16 @@ use DB;
 use DataTables;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Database\Seeders\Holidays;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\JsonResponse;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Redirect;
 use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
 
 class HolidayController extends Controller
 {
-
     //holiday list method 
     public function index(Request $request)
     {
@@ -22,10 +23,10 @@ class HolidayController extends Controller
             $data = Holiday::select('id', 'title', 'day', 'start_date', 'is_optional', 'status')->get();
 
             return Datatables::of($data)->addIndexColumn()
-
-                ->addColumn("status", 'action.holiday_change_status')
-
-                
+                // ->addColumn("status", 'action.holiday_change_status')
+                ->addColumn("status", '<button type="button"  style="width: 100px; height: 40px;" class="btn-toggle  btn  {{$status === "active" ? "btn-danger" : "btn-success " }}"  data-id="{{ $id }}"  >
+                {{$status  === "inactive" ? "active" : "inactive" }}
+                </button>')
                 ->addColumn("action", '<form action="{{route("holiday.delete",$id)}}" method="post">
                 @csrf
                 @method("EDIT")
@@ -56,15 +57,12 @@ class HolidayController extends Controller
     //add holiday action function
     public function add_holiday_actoin(Request $request)
     {
-
         $request->validate(
             [
                 'title' => 'required|string|min:3',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'year' => 'required|min:4|max:4',
-
-
             ]
         );
 
@@ -99,9 +97,6 @@ class HolidayController extends Controller
             $holiday->is_optional = ('no');
             $holiday->save();
         }
-
-        return back()->with('success', 'Holiday added');
-        $holiday->save();
         return Redirect::route('holiday.index')->withSuccess('Holiday added Successfully');
 
     }
@@ -146,12 +141,15 @@ class HolidayController extends Controller
 
     }
 
+    /**
+     * update the   holiday status from storage.
+     * @return \Illuminate\Http\Response
+     */
     // method for holiday Update status action
-    public function updateStatus($id)
+    public function updateStatus(Request $request): JsonResponse
     {
-        dd($id);
-        $holiday = Holiday::find($id);
-        $holiday->status = $id->status;
+        $holiday = Holiday::find($request->id);
+        $holiday->status = $holiday->status === 'active' ? 'inactive' : 'active';
         $holiday->save();
         return response()->json(['success' => 'Status change successfully.']);
     }
