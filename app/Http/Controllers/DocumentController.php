@@ -16,15 +16,22 @@ class DocumentController extends Controller
      * Display a listing of the Documents.
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) :  JsonResponse | View
+    public function index(Request $request): JsonResponse|View
     {
-        
+
         if ($request->ajax()) {
-            $documents = Document::select('id', 'name', 'path', 'type' ,'created_at')->get();
+            $documents = Document::select('id', 'name', 'path', 'type', 'created_at')->get();
             return Datatables::of($documents)->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . url('storage/' . $row->path) . '" target="_blank" class="btn btn-primary btn-sm">View</a>';
+                    $btn .= '&nbsp;';
+                    // $btn .= '<a href="'.route('documents.destroy', $row->id).'" class="btn btn-danger btn-sm delete-document">Delete</a>';
+                    return $btn;
+                })
                 ->addIndexColumn()
                 ->make(true);
         }
+        
         return view('documents.index_document');
     }
 

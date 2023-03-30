@@ -64,10 +64,16 @@
                         name: 'type'
                     },
                     {
-                        title: 'Uplodated Date',
+                        title:'Uplodated Date',
                         data: 'created_at',
                         name: 'created_at'
+                    },
+                    {
+                        title:'Action',
+                        data: 'action',
+                        name: 'action'
                     }
+
                 ]
             });
         })
