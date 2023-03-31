@@ -9,6 +9,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserRepostoryController;
 use App\Http\Controllers\LoginRegisterRepostoryController;
+
 ;
 
 //----------------------------------guest middleware ---login not required-------------------------------------------
@@ -55,12 +56,12 @@ Route::group(['middleware' => "auth"], function () {
 
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
     Route::group(['prefix' => 'holiday'], function () {
-        Route::get('/holiday',[HolidayController::class,'index'])->name('holiday.index');
-        Route::get('/add',[HolidayController::class,'add_holiday'])->name('holiday.add');
-        Route::post('/add-action',[HolidayController::class,'add_holiday_actoin'])->name('holiday.add.action');
-        Route::get('/edit/{id}',[HolidayController::class,'holiday_edit'])->name('holiday.edit');
-        Route::post('/edit-action',[HolidayController::class,'holidate_Update_action'])->name('holiday.edit.action');
-        Route::delete('/delete/{id}',[HolidayController::class,'destroy'])->name('holiday.delete');
+        Route::get('/holiday', [HolidayController::class, 'index'])->name('holiday.index');
+        Route::get('/add', [HolidayController::class, 'add_holiday'])->name('holiday.add');
+        Route::post('/add-action', [HolidayController::class, 'add_holiday_actoin'])->name('holiday.add.action');
+        Route::get('/edit/{id}', [HolidayController::class, 'holiday_edit'])->name('holiday.edit');
+        Route::post('/edit-action', [HolidayController::class, 'holidate_Update_action'])->name('holiday.edit.action');
+        Route::delete('/delete/{id}', [HolidayController::class, 'destroy'])->name('holiday.delete');
         // Route::get('/status-update/{id}/',[HolidayController::class,'updateStatus'])->name('holiday.change.status');
         Route::put('/status', [HolidayController::class, 'updateStatus'])->name('holidays.toggle-status');
 
@@ -103,5 +104,7 @@ Route::get('/leaves-test', [LeavesController::class, 'test'])->name('leaves.test
 
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
 Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+Route::get('/documents/show/{id}', [DocumentController::class, 'show'])->name('documents.show');
 Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+Route::get('/documents/download/{id}', [DocumentController::class, 'download'])->name('documents.download');
 

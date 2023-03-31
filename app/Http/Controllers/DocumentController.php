@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\Document;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentController extends Controller
 {
@@ -23,15 +25,20 @@ class DocumentController extends Controller
             $documents = Document::select('id', 'name', 'path', 'type', 'created_at')->get();
             return Datatables::of($documents)->addIndexColumn()
                 ->addColumn('action', function ($row) {
+                    // $btn = '<a href="' . route('documents.show', $row->id) . '" class="btn btn-primary btn-sm mr-2">View</a>';
                     $btn = '<a href="' . url('storage/' . $row->path) . '" target="_blank" class="btn btn-primary btn-sm">View</a>';
                     $btn .= '&nbsp;';
-                    // $btn .= '<a href="'.route('documents.destroy', $row->id).'" class="btn btn-danger btn-sm delete-document">Delete</a>';
+
+                    //  $btn = '<a href="' .url('storage/' . $row->path) .  '" target="_blank" class="btn btn-primary btn-sm">Download</a>';
+    
+                    $btn .= '<a href="' . route('documents.download', $row->id) . '" class="btn btn-danger btn-sm delete-document">Download</a>';
                     return $btn;
+
                 })
                 ->addIndexColumn()
                 ->make(true);
         }
-        
+
         return view('documents.index_document');
     }
 
@@ -58,7 +65,7 @@ class DocumentController extends Controller
             'type' => 'required',
             'file' => 'required',
         ]);
-        $path = $request->file('file')->store('public');
+        $path = $request->file('file')->store('public/');
         $name = pathinfo($path, PATHINFO_FILENAME) . '.' . $request->file('file')->extension();
         $document = new Document;
         $document->name = $validatedData['name'];
@@ -66,6 +73,26 @@ class DocumentController extends Controller
         $document->path = $name;
         $document->save();
         return redirect()->route('documents.index')->with('success', 'Document uploaded successfully.');
+    }
+
+     /**
+     *  Download  the specified resource.
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     * download method 
+     */
+    public function download($id) : BinaryFileResponse | RedirectResponse 
+    {
+        $document = Document::findOrFail($id);
+        if ($document) {
+            $pathToFile = public_path('storage/' . $document->path);
+            
+            return response()->download($pathToFile);
+            
+        } else {
+            return redirect()->back()->with('error', 'File not found!');
+        }
+
     }
 
     /**
@@ -76,7 +103,9 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        //
+        $document = Document::findOrFail($id);
+        //  dd($document->path);
+        return view('documents.show_document', compact('document'));
     }
 
     /**

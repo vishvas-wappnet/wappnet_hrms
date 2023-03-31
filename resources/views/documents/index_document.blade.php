@@ -18,7 +18,8 @@
                             <div id="success_message">
                                 @include('layouts.partial.messages')
                             </div>
-                            <a class="btn btn-success" onClick="add()" href="{{ route('documents.create') }}">Add Document</a>
+                            <a class="btn btn-success" onClick="add()" href="{{ route('documents.create') }}">Add
+                                Document</a>
                         </div>
                     </div>
                 </div>
@@ -53,23 +54,19 @@
                         name: 'name'
                     },
 
-                    {
-                        title: 'Path',
-                        data: 'path',
-                        name: 'path'
-                    },
+
                     {
                         title: 'Type',
                         data: 'type',
                         name: 'type'
                     },
                     {
-                        title:'Uplodated Date',
+                        title: 'Uplodated Date',
                         data: 'created_at',
                         name: 'created_at'
                     },
                     {
-                        title:'Action',
+                        title: 'Action',
                         data: 'action',
                         name: 'action'
                     }

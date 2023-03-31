@@ -111,7 +111,6 @@ class UserController extends Controller
     public function destroy(Request $request) : Response
     {
         $user = User::where('id', $request->id);
-        //return Response()->json($user);
         $user->delete();
         return redirect("view_users")->withSuccess('User deleted Successfully');
     }
