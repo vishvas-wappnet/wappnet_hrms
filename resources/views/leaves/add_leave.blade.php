@@ -326,7 +326,7 @@
             var endDate = new Date($("#leave_end_date").val());
             var difference = endDate.getTime() - startDate.getTime() + 1;
             var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-            
+            v
             if (is_start_date_full_day == 1 and is_end_date_full_day == 1) {
                 alert(total_days - 2)
             } else if (is_start_date_full_day == 0 and is_end_date_full_day == 0) {
