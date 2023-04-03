@@ -21,6 +21,8 @@ class Leave extends Model
         'leave_reason',
         'work_reliever',
         'status',
+        'paid_leave_balance',
+        'unpaid_leave_balance',
         'approved',
         'user_id'
     ];
@@ -31,7 +33,10 @@ class Leave extends Model
         'leave_end_date',
     ];
 
-
+    public function add()
+    {
+        return $this->hasOne(Leave::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

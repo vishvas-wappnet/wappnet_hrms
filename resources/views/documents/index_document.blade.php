@@ -18,8 +18,11 @@
                             <div id="success_message">
                                 @include('layouts.partial.messages')
                             </div>
-                            <a class="btn btn-success" onClick="add()" href="{{ route('documents.create') }}">Add
-                                Document</a>
+                            <a class="btn btn-success" onClick="add()" href="{{ route('documents.create') }}">
+                                    Upload Documents
+
+                                    <i class="fa-solid fa-upload"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -70,10 +73,34 @@
                         data: 'action',
                         name: 'action'
                     }
-
                 ]
             });
         })
+
+
+        $('body').on('click', '.download-document', function() {
+            var document_id = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('documents.download', ':id') }}".replace(':id', document_id),
+                method: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response) {
+                    var blob = new Blob([response]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = response.filename;
+                    link.click();
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr);
+                    console.log(status);
+                    console.log(error);
+                }
+            });
+        });
     </script>
     @include('layouts.footer')
 @endsection

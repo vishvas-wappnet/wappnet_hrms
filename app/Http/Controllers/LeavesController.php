@@ -28,12 +28,10 @@ class LeavesController extends Controller
     //display  list of leaves
     public function index(Request $request): View|JsonResponse
     {
+        $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
+
         if ($request->ajax()) {
-            $leave_start_date = Leave::select('leave_start_date')->get();
-
-            $leave_end_date = Leave::select('leave_end_date')->get();
-
-            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status')->get();
+            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
             return DataTables::of($leaves)->addIndexColumn()
                 ->addColumn("action", "action.leavse_action")
                 ->addColumn('approve', "action.leave_approve")
@@ -51,22 +49,32 @@ class LeavesController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('leaves.leaves_index');
+        return view('leaves.leaves_index', compact('leaves'));
     }
 
     //test method for just testing purpose
-    // public function test()  :
-    // {
-    //     return view('leaves.test');
-    // }
+    public function leaveBalance()
+    {
+        $user = auth()->user();
+        $leaveBalance = $user->leaveBalance;
+        return view('leaves.leaves_index', compact('leaveBalance'));
+    }
     //display app leaves page
     public function add(): View
     {
-        return view('leaves.add_leave');
+        // $user = auth()->user();
+        // $leaves = Leave::select('paid_leave_balance', 'unpaid_leave_balance')->get();
+
+        $user = Auth::user();
+        $leaves = Leave::select('id', 'name', 'paid_leave_balance', 'unpaid_leave_balance')
+            ->where('user_id', $user->id)
+            ->get();
+        
+        return view('leaves.add_leave', compact('leaves'));
     }
 
     //add leave page action method
-    public function add_action(Request $request) : RedirectResponse
+    public function add_action(Request $request): RedirectResponse
     {
         $request->validate(
             [

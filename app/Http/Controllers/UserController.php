@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -80,7 +81,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit($id) : Response |  \Illuminate\View\View
+    public function edit($id): Response|\Illuminate\View\View
     {
         $user = User::find($id);
         return view('users.edit_user', compact('user'));
@@ -108,12 +109,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy(Request $request) : Response
+    public function destroy(Request $request): Response
     {
         $user = User::where('id', $request->id);
         $user->delete();
         return redirect("view_users")->withSuccess('User deleted Successfully');
     }
-
 
 }

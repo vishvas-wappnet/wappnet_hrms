@@ -6,6 +6,7 @@ use Response;
 use App\Models\Document;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,18 +25,18 @@ class DocumentController extends Controller
         if ($request->ajax()) {
             $documents = Document::select('id', 'name', 'path', 'type', 'created_at')->get();
             return Datatables::of($documents)->addIndexColumn()
+
+            ->addColumn('created_at', function ($documents) {
+                return date('d-m-yy', strtotime($documents->created_at));
+            })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a href="' . route('documents.show', $row->id) . '" class="btn btn-primary btn-sm mr-2">View</a>';
                     $btn = '<a href="' . url('storage/' . $row->path) . '" target="_blank" class="btn btn-primary btn-sm">View</a>';
                     $btn .= '&nbsp;';
-
-                    //  $btn = '<a href="' .url('storage/' . $row->path) .  '" target="_blank" class="btn btn-primary btn-sm">Download</a>';
-    
-                    $btn .= '<a href="' . route('documents.download', $row->id) . '" class="btn btn-danger btn-sm delete-document">Download</a>';
+                     $btn .= '<a href="' . route('documents.download', $row->id) . '" class="btn btn-primary btn-sm">Download</a>';
                     return $btn;
-
                 })
                 ->addIndexColumn()
+                ->escapeColumns([])
                 ->make(true);
         }
 

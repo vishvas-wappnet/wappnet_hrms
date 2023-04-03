@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserExport;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\HolidayController;
@@ -52,6 +53,10 @@ Route::group(['middleware' => "auth"], function () {
         Route::get('edit-user/{id}', [UserRepostoryController::class, 'edit'])->name('edit.user');
         Route::put('store-user', [UserRepostoryController::class, 'store'])->name('users.store');
         Route::get('delete/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
+        // Route::get('expoert-excel/', [UserExport::class, 'exportExcel'])->name('export.data');
+        Route::get('expoert-csv/', [UserExport::class, 'exportCsv'])->name('export.data');
+       
+
     });
 
     //----------------------------------HOLIDAY-ROUTES--------------------------------------------
@@ -85,6 +90,13 @@ Route::group(['middleware' => "auth"], function () {
     Route::get('leave/approveLeave/{id}', [LeavesController::class, 'approveLeave'])->name('leave.approveLeave');
     Route::get('leave/reject/{id}', [LeavesController::class, 'reject_leave'])->name('leave.reject');
 
+    //-----------------------------------Export Data-----------------------------------------------
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+    Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+    Route::get('/documents/show/{id}', [DocumentController::class, 'show'])->name('documents.show');
+    Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+    Route::get('/documents/download/{id}', [DocumentController::class, 'download'])->name('documents.download');
+
 
 
 });
@@ -100,11 +112,3 @@ Route::post('/send-mail', [CustomAuthController::class, 'emailSend'])->name('sen
 Route::get('/leaves-test', [LeavesController::class, 'test'])->name('leaves.test');
 // Route::get('/department-edit/{id}',[DepartmentController::class,'edit'])->name('edit.department');
 // Route::put('/department-edit',[DepartmentController::class,'update'])->name('edit.department.action');
-
-
-Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
-Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
-Route::get('/documents/show/{id}', [DocumentController::class, 'show'])->name('documents.show');
-Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
-Route::get('/documents/download/{id}', [DocumentController::class, 'download'])->name('documents.download');
-
