@@ -17,6 +17,8 @@ class Leave extends Model
         'leave_start_date',
         'leave_end_date',
         'is_full_day',
+        'is_start_date_is_full_day',
+        'is_end_date_is_full_day',
         'leave_balance',
         'leave_reason',
         'work_reliever',

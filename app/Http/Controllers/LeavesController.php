@@ -69,13 +69,14 @@ class LeavesController extends Controller
         $leaves = Leave::select('id', 'name', 'paid_leave_balance', 'unpaid_leave_balance')
             ->where('user_id', $user->id)
             ->get();
-        
+
         return view('leaves.add_leave', compact('leaves'));
     }
 
     //add leave page action method
     public function add_action(Request $request): RedirectResponse
     {
+        //   dd($request);
         $request->validate(
             [
                 'name' => 'required',
@@ -83,7 +84,8 @@ class LeavesController extends Controller
                 'description' => 'required',
                 'leave_start_date' => 'required|date',
                 'leave_end_date' => 'required|date',
-                'is_full_day' => 'required',
+                'is_start_date_is_full_day' => 'required',
+                'is_end_date_is_full_day' => 'required',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
@@ -98,7 +100,8 @@ class LeavesController extends Controller
             $leave->description = $request->input('description');
             $leave->leave_start_date = $request->input('leave_start_date');
             $leave->leave_end_date = $request->input('leave_end_date');
-            $leave->is_full_day = $request->input('is_full_day');
+            $leave->is_start_date_is_full_day = $request->input('is_start_date_is_full_day');
+            $leave->is_end_date_is_full_day = $request->input('is_end_date_is_full_day');
             $leave->leave_reason = $request->input('leave_reason');
             $leave->work_reliever = $request->input('work_reliever');
             $leaveBalance = Leave::where('name', $request->input('name'))->value('leave_balance');
@@ -116,7 +119,8 @@ class LeavesController extends Controller
             $leave->description = $request->input('description');
             $leave->leave_start_date = $request->input('leave_start_date');
             $leave->leave_end_date = $request->input('leave_end_date');
-            $leave->is_full_day = $request->input('is_full_day');
+            $leave->is_start_date_is_full_day = $request->input('is_start_date_is_full_day');
+            $leave->is_end_date_is_full_day = $request->input('is_end_date_is_full_day');
             $leave->leave_reason = $request->input('leave_reason');
             $leave->work_reliever = $request->input('work_reliever');
             $leave->leave_balance = 14;
@@ -136,7 +140,7 @@ class LeavesController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request);
+
         $request->validate(
             [
                 'name' => 'required',
@@ -144,7 +148,8 @@ class LeavesController extends Controller
                 'description' => 'required',
                 'leave_start_date' => 'required|date',
                 'leave_end_date' => 'required|date',
-                'is_full_day' => 'required',
+                'is_start_date_is_full_day' => 'required',
+                'is_end_date_is_full_day' => 'required',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
@@ -211,9 +216,11 @@ class LeavesController extends Controller
         if ($leaves == true) {
             $start_date = Carbon::parse($leave->leave_start_date);
             $end_date = Carbon::parse($leave->leave_end_date);
+            
             $total_days = $start_date->diffInDays($end_date) + 1;
             $data = $leave->leave_balance - $total_days;
             $remaing_balance = $leave->leave_balance = $data;
+            
             Leave::where('name', $leave->name)
                 ->update(['leave_balance' => $remaing_balance]);
             $leave->status = 'approved';

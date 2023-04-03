@@ -9,6 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('../plugins/images/favicon.png') }}">
   <title>Elite Admin - is a responsive admin template</title>
+
   <!-- Bootstrap Core CSS -->
   <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <!-- animation CSS -->
@@ -18,6 +19,7 @@
   <!-- color CSS -->
   <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
   
+
    <meta name="csrf-token" content="{{ csrf_token() }}"> 
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -70,6 +72,7 @@
         <div class="cssload-speeding-wheel"></div>
     </div> --}}
     @yield('main_section')
+    
      <!-- jQuery -->
      <script src="{{ asset('../plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -86,5 +89,6 @@
     <!--Style Switcher -->
     <script src="{{ asset('../plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
 
+    
 </body>
 </html>

@@ -37,14 +37,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="form-group">
-                                    <label for="leave_subject">Subject  <span style="color:red">*</span> </label>
+                                    <label for="leave_subject">Subject <span style="color:red">*</span> </label>
                                     <input type="text" name="leave_subject" id="leave_subject" class="form-control"
                                         value="{{ old('leave_subject') }}" required>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -57,7 +57,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="leave_start_date">Select Leave Dates and Leavse types on start date and end
-                                    date   <span style="color:red">*</span> </label>
+                                    date <span style="color:red">*</span> </label>
                                 <div class="input-daterange input-group" id="date-range">
                                     <input type="text" class="form-control datepicker" id="leave_start_date"
                                         name="leave_start_date" placeholder="Start Date"
@@ -76,14 +76,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <div class="input-group" id="-range">
-                            <select name="start_date_is_full_day" id="start_date_is_full_day" class="form-control">
+                            <select name="is_start_date_is_full_day" id="is_start_date_is_full_day" class="form-control">
                                 <option value="1"{{ old('is_full_day') ? ' selected' : '' }}>Yes
                                 </option>
                                 <option value="0"{{ old('is_full_day') === '0' ? ' selected' : '' }}>No
                                 </option>
                             </select>
                             <span class="input-group-addon bg-info b-0 text-white">to</span>
-                            <select name="end_date_is_full_day" id="end_date_is_full_day" class="form-control">
+                            <select name="is_end_date_is_full_day" id="is_end_date_is_full_day" class="form-control">
                                 <option value="1"{{ old('is_full_day') ? ' selected' : '' }}>Yes
                                 </option>
                                 <option value="0"{{ old('is_full_day') === '0' ? ' selected' : '' }}>No
@@ -93,7 +93,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                {{-- <div class="col-md-12">
                     <div class="col-md-4">
                         <div class="form-group">
                             <select name="leave_type" id="leave_type"  value="Leavse Balance"> 
@@ -105,7 +105,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -289,17 +289,20 @@
             var endDate = new Date($("#leave_end_date").val());
             var difference = endDate.getTime() - startDate.getTime() + 1;
             var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
+            // alert(totalDays);
             var paid_leave_balance = '{{ $leaves->pluck('paid_leave_balance')[0] }}';
             var unpaid_leave_balance = '{{ $leaves->pluck('unpaid_leave_balance')[0] }}'
 
             if (paid_leave_balance < totalDays) {
                 // $(this).find('option[value="paid"]').prop('disabled', true);
                 alert(
-                    'your paid leavse  balance is not enough please apply leavse according to paid leavse balance');
+                    'your paid leavse  balance is not enough please apply leavse according to paid leavse balance'
+                );
 
             } else if (unpaid_leave_balance < totalDays) {
                 alert(
-                    'your unpaid leavse  balance is not enough please apply leavse according to paid leavse balance');
+                    'your unpaid leavse  balance is not enough please apply leavse according to paid leavse balance'
+                );
                 $("#leave_start_date").val("");
             }
 
@@ -309,6 +312,29 @@
                 alert("Leave end date must be after leave start date.");
                 // Reset the end date input value to an empty string
                 $("#leave_end_date").val("");
+            }
+        });
+
+        var is_end_date_select = document.getElementById("is_end_date_is_full_day");
+
+
+        is_end_date_select.addEventListener("change", function() {
+            // var is_end_date_full_day = this.value;
+            var is_start_date_full_day = document.getElementById("is_start_date_is_full_day").value;
+            var is_end_date_full_day = document.getElementById("is_end_date_is_full_day").value;
+            var startDate = new Date($("#leave_start_date").val());
+            var endDate = new Date($("#leave_end_date").val());
+            var difference = endDate.getTime() - startDate.getTime() + 1;
+            var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
+            
+            if (is_start_date_full_day == 1 and is_end_date_full_day == 1) {
+                alert(total_days - 2)
+            } else if (is_start_date_full_day == 0 and is_end_date_full_day == 0) {
+                alert(total_days - 1)
+            } else if (is_start_date_full_day == 1 and is_end_date_full_day == 0) {
+                alert(total_days - 1.5)
+            } else if (is_start_date_full_day == 0 and is_end_date_full_day == 1) {
+                alert(total_days - 1.5)
             }
         });
 
