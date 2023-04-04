@@ -22,24 +22,28 @@
                 </div>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('documents.store') }}" enctype="multipart/form-data">
+                <form method="POST" name="document" id="document" action="{{ route('documents.store') }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id">
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="title" class="col-sm-2 ">Name</label>
-                                    <input type="text" class="form-control" id="title" name="name"
-                                        placeholder="Enter Document Name" maxlength="50" required>
+                                <input type="text" class="form-control" id="title" name="name"
+                                    placeholder="Enter Document Name" maxlength="50" required>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <div class="form-group">
+                  
+                  
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
                                 <label for="type">Select a document type:</label>
-                                <select name="type" id="type">
+                                <select name="type" id="type" class="form-control">
                                     <option value="invoice">Invoice</option>
                                     <option value="receipt">Receipt</option>
                                     <option value="contract">Contract</option>
@@ -54,7 +58,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="file">Choose a file:</label>
-                                <input type="file" name="file" id="file">
+                                <input type="file" name="file" id="file" required class="form-control">
+                                @error('file')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -62,7 +69,7 @@
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button type="submit">Upload</button>
+                                <button type="submit" class="btn btn-primary">Upload</button>
                             </div>
                         </div>
                     </div>
@@ -71,99 +78,56 @@
             </div>
         </div>
     </div>
-
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> --}}
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery Validation plugin -->
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
     <script>
-        $('#Holidayform').validate({
+        // Your validation code using the $.validate() function
+        $("#document").validate({
+
             rules: {
-                title: {
+                name: {
                     required: true,
-                    maxlength: 255,
-                },
-                start_date: {
-                    required: true,
-                    date: true,
-                },
-                end_date: {
-                    required: true,
-                    date: true,
-                    greaterThanStartDate: "#start_date"
-                },
-                year: {
-                    required: true,
-                    digits: true,
-                    min: 2023,
-                    max: 2050,
+                    minlength: 3,
                 },
 
+                file: {
+                    required: true,
+        
+                }
             },
             messages: {
-                title: {
-                    required: "Please enter holiday title",
-                    maxlength: "Holiday title should not exceed 255 characters",
-                },
-                start_date: {
-                    // required: "Please enter start date",
-                    date: "Please enter valid date",
-                },
-                end_date: {
-                    // required: "Please enter end date",
-                    date: "Please enter valid date",
-                    greaterThanStartDate: "The end date must be greater than the start date"
-                },
-                year: {
-                    required: "Please enter a year",
-                    digits: "Please enter a valid year",
-                    min: "Year should not be less than 2023",
-                    max: "Year should not be greater than 2050",
-                },
 
-            },
-            submitHandler: function(form) {
-                form.submit();
-            },
-
-            errorPlacement: function(error, element) {
-                if (element.attr("name") == "start_date" && "end_date") {
-                    error.insertAfter("#start_date_label");
-                } else {
-                    error.insertAfter(element);
+                name: {
+                    required: 'Please File name',
+                    minlength: 'Name must be at least 3 characters long',
+                },
+                file: {
+                    required: 'Please select a file to upload',
+                    
                 }
             }
+
         });
 
-        (function() {
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'left',
-                startDate: moment().subtract(7, 'days'),
-                endDate: moment(),
-                locale: {
-                    format: 'YYYY-MM-DD'
+        $(document).ready(function() {
+            $('#document').submit(function(event) {
+                var fileSize = $('#file')[0].files[0].size;
+                var fileType = $('#file')[0].files[0].type;
+                if (fileType != 'application/pdf') {
+                    alert('File must be a PDF.');
+                    event.preventDefault();
+                } else if (fileSize > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5 MB.');
+                    event.preventDefault();
                 }
             });
         });
     </script>
 
-    <script type="text/javascript">
-        window.onload = function() {
-            //Reference the DropDownList.
-            var ddlYears = document.getElementById("ddlYears");
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
-            //Determine the Current Year.
-            var currentYear = (new Date()).getFullYear();
-
-            //Loop and add the Year values to DropDownList.
-            for (var i = currentYear; i <= 2050; i++) {
-                var option = document.createElement("OPTION");
-                option.innerHTML = i;
-                option.value = i;
-                ddlYears.appendChild(option);
-            }
-        };
-
-
-        @include('layouts.footer')
-    @endsection
+    @include('layouts.footer')
+@endsection

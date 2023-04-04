@@ -216,7 +216,7 @@ class LeavesController extends Controller
         if ($leaves == true) {
             $start_date = Carbon::parse($leave->leave_start_date);
             $end_date = Carbon::parse($leave->leave_end_date);
-            
+            //calculate total day 
             $total_days = $start_date->diffInDays($end_date) + 1;
             $data = $leave->leave_balance - $total_days;
             $remaing_balance = $leave->leave_balance = $data;

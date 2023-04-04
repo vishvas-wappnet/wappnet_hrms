@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-body">
-                                <h4 style="color:red;">sandwhich Leaves Balance : {{ auth()->user()->leave_balance }}</h4>
+                                <h4 style="color:red;">sandwhich Leaves Balance :1</h4>
                                 <h4 style="color:red;"> Leave Balance: {{ auth()->user()->leave_balance }}</h4>
 
                             </div>
@@ -22,7 +22,6 @@
 
                 <form action="{{ route('leaves.store') }}" method="POST" id="Leaveform" method="post" name="Leaveform">
                     @csrf
-
                     <div class="col-md-12">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -61,9 +60,9 @@
                                 <div class="input-daterange input-group" id="date-range">
                                     <input type="text" class="form-control datepicker" id="leave_start_date"
                                         name="leave_start_date" placeholder="Start Date"
-                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"  class="form-control">
                                     <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                    <input type="text" class="form-control datepicker" id="leave_end_date"
+                                    <input type="text" class="form-control datepicker" id="leave_end_date" class="form-control"
                                         name="leave_end_date" placeholder="End Date"
                                         min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
@@ -107,10 +106,10 @@
                     </div>
                 </div> --}}
                 <div class="col-md-12">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="leave_reason">Leave Reason:</label>
-                            <select id="leave_reason" name="leave_reason">
+                            <label for="leave_reason">Leave Reason <span style="color:red">*</span></label>
+                            <select id="leave_reason" name="leave_reason" class="form-control">
                                 <option value="">Select a reason</option>
                                 <option value="Vacation">Vacation</option>
                                 <option value="Sick Leave">Sick Leave</option>
@@ -149,6 +148,7 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
     <script>
+
         $('#Leaveform').validate({
             rules: {
                 leave_start_date: {
@@ -179,7 +179,7 @@
                     required: true,
                     maxlength: 50,
                 },
-            },
+            },com
 
             messages: {
 
@@ -213,44 +213,7 @@
     <!-- Include Bootstrap Datepicker JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script>
-        // $(document).ready(function() {
-        //     $('#leave_type').change(function() {
-        //         if ($(this).val() == 'paid') {
-        //             var paid_leave_balance = '{{ $leaves->pluck('paid_leave_balance')[0] }}';
-        //             alert(paid_leave_balance);
-        //             console.log(paid_leave_balance);
-        //             // do something with paid_leave_balance
-        //         } else if ($(this).val() == 'unpaid') {
-        //             var unpaid_leave_balance = '{{ $leaves->pluck('unpaid_leave_balance')[0] }}';
-        //             alert(unpaid_leave_balance);
-        //             console.log(unpaid_leave_balance);
-        //             // do something with unpaid_leave_balance
-        //         }
-        //     });
-        // });
-
-        $(document).ready(function() {
-            var total_days = 5; // replace with the total number of days
-
-            $('#leave_type').change(function() {
-                if ($(this).val() == 'paid') {
-                    var paid_leave_balance = '{{ $leaves->pluck('paid_leave_balance')[0] }}';
-                    console.log(paid_leave_balance);
-                    if (paid_leave_balance <= total_days) {
-                        $(this).find('option[value="paid"]').prop('disabled', true);
-                    } else {
-                        $(this).find('option[value="paid"]').prop('disabled', false);
-                    }
-                    // do something with paid_leave_balance
-                } else if ($(this).val() == 'unpaid') {
-                    var unpaid_leave_balance = '{{ $leaves->pluck('unpaid_leave_balance')[0] }}';
-                    console.log(unpaid_leave_balance);
-                    // do something with unpaid_leave_balance
-                }
-            });
-        });
-
-
+        
         //---
         var today = new Date();
         $('#leave_start_date').datepicker({
@@ -289,22 +252,6 @@
             var endDate = new Date($("#leave_end_date").val());
             var difference = endDate.getTime() - startDate.getTime() + 1;
             var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-            // alert(totalDays);
-            var paid_leave_balance = '{{ $leaves->pluck('paid_leave_balance')[0] }}';
-            var unpaid_leave_balance = '{{ $leaves->pluck('unpaid_leave_balance')[0] }}'
-
-            if (paid_leave_balance < totalDays) {
-                // $(this).find('option[value="paid"]').prop('disabled', true);
-                alert(
-                    'your paid leavse  balance is not enough please apply leavse according to paid leavse balance'
-                );
-
-            } else if (unpaid_leave_balance < totalDays) {
-                alert(
-                    'your unpaid leavse  balance is not enough please apply leavse according to paid leavse balance'
-                );
-                $("#leave_start_date").val("");
-            }
 
             // Check if the end date is before the start date
             if (endDate < startDate) {
@@ -315,28 +262,8 @@
             }
         });
 
-        var is_end_date_select = document.getElementById("is_end_date_is_full_day");
-
-
-        is_end_date_select.addEventListener("change", function() {
-            // var is_end_date_full_day = this.value;
-            var is_start_date_full_day = document.getElementById("is_start_date_is_full_day").value;
-            var is_end_date_full_day = document.getElementById("is_end_date_is_full_day").value;
-            var startDate = new Date($("#leave_start_date").val());
-            var endDate = new Date($("#leave_end_date").val());
-            var difference = endDate.getTime() - startDate.getTime() + 1;
-            var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-            v
-            if (is_start_date_full_day == 1 and is_end_date_full_day == 1) {
-                alert(total_days - 2)
-            } else if (is_start_date_full_day == 0 and is_end_date_full_day == 0) {
-                alert(total_days - 1)
-            } else if (is_start_date_full_day == 1 and is_end_date_full_day == 0) {
-                alert(total_days - 1.5)
-            } else if (is_start_date_full_day == 0 and is_end_date_full_day == 1) {
-                alert(total_days - 1.5)
-            }
-        });
+        
+      
 
 
         // Display the total number of days in your form

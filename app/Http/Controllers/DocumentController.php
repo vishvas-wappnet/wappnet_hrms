@@ -23,7 +23,7 @@ class DocumentController extends Controller
     {
 
         if ($request->ajax()) {
-            $documents = Document::select('id', 'name', 'path', 'type', 'created_at')->get();
+            $documents = Document::select( 'id', 'name', 'path', 'type', 'created_at')->get();
             return Datatables::of($documents)->addIndexColumn()
 
             ->addColumn('created_at', function ($documents) {
@@ -64,8 +64,9 @@ class DocumentController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'file' => 'required',
+            'file' => 'required|mimes:pdf|max:5120', // 5MB = 5120 KB & only pdf
         ]);
+       
         $path = $request->file('file')->store('public/');
         $name = pathinfo($path, PATHINFO_FILENAME) . '.' . $request->file('file')->extension();
         $document = new Document;
