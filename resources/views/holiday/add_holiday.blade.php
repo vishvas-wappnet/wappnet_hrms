@@ -67,7 +67,6 @@
                                         <div class="col-sm-12">
                                             <input type="checkbox" id="is_optional" name="is_optional" value="yes"> Is
                                             Optional
-
                                         </div>
                                     </div>
                                 </div>

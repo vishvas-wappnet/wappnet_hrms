@@ -44,7 +44,7 @@
                     serverSide: true,
                     ajax: "{{ route('leaves.index') }}",
                     columns: [{
-                            title: 'Name',
+                            title: 'User Name',
                             data: 'name',
                             name: 'name'
                         },

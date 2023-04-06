@@ -24,12 +24,10 @@ class LeavesController extends Controller
      * @return \Illuminate\Http\Response
      * 
      */
-
     //display  list of leaves
     public function index(Request $request): View|JsonResponse
     {
         $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
-
         if ($request->ajax()) {
             $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
             return DataTables::of($leaves)->addIndexColumn()
@@ -62,21 +60,17 @@ class LeavesController extends Controller
     //display app leaves page
     public function add(): View
     {
-        // $user = auth()->user();
-        // $leaves = Leave::select('paid_leave_balance', 'unpaid_leave_balance')->get();
-
         $user = Auth::user();
         $leaves = Leave::select('id', 'name', 'paid_leave_balance', 'unpaid_leave_balance')
-            ->where('user_id', $user->id)
-            ->get();
-
-        return view('leaves.add_leave', compact('leaves'));
+        ->where('user_id', $user->id)
+        ->get();
+    return view('leaves.add_leave', compact('leaves'));
     }
-
+    
     //add leave page action method
     public function add_action(Request $request): RedirectResponse
     {
-        //   dd($request);
+           dd($request);
         $request->validate(
             [
                 'name' => 'required',
@@ -130,7 +124,6 @@ class LeavesController extends Controller
                 return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
             }
         }
-
     }
     /**
      * Store a update resource in storage.
@@ -140,7 +133,6 @@ class LeavesController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
         $request->validate(
             [
                 'name' => 'required',
@@ -170,7 +162,6 @@ class LeavesController extends Controller
         } else {
             return redirect()->route('leaves.index')->with('success', 'Leave Upadte failed.');
         }
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -183,7 +174,6 @@ class LeavesController extends Controller
         $leave = Leave::find($id);
         return view('leaves.leave_edit', compact('leave'));
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -220,7 +210,7 @@ class LeavesController extends Controller
             $total_days = $start_date->diffInDays($end_date) + 1;
             $data = $leave->leave_balance - $total_days;
             $remaing_balance = $leave->leave_balance = $data;
-            
+
             Leave::where('name', $leave->name)
                 ->update(['leave_balance' => $remaing_balance]);
             $leave->status = 'approved';
@@ -258,7 +248,4 @@ class LeavesController extends Controller
         $leave->save();
         return Redirect::route('leaves.index')->withSuccess('Leave Rejected Successfully');
     }
-
-
-
 }
