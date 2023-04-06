@@ -288,37 +288,37 @@
         // Display the total number of days in your form
         //  document.getElementById("total_days").value = totalDays;
 
-
         $(document).ready(function() {
         // Add change event listeners to the relevant elements
         $("#leave_start_date, #leave_end_date, #is_start_date_is_full_day, #is_end_date_is_full_day").change(function() {
-            calculateTotalLeaveDays();
+        calculateTotalLeaveDays();
         });
 
         // Function to calculate the total leave days
         function calculateTotalLeaveDays() {
-            var startDate = new Date($("#leave_start_date").val());
-            var endDate = new Date($("#leave_end_date").val());
-            var isStartDateFullDay = parseInt($("#is_start_date_is_full_day").val());
-            var isEndDateFullDay = parseInt($("#is_end_date_is_full_day").val());
+        var startDate = new Date($("#leave_start_date").val());
+        var endDate = new Date($("#leave_end_date").val());
+        var isStartDateFullDay = parseInt($("#is_start_date_is_full_day").val());
+        var isEndDateFullDay = parseInt($("#is_end_date_is_full_day").val());
 
-            // Calculate the difference in days
-            var timeDifference = endDate.getTime() - startDate.getTime();
-            var daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
-            // If start date is not full day, subtract 0.5 from days difference
-            if (!isStartDateFullDay) {
-                daysDifference -= 0.5;
-            }
-
-            // If end date is not full day, subtract 0.5 from days difference
-            if (!isEndDateFullDay) {
-                daysDifference -= 0.5;
-            }
-            // Update the total leave days input field with the calculated value
-           alert(daysDifference);
-           
+        // Calculate the difference in days
+        var timeDifference = endDate.getTime() - startDate.getTime();
+        var daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
+        // If start date is not full day, subtract 0.5 from days difference
+        if (!isStartDateFullDay) {
+        daysDifference -= 0.5;
         }
-    });
+
+        // If end date is not full day, subtract 0.5 from days difference
+        if (!isEndDateFullDay) {
+        daysDifference -= 0.5;
+        }
+        // Update the total leave days input field with the calculated value
+        alert(daysDifference);
+
+        }
+        });
+
 
 </script>
 
