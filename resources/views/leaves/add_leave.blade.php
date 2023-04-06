@@ -285,10 +285,6 @@
             // }
         // });
 
-        // Display the total number of days in your form
-        //  document.getElementById("total_days").value = totalDays;
-
-
         $(document).ready(function() {
         // Add change event listeners to the relevant elements
         $("#leave_start_date, #leave_end_date, #is_start_date_is_full_day, #is_end_date_is_full_day").change(function() {
