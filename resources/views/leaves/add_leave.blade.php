@@ -24,8 +24,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="name" name="name"
-                                    value="{{ Auth::user()->name }}">
+                                <input type="hidden" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}">
                             </div>
                         </div>
                     </div>
@@ -35,8 +34,7 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="leave_subject">Subject <span style="color:red">*</span> </label>
-                                <input type="text" name="leave_subject" id="leave_subject" class="form-control"
-                                    value="{{ old('leave_subject') }}" required>
+                                <input type="text" name="leave_subject" id="leave_subject" class="form-control" value="{{ old('leave_subject') }}" required>
                             </div>
                         </div>
                     </div>
@@ -46,8 +44,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="description">Description <span style="color:red">*</span> </label>
-                            <textarea name="description" id="description" class="form-control"
-                                required>{{ old('description') }}</textarea>
+                            <textarea name="description" id="description" class="form-control" required>{{ old('description') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -57,13 +54,9 @@
                             <label for="leave_start_date">Select Leave Dates and Leavse types on start date and end
                                 date <span style="color:red">*</span> </label>
                             <div class="input-daterange input-group" id="date-range">
-                                <input type="text" class="form-control datepicker" id="leave_start_date"
-                                    name="leave_start_date" placeholder="Start Date"
-                                    min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                <input type="text" class="form-control datepicker" id="leave_start_date" name="leave_start_date" placeholder="Start Date" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                <input type="text" class="form-control datepicker" id="leave_end_date"
-                                    name="leave_end_date" placeholder="End Date"
-                                    min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                <input type="text" class="form-control datepicker" id="leave_end_date" name="leave_end_date" placeholder="End Date" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                             </div>
                         </div>
                     </div>
@@ -73,16 +66,14 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="input-group" id="-range">
-                                <select name="is_start_date_is_full_day" id="is_start_date_is_full_day"
-                                    class="form-control">
+                                <select name="is_start_date_is_full_day" id="is_start_date_is_full_day" class="form-control">
                                     <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Yes
                                     </option>
                                     <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>No
                                     </option>
                                 </select>
                                 <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                <select name="is_end_date_is_full_day" id="is_end_date_is_full_day"
-                                    class="form-control">
+                                <select name="is_end_date_is_full_day" id="is_end_date_is_full_day" class="form-control">
                                     <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Yes
                                     </option>
                                     <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>No
@@ -97,16 +88,14 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <select name="leave_type" id="leave_type" value="Leavse Balance" class="form-control">
-                                <option value="">Leave Type *</span></option>
-                                <option value="paid">Paid Leave ({{ $leaves->pluck('paid_leave_balance')[0] }})
-                                </option>
-                                <option value="unpaid">Unpaid Leave ({{ $leaves->pluck('unpaid_leave_balance')[0] }})
-                                </option>
+                                <option value="">Leave Type <span style="color:red">*</span></option>
+                                <option value="paid">Paid Leave ({{ $leaves->pluck('paid_leave_balance')[0] ?? 0 }})</option>
+                                <option value="unpaid">Unpaid Leave ({{ $leaves->pluck('unpaid_leave_balance')[0] ?? 0 }})</option>
                             </select>
-
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -126,8 +115,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="work_reliever">Work Reliever details <span style="color:red">*</span></label>
-                            <input type="text" name="work_reliever" id="work_reliever" class="form-control"
-                                value="{{ old('work_reliever') }}" required>
+                            <input type="text" name="work_reliever" id="work_reliever" class="form-control" value="{{ old('work_reliever') }}" required>
                         </div>
                     </div>
                 </div>
@@ -151,62 +139,62 @@
 
 <script>
     $('#Leaveform').validate({
-            rules: {
-                leave_start_date: {
-                    required: true,
-                    date: true,
+        rules: {
+            leave_start_date: {
+                required: true
+                , date: true,
 
-                },
-                leave_end_date: {
-                    required: true,
-                    date: true,
+            }
+            , leave_end_date: {
+                required: true
+                , date: true,
 
-                },
-                leave_subject: {
-                    required: true,
-                    maxlength: 255,
-                },
+            }
+            , leave_subject: {
+                required: true
+                , maxlength: 255
+            , },
 
-                description: {
-                    required: true,
-                    maxlength: 255,
-                },
+            description: {
+                required: true
+                , maxlength: 255
+            , },
 
-                leave_reason: {
-                    required: true,
-                    maxlength: 255,
-                },
-                work_reliever: {
-                    required: true,
-                    maxlength: 50,
-                },
-            },
+            leave_reason: {
+                required: true
+                , maxlength: 255
+            , }
+            , work_reliever: {
+                required: true
+                , maxlength: 50
+            , }
+        , },
 
-            messages: {
+        messages: {
 
-                leave_subject: {
-                    required: "Please enter Leave Subject ",
-                    maxlength: "Leave Subject should not exceed 255 characters",
-                },
+            leave_subject: {
+                required: "Please enter Leave Subject "
+                , maxlength: "Leave Subject should not exceed 255 characters"
+            , },
 
-                description: {
-                    required: "Please enter Leave Description ",
-                    maxlength: "Leave Description should not exceed 255 characters",
-                },
-                leave_reason: {
-                    required: "Please enter Leave Reason ",
-                    maxlength: "Leave Reason should not exceed 255 characters",
-                },
-                work_reliever: {
-                    required: "Please enter Work reliever details ",
-                    maxlength: "Work reliever details not exceed 50 characters",
-                },
-            },
-        });
+            description: {
+                required: "Please enter Leave Description "
+                , maxlength: "Leave Description should not exceed 255 characters"
+            , }
+            , leave_reason: {
+                required: "Please enter Leave Reason "
+                , maxlength: "Leave Reason should not exceed 255 characters"
+            , }
+            , work_reliever: {
+                required: "Please enter Work reliever details "
+                , maxlength: "Work reliever details not exceed 50 characters"
+            , }
+        , }
+    , });
+
 </script>
 <!-- Include Bootstrap Datepicker CSS -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <!-- Include jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Include Bootstrap JS -->
@@ -215,110 +203,97 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
     //---
-        var today = new Date();
-        $('#leave_start_date').datepicker({
-            format: 'yyyy-mm-dd',
-            startDate: today,
-            autoclose: true,
-            todayHighlight: true,
-        });
+    var today = new Date();
+    $('#leave_start_date').datepicker({
+        format: 'yyyy-mm-dd'
+        , startDate: today
+        , autoclose: true
+        , todayHighlight: true
+    , });
 
-        var today = new Date();
-        $('#leave_end_date').datepicker({
-            format: 'yyyy-mm-dd',
-            startDate: today,
-            autoclose: true,
-            todayHighlight: true,
-        });
+    var today = new Date();
+    $('#leave_end_date').datepicker({
+        format: 'yyyy-mm-dd'
+        , startDate: today
+        , autoclose: true
+        , todayHighlight: true
+    , });
 
-        // $("#leave_start_date").change(function() {
-        //     // Get the date values for the leave start and end dates
-        //     var startDate = new Date($("#leave_start_date").val());
-        //     var endDate = new Date($("#leave_end_date").val());
+    $("#leave_start_date").change(function() {
+        // Get the date values for the leave start and end dates
+        var startDate = new Date($("#leave_start_date").val());
+        var endDate = new Date($("#leave_end_date").val());
 
-        //     // Check if the end date is before the start date
-        //     if (startDate > endDate) {
-        //         alert("Leave start date must be before leave end date.");
-        //         // Reset the end date input value to an empty string
-        //         $("#leave_start_date").val("");
-        //     }
-        // });
+        // Check if the end date is before the start date
+        if (startDate > endDate) {
+            alert("Leave start date must be before leave end date.");
+            // Reset the end date input value to an empty string
+            $("#leave_start_date").val("");
+        }
+    });
 
-        // $('#leave_end_date').change(function() {
-        //     // Get the date values for the leave start and end dates
-        //     var today = new Date();
-        //     var startDate = new Date($("#leave_start_date").val());
-        //     var endDate = new Date($("#leave_end_date").val());
-        //     var difference = endDate.getTime() - startDate.getTime() + 1;
-        //     var totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-        //     var paid_leave_balance = '{{ $leaves->pluck('paid_leave_balance')[0] }}';
-        //     var unpaid_leave_balance = '{{ $leaves->pluck('unpaid_leave_balance')[0] }}'
-            
-        //     // Add event listeners to the select input fields
-        //     document.getElementById('is_start_date_is_full_day').addEventListener('change', function() {
-        //     var startdate_selectedOption = this.value;
-        //     });
+    $("#leave_end_date").change(function() {
+        // Get the date values for the leave start and end dates
+        var startDate = new Date($("#leave_start_date").val());
+        var endDate = new Date($("#leave_end_date").val());
 
-        //     document.getElementById('is_end_date_is_full_day').addEventListener('change', function() {
-        //     var enddate_selectedOption = this.value;
-        //     console.log('End date full day option:', selectedOption);
-        //     });
+        // Check if the end date is before the start date
 
-            // if (paid_leave_balance < totalDays) {
-            //     // $(this).find('option[value="paid"]').prop('disabled', true);
-            //     alert('your paid leavse  balance is not enough please apply leavse according to paid leavse balance' );
-            //     $('#unpaidleavse').attr('disabled', 'disabled');
-            //     $('#paid').attr('disabled', 'disabled');
-            //     $("#leave_end_date").val("");
+        // Check if the end date is before the start date
+        if (endDate < startDate) {
+            // If the end date is before the start date, show an error message
+            alert("Leave end date must be after leave start date.");
+            // Reset the end date input value to an empty string
+            $("#leave_end_date").val("");
+        }
 
-            // } else if (unpaid_leave_balance < totalDays) {
-            //     alert('your unpaid leavse  balance is not enough please apply leavse according to paid leavse balance');
-            //     $('#unpaid').attr('disabled', 'disabled');
-            //     $("#leave_end_date").val("");
-            // }
-            // Check if the end date is before the start date
-            // if (endDate < startDate) {
-            //     // If the end date is before the start date, show an error message
-            //     alert("Leave end date must be after leave start date.");
-            //     // Reset the end date input value to an empty string
-            //     $("#leave_end_date").val("");
-            // }
-        // });
+    });
 
-        // Display the total number of days in your form
-        //  document.getElementById("total_days").value = totalDays;
-
-        $(document).ready(function() {
+    $(document).ready(function() {
         // Add change event listeners to the relevant elements
         $("#leave_start_date, #leave_end_date, #is_start_date_is_full_day, #is_end_date_is_full_day").change(function() {
-        calculateTotalLeaveDays();
+            calculateTotalLeaveDays();
+
         });
 
         // Function to calculate the total leave days
         function calculateTotalLeaveDays() {
-        var startDate = new Date($("#leave_start_date").val());
-        var endDate = new Date($("#leave_end_date").val());
-        var isStartDateFullDay = parseInt($("#is_start_date_is_full_day").val());
-        var isEndDateFullDay = parseInt($("#is_end_date_is_full_day").val());
+            var startDate = new Date($("#leave_start_date").val());
+            var endDate = new Date($("#leave_end_date").val());
+            var isStartDateFullDay = parseInt($("#is_start_date_is_full_day").val());
+            var isEndDateFullDay = parseInt($("#is_end_date_is_full_day").val());
 
-        // Calculate the difference in days
-        var timeDifference = endDate.getTime() - startDate.getTime();
-        var daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
-        // If start date is not full day, subtract 0.5 from days difference
-        if (!isStartDateFullDay) {
-        daysDifference -= 0.5;
+            // Calculate the difference in days
+            var timeDifference = endDate.getTime() - startDate.getTime();
+            var daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
+
+            //get paid and unpaid leavse balance
+            var paid_leave_balance = '{{ $leaves->pluck('
+            paid_leave_balance ')[0] ?? 0 }}';
+            var unpaid_leave_balance = '{{ $leaves->pluck('
+            unpaid_leave_balance ')[0] ?? 0 }}';
+            // If start date is not full day, subtract 0.5 from days difference
+            if (!isStartDateFullDay) {
+                daysDifference -= 0.5;
+            }
+            // If end date is not full day, subtract 0.5 from days difference
+            if (!isEndDateFullDay) {
+                daysDifference -= 0.5;
+            }
+
+            if (paid_leave_balance > daysDifference) {
+                alert('your paid leavse  balance is not enough please apply leavse according to paid leavse balance');
+                $('#paid').attr('disabled', 'disabled');
+                $("#leave_end_date").val("");
+
+            } else if (unpaid_leave_balance > daysDifference) {
+                alert('your unpaid leavse  balance is not enough please apply leavse according to paid leavse balance');
+                $('#unpaid').attr('disabled', 'disabled');
+                $("#leave_end_date").val("");
+            }
+
         }
-
-        // If end date is not full day, subtract 0.5 from days difference
-        if (!isEndDateFullDay) {
-        daysDifference -= 0.5;
-        }
-        // Update the total leave days input field with the calculated value
-        alert(daysDifference);
-
-        }
-        });
-
+    });
 
 </script>
 

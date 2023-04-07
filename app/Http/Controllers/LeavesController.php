@@ -29,7 +29,7 @@ class LeavesController extends Controller
     {
         $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
         if ($request->ajax()) {
-            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
+            $leaves = Leave::select('id', 'name', 'leave_subject', 'description', 'leave_type', 'is_full_day', 'leave_balance', 'leave_reason', 'work_reliever', 'status', 'paid_leave_balance', 'unpaid_leave_balance')->get();
             return DataTables::of($leaves)->addIndexColumn()
                 ->addColumn("action", "action.leavse_action")
                 ->addColumn('approve', "action.leave_approve")
@@ -62,16 +62,16 @@ class LeavesController extends Controller
     {
         $user = Auth::user();
         $leaves = Leave::select('id', 'name', 'paid_leave_balance', 'unpaid_leave_balance')
-        ->where('user_id', $user->id)
-        ->get();
-    return view('leaves.add_leave', compact('leaves'));
+            ->where('user_id', $user->id)
+            ->get();
+        return view('leaves.add_leave', compact('leaves'));
     }
-    
+
     //add leave page action method
     public function add_action(Request $request): RedirectResponse
     {
-           dd($request);
-        $request->validate(
+       
+        $data = $request->validate(
             [
                 'name' => 'required',
                 'leave_subject' => 'required',
@@ -80,11 +80,11 @@ class LeavesController extends Controller
                 'leave_end_date' => 'required|date',
                 'is_start_date_is_full_day' => 'required',
                 'is_end_date_is_full_day' => 'required',
+                'leave_type' => 'required|in:paid,unpaid',
                 'leave_reason' => 'required',
                 'work_reliever' => 'required',
             ]
         );
-
         //check user is alreay approved leaves , if yes then remainging balance will be calculated for that user         
         $leaves = Leave::where('name', $request->name)->where('status', 'approved')->first();
         if ($leaves == true) {
@@ -96,8 +96,10 @@ class LeavesController extends Controller
             $leave->leave_end_date = $request->input('leave_end_date');
             $leave->is_start_date_is_full_day = $request->input('is_start_date_is_full_day');
             $leave->is_end_date_is_full_day = $request->input('is_end_date_is_full_day');
+            $leave->leave_type = $request->input('leave_type');
             $leave->leave_reason = $request->input('leave_reason');
             $leave->work_reliever = $request->input('work_reliever');
+            $leave->user_id = Auth::user()->id;
             $leaveBalance = Leave::where('name', $request->input('name'))->value('leave_balance');
             $leave->leave_balance = $leaveBalance;
 
@@ -107,6 +109,7 @@ class LeavesController extends Controller
                 return redirect()->route('leaves.index')->with('success', 'Leave create failed.');
             }
         } else {
+            
             $leave = new Leave();
             $user = $leave->name = $request->input('name');
             $leave->leave_subject = $request->input('leave_subject');
@@ -115,8 +118,10 @@ class LeavesController extends Controller
             $leave->leave_end_date = $request->input('leave_end_date');
             $leave->is_start_date_is_full_day = $request->input('is_start_date_is_full_day');
             $leave->is_end_date_is_full_day = $request->input('is_end_date_is_full_day');
+            $leave->leave_type = $request->input('leave_type');
             $leave->leave_reason = $request->input('leave_reason');
             $leave->work_reliever = $request->input('work_reliever');
+            $leave->user_id = Auth::user()->id;
             $leave->leave_balance = 14;
             if ($leave->save()) {
                 return redirect()->route('leaves.index')->with('success', 'Leave created successfully.');
@@ -202,36 +207,84 @@ class LeavesController extends Controller
         $leaves = Leave::where('name', $leave->name)
             ->where('status', 'approved')
             ->first();
-        //check if user has  already approved leaves or not    
+        //check if user has already approved leaves or not    
         if ($leaves == true) {
             $start_date = Carbon::parse($leave->leave_start_date);
             $end_date = Carbon::parse($leave->leave_end_date);
+            $is_start_date_full_day = Carbon::parse($leave->is_start_date_full_day);
+            $is_end_date_full_day = Carbon::parse($leave->is_end_date_full_day);
+
+            // If start date is not a full day, subtract 0.5 days from the total days
+            if ($is_start_date_full_day == "no") {
+                $start_date->subHours(12);
+            }
+
+            // If end date is not a full day, subtract 0.5 days from the total days
+            if ($is_end_date_full_day == "no") {
+                $end_date->subHours(12);
+            }
             //calculate total day 
             $total_days = $start_date->diffInDays($end_date) + 1;
             $data = $leave->leave_balance - $total_days;
             $remaing_balance = $leave->leave_balance = $data;
+           
+            if ($leave->leave_type == 'paid') {
+                $data = $leave->paid_leave_balance - $total_days;
+                Leave::where('name', $leave->name)
+                    ->update(['leave_balance' => $remaing_balance, 'paid_leave_balance' => $data]);
+                $leave->status = 'approved';
+                $leave->save();
 
-            Leave::where('name', $leave->name)
-                ->update(['leave_balance' => $remaing_balance]);
-            $leave->status = 'approved';
-            $leave->save();
-
+            } elseif ($leave->leave_type == 'unpaid') {
+                $data = $leave->unpaid_leave_balance - $total_days;
+                Leave::where('name', $leave->name)
+                    ->update(['leave_balance' => $remaing_balance, 'unpaid_leave_balance' => $data]);
+                $leave->status = 'approved';
+                $leave->save();
+            }
             $user = User::where('name', $leave->name)->first();
             $user->leave_balance = $leave->leave_balance;
             $user->save();
-
+            ////check if user does not have already approved leaves     
         } else {
+
+            
             $start_date = Carbon::parse($leave->leave_start_date);
             $end_date = Carbon::parse($leave->leave_end_date);
+            $is_start_date_full_day = Carbon::parse($leave->is_start_date_full_day);
+            $is_end_date_full_day = Carbon::parse($leave->is_end_date_full_day);
+
+            // If start date is not a full day, subtract 0.5 days from the total days
+            if ($is_start_date_full_day == "no") {
+                $start_date->subHours(12);
+            }
+
+            // If end date is not a full day, subtract 0.5 days from the total days
+            if ($is_end_date_full_day == "no") {
+                $end_date->subHours(12);
+            }
+
             $total_days = $start_date->diffInDays($end_date) + 1;
+            // dd($total_days);
             $data = 14 - $total_days;
             $remaing_balance = $leave->leave_balance = $data;
 
-            Leave::where('name', $leave->name)
-                ->update(['leave_balance' => $remaing_balance]);
-            $leave->status = 'approved';
-            $leave->save();
+            // dd($leave->leave_type == 'unpaid');
 
+            if ($leave->leave_type == 'paid') {
+                $data = $leave->paid_leave_balance - $total_days;
+                Leave::where('name', $leave->name)
+                    ->update(['leave_balance' => $remaing_balance, 'paid_leave_balance' => $data]);
+                $leave->status = 'approved';
+                $leave->save();
+
+            } elseif ($leave->leave_type == 'unpaid') {
+                $data = $leave->unpaid_leave_balance - $total_days;
+                Leave::where('name', $leave->name)
+                    ->update(['leave_balance' => $remaing_balance, 'unpaid_leave_balance' => $data]);
+                $leave->status = 'approved';
+                $leave->save();
+            }
             $user = User::where('name', $leave->name)->first();
             $user->leave_balance = $leave->leave_balance;
             $user->save();
