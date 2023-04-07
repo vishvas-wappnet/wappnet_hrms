@@ -125,6 +125,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="button" onclick="location.href='{{ route('leaves.index') }}'" class="btn btn-secondary">Cancel</button>
                         </div>
                     </div>
                 </div>
