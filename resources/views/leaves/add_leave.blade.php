@@ -67,16 +67,18 @@
                         <div class="form-group">
                             <div class="input-group" id="-range">
                                 <select name="is_start_date_is_full_day" id="is_start_date_is_full_day" class="form-control">
-                                    <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Yes
+                                    <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Full day
                                     </option>
-                                    <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>No
+                                    </option>
+                                    <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>Half day
+
                                     </option>
                                 </select>
                                 <span class="input-group-addon bg-info b-0 text-white">to</span>
                                 <select name="is_end_date_is_full_day" id="is_end_date_is_full_day" class="form-control">
-                                    <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Yes
+                                    <option value="1" {{ old('is_full_day') ? ' selected' : '' }}>Full day
                                     </option>
-                                    <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>No
+                                    <option value="0" {{ old('is_full_day')==='0' ? ' selected' : '' }}>Half day
                                     </option>
                                 </select>
                             </div>
