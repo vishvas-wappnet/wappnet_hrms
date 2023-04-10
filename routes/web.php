@@ -53,6 +53,7 @@ Route::group(['middleware' => "auth"], function () {
         Route::get('edit-user/{id}', [UserRepostoryController::class, 'edit'])->name('edit.user');
         Route::put('store-user', [UserRepostoryController::class, 'store'])->name('users.store');
         Route::get('delete/{id}', [UserRepostoryController::class, 'destroy'])->name('delete.user');
+        Route::delete('leaves/delete',[UserRepostoryController::class,'delete'])->name('deletes.users');
         // Route::get('expoert-excel/', [UserExport::class, 'exportExcel'])->name('export.data');
         Route::get('expoert-csv/', [UserExport::class, 'exportCsv'])->name('export.data');
        

@@ -125,9 +125,16 @@ class UserRepostoryController extends Controller
     //profile update action
     public function profile_update_action(Request $request)
     {
-
         $this->UserRepository->profile_update_action_repostory($request);
         return redirect("profile_update")->withSuccess('User Updated Successfully');
     }
+
+
+    public function delete(Request $request)
+{
+    $ids = $request->input('ids'); // Get the IDs of the records to be deleted from the request
+    User::whereIn('id', $ids)->delete(); // Delete the records from the 'users' table
+    return response()->json(['success' => true]); // Return a JSON response indicating success
+}
 
 }

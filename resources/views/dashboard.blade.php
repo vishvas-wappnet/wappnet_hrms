@@ -1,16 +1,12 @@
 @extends('layouts.main')
 @section('main_section')
 @include('layouts.header')
-
-
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <div class="row bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Users</h4>
             </div>
-
         </div>
         <!-- Row -->
         <div class="row">
@@ -31,9 +27,6 @@
                 </div>
             </div>
         </div>
-
-
-
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-sm-6">
@@ -49,14 +42,14 @@
                     <div class="white-box orange" style="background-color: rgb(140, 73, 184);">
                         <div class="row">
                             <div class="col-sm-12" style="color: white;">
-                               Upcoming Holidays  in Week(1)
+                                Upcoming Holidays in Week(1)
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-sm-6">
@@ -78,7 +71,8 @@
                     </div>
                 </div>
             </div>
-        </div><div class="page-wrapper">
+        </div>
+        <div class="page-wrapper">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="white-box orange" style="background-color: rgb(226, 214, 50);">
@@ -99,7 +93,8 @@
                     </div>
                 </div>
             </div>
-        </div><div class="page-wrapper">
+        </div>
+        <div class="page-wrapper">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="white-box orange" style="background-color: rgb(255, 81, 0);">
@@ -114,14 +109,15 @@
                     <div class="white-box orange" style="background-color: rgb(43, 151, 58);">
                         <div class="row">
                             <div class="col-sm-12" style="color: white;">
-                                Softcopy Request  Received (1)
+                                Softcopy Request Received (1)
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-       
-        </div><div class="page-wrapper">
+
+        </div>
+        <div class="page-wrapper">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="white-box orange" style="background-color:  rgb(140, 73, 184);">
@@ -132,15 +128,10 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
 </div>
 </div>
-</div>
-
-
-
-
 @endsection

@@ -49,14 +49,7 @@ class LeavesController extends Controller
         }
         return view('leaves.leaves_index', compact('leaves'));
     }
-
-    //test method for just testing purpose
-    public function leaveBalance()
-    {
-        $user = auth()->user();
-        $leaveBalance = $user->leaveBalance;
-        return view('leaves.leaves_index', compact('leaveBalance'));
-    }
+    
     //display app leaves page
     public function add(): View
     {
