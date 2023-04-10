@@ -129,7 +129,7 @@ class UserRepostoryController extends Controller
         return redirect("profile_update")->withSuccess('User Updated Successfully');
     }
 
-
+    //delete multiple user from database
     public function delete(Request $request)
 {
     $ids = $request->input('ids'); // Get the IDs of the records to be deleted from the request
