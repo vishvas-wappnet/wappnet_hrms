@@ -94,9 +94,9 @@ class UserRepostoryController extends Controller
     public function store(Request $request)
     {
         //validation rules
-            $request->validate([
-                'name' => 'required|min:4|string|max:255',
-                'email' => 'required|email|string|max:255'
+        $request->validate([
+            'name' => 'required|min:4|string|max:255',
+            'email' => 'required|email|string|max:255'
         ]);
         $user = $request;
         $this->UserRepository->user_edit_action($user);
@@ -131,10 +131,10 @@ class UserRepostoryController extends Controller
 
     //delete multiple user from database
     public function delete(Request $request)
-{
-    $ids = $request->input('ids'); // Get the IDs of the records to be deleted from the request
-    User::whereIn('id', $ids)->delete(); // Delete the records from the 'users' table
-    return response()->json(['success' => true]); // Return a JSON response indicating success
-}
+    {
+        $ids = $request->input('ids'); // Get the IDs of the records to be deleted from the request
+        User::whereIn('id', $ids)->delete(); // Delete the records from the 'users' table
+        return response()->json(['success' => true]); // Return a JSON response indicating success
+    }
 
 }

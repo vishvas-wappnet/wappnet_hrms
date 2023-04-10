@@ -91,8 +91,8 @@
                         <div class="form-group">
                             <select name="leave_type" id="leave_type" value="Leavse Balance" class="form-control">
                                 <option value="">Leave Type <span style="color:red">*</span></option>
-                                <option value="paid">Paid Leave ({{ $leaves->pluck('paid_leave_balance')[0] ?? 0 }})</option>
-                                <option value="unpaid">Unpaid Leave ({{ $leaves->pluck('unpaid_leave_balance')[0] ?? 0 }})</option>
+                                <option value="paid">Paid Leave ({{ $leaves->pluck('paid_leave_balance')[0] ?? 14 }})</option>
+                                <option value="unpaid">Unpaid Leave ({{ $leaves->pluck('unpaid_leave_balance')[0] ?? 14 }})</option>
                             </select>
                         </div>
                     </div>
